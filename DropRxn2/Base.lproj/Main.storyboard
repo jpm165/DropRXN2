@@ -1,13 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cbK-y6-LHn">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainVC" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,5 +24,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--Game Over View Controller-->
+        <scene sceneID="aNh-xQ-IfV">
+            <objects>
+                <viewController storyboardIdentifier="gameOverVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cbK-y6-LHn" customClass="GameOverViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GzZ-d5-wPQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="jPQ-4C-wD3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hkh-er-PDb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="window.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Yg-sX-CZ7">
+                                <rect key="frame" x="180.5" y="56" width="240" height="488"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5Yg-sX-CZ7" secondAttribute="height" multiplier="283:576" id="LAp-Vh-rig"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHH-5r-ln9">
+                                <rect key="frame" x="180" y="285" width="240" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="DHH-5r-ln9" secondAttribute="height" multiplier="8:1" constant="-160" id="WWQ-ty-bGQ"/>
+                                </constraints>
+                                <state key="normal" title="New Game"/>
+                                <connections>
+                                    <action selector="startNewGame:" destination="cbK-y6-LHn" eventType="touchUpInside" id="5n4-5w-AXx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DHH-5r-ln9" firstAttribute="width" secondItem="5Yg-sX-CZ7" secondAttribute="width" multiplier="0.7" constant="72" id="4J5-Z4-O0o"/>
+                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="centerY" secondItem="Hkh-er-PDb" secondAttribute="centerY" id="J7M-BZ-AHw"/>
+                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" multiplier="0.4" id="L20-a0-TnN"/>
+                            <constraint firstItem="DHH-5r-ln9" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="MJW-LZ-lR6"/>
+                            <constraint firstItem="DHH-5r-ln9" firstAttribute="centerY" secondItem="Hkh-er-PDb" secondAttribute="centerY" constant="10" id="oAf-4r-Ap7"/>
+                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="uqK-BU-SX2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnNewGame" destination="DHH-5r-ln9" id="RSP-EO-1cB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zwl-vs-6l4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="326" y="1151"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="window.png" width="283" height="576"/>
+    </resources>
 </document>

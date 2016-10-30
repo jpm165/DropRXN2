@@ -8,24 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		D010BF9E1DC430A900CA2BE1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BF9D1DC430A900CA2BE1 /* main.m */; };
-		D010BFA11DC430A900CA2BE1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFA01DC430A900CA2BE1 /* AppDelegate.m */; };
-		D010BFA41DC430A900CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFA31DC430A900CA2BE1 /* ViewController.m */; };
 		D010BFA71DC430A900CA2BE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D010BFA51DC430A900CA2BE1 /* Main.storyboard */; };
 		D010BFA91DC430A900CA2BE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D010BFA81DC430A900CA2BE1 /* Assets.xcassets */; };
 		D010BFAC1DC430A900CA2BE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D010BFAA1DC430A900CA2BE1 /* LaunchScreen.storyboard */; };
+		D010BFC31DC430D800CA2BE1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFB41DC430D800CA2BE1 /* AppDelegate.m */; };
+		D010BFC41DC430D800CA2BE1 /* Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFB61DC430D800CA2BE1 /* Circle.m */; };
+		D010BFC51DC430D800CA2BE1 /* Column.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFB81DC430D800CA2BE1 /* Column.m */; };
+		D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFBA1DC430D800CA2BE1 /* DropCounter.m */; };
+		D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFBC1DC430D800CA2BE1 /* JMAnimationManager.m */; };
+		D010BFC81DC430D800CA2BE1 /* JMHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFBE1DC430D800CA2BE1 /* JMHelpers.m */; };
+		D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */; };
+		D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC21DC430D800CA2BE1 /* ViewController.m */; };
+		D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */; };
+		D0947B361DC58B31005904F5 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = D0947B351DC58B31005904F5 /* window.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D010BF991DC430A900CA2BE1 /* DropRxn2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DropRxn2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D010BF9D1DC430A900CA2BE1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D010BF9F1DC430A900CA2BE1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D010BFA01DC430A900CA2BE1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D010BFA21DC430A900CA2BE1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D010BFA31DC430A900CA2BE1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D010BFA61DC430A900CA2BE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D010BFA81DC430A900CA2BE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D010BFAB1DC430A900CA2BE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D010BFAD1DC430A900CA2BE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D010BFB31DC430D800CA2BE1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D010BFB41DC430D800CA2BE1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D010BFB51DC430D800CA2BE1 /* Circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Circle.h; sourceTree = "<group>"; };
+		D010BFB61DC430D800CA2BE1 /* Circle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Circle.m; sourceTree = "<group>"; };
+		D010BFB71DC430D800CA2BE1 /* Column.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Column.h; sourceTree = "<group>"; };
+		D010BFB81DC430D800CA2BE1 /* Column.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Column.m; sourceTree = "<group>"; };
+		D010BFB91DC430D800CA2BE1 /* DropCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropCounter.h; sourceTree = "<group>"; };
+		D010BFBA1DC430D800CA2BE1 /* DropCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropCounter.m; sourceTree = "<group>"; };
+		D010BFBB1DC430D800CA2BE1 /* JMAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMAnimationManager.h; sourceTree = "<group>"; };
+		D010BFBC1DC430D800CA2BE1 /* JMAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMAnimationManager.m; sourceTree = "<group>"; };
+		D010BFBD1DC430D800CA2BE1 /* JMHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMHelpers.h; sourceTree = "<group>"; };
+		D010BFBE1DC430D800CA2BE1 /* JMHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMHelpers.m; sourceTree = "<group>"; };
+		D010BFBF1DC430D800CA2BE1 /* UIView+RZViewActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RZViewActions.h"; sourceTree = "<group>"; };
+		D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RZViewActions.m"; sourceTree = "<group>"; };
+		D010BFC11DC430D800CA2BE1 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D010BFC21DC430D800CA2BE1 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
+		D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
+		D0947B351DC58B31005904F5 /* window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = window.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +81,25 @@
 		D010BF9B1DC430A900CA2BE1 /* DropRxn2 */ = {
 			isa = PBXGroup;
 			children = (
-				D010BF9F1DC430A900CA2BE1 /* AppDelegate.h */,
-				D010BFA01DC430A900CA2BE1 /* AppDelegate.m */,
-				D010BFA21DC430A900CA2BE1 /* ViewController.h */,
-				D010BFA31DC430A900CA2BE1 /* ViewController.m */,
+				D010BFB31DC430D800CA2BE1 /* AppDelegate.h */,
+				D010BFB41DC430D800CA2BE1 /* AppDelegate.m */,
+				D010BFB51DC430D800CA2BE1 /* Circle.h */,
+				D010BFB61DC430D800CA2BE1 /* Circle.m */,
+				D010BFB71DC430D800CA2BE1 /* Column.h */,
+				D010BFB81DC430D800CA2BE1 /* Column.m */,
+				D010BFB91DC430D800CA2BE1 /* DropCounter.h */,
+				D010BFBA1DC430D800CA2BE1 /* DropCounter.m */,
+				D010BFBB1DC430D800CA2BE1 /* JMAnimationManager.h */,
+				D010BFBC1DC430D800CA2BE1 /* JMAnimationManager.m */,
+				D010BFBD1DC430D800CA2BE1 /* JMHelpers.h */,
+				D010BFBE1DC430D800CA2BE1 /* JMHelpers.m */,
+				D010BFBF1DC430D800CA2BE1 /* UIView+RZViewActions.h */,
+				D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */,
+				D010BFC11DC430D800CA2BE1 /* ViewController.h */,
+				D010BFC21DC430D800CA2BE1 /* ViewController.m */,
+				D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */,
+				D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */,
+				D0947B351DC58B31005904F5 /* window.png */,
 				D010BFA51DC430A900CA2BE1 /* Main.storyboard */,
 				D010BFA81DC430A900CA2BE1 /* Assets.xcassets */,
 				D010BFAA1DC430A900CA2BE1 /* LaunchScreen.storyboard */,
@@ -137,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D010BFAC1DC430A900CA2BE1 /* LaunchScreen.storyboard in Resources */,
+				D0947B361DC58B31005904F5 /* window.png in Resources */,
 				D010BFA91DC430A900CA2BE1 /* Assets.xcassets in Resources */,
 				D010BFA71DC430A900CA2BE1 /* Main.storyboard in Resources */,
 			);
@@ -149,9 +188,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D010BFA41DC430A900CA2BE1 /* ViewController.m in Sources */,
-				D010BFA11DC430A900CA2BE1 /* AppDelegate.m in Sources */,
+				D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */,
+				D010BFC41DC430D800CA2BE1 /* Circle.m in Sources */,
+				D010BFC81DC430D800CA2BE1 /* JMHelpers.m in Sources */,
+				D010BFC51DC430D800CA2BE1 /* Column.m in Sources */,
+				D010BFC31DC430D800CA2BE1 /* AppDelegate.m in Sources */,
+				D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */,
+				D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */,
 				D010BF9E1DC430A900CA2BE1 /* main.m in Sources */,
+				D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */,
+				D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +348,7 @@
 				D010BFB21DC430A900CA2BE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

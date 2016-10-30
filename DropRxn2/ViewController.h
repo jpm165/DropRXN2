@@ -1,15 +1,14 @@
 //
 //  ViewController.h
-//  DropRxn2
+//  DropRXN2
 //
-//  Created by James Mundie on 10/28/16.
+//  Created by James Mundie on 10/26/16.
 //  Copyright © 2016 James Mundie. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JMHelpers.h"
 
 @interface ViewController : UIViewController
-
 
 @end
 
