@@ -52,6 +52,7 @@
 /*
  -Still a problem with add row. If a row is full when a row is added, the game is over, but there is a case where the game could be saved: if the row is full, but a match occurs as a result of the row add that results in the full row losing a ball after the row is added. need to move the check game over condition to the end of handle checks. Can maybe test this by defining what would trigger the condition, determining the drop order for that state, and dropping that state instead of dropping random new balls.
  -counter not quite working right. decrements one too much after first time through
+ -game over not working
  -Game over screen
  -score board and score
  -score animations.
