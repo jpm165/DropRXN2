@@ -24,6 +24,5 @@
 -(void)doDrops;
 -(void)addRow;
 -(void)removeAllColumns;
-//-(void)doDrops:(BOOL)handleMatchesAnyway shouldDecrement:(BOOL)shouldDecrement;
 
 @end

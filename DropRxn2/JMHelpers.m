@@ -13,7 +13,7 @@
 #define NUMCOLS 7
 #define CIRCLE_RADIUS 50.0f
 #define BORDER_WIDTH 3.0f
-#define FULL_DROP_COUNTER 2
+#define FULL_DROP_COUNTER 15
 
 static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";

@@ -67,6 +67,7 @@
     if ([touch.view isKindOfClass:[Column class]]) {
         for (Column *col in [JMAnimationManager sharedInstance].columns) {
             if (CGRectIntersectsRect(touch.view.frame, col.frame)) {
+                col.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
                 [col addBallWithNumber:nextBall.number];
                 [nextBall removeFromSuperview];
                 [self addNextBall];

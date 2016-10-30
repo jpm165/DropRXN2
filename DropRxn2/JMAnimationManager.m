@@ -52,19 +52,25 @@
 /*
  -Still a problem with add row. If a row is full when a row is added, the game is over, but there is a case where the game could be saved: if the row is full, but a match occurs as a result of the row add that results in the full row losing a ball after the row is added. need to move the check game over condition to the end of handle checks. Can maybe test this by defining what would trigger the condition, determining the drop order for that state, and dropping that state instead of dropping random new balls.
  -counter not quite working right. decrements one too much after first time through
- -game over not working
+ -game over not working - gets to the top and doesn't do game over when new row added
+ -SWRevealViewController menu
  -Game over screen
  -score board and score
  -score animations.
  -score persists
  -tweak animations
- -(auto play happens by changing the counter to 1.)
+ -auto play behind game over screen with blur effect (auto play happens by changing the counter to 1.)
  -add difficulty by reducing the drop counter
  -detect removals and decrement adjacent 8's and 9's (make value random 1-7 after decremented from 8)
  -music
  -animate add row?
- -highlight selected column
- 
+ -ball border is slightly cut off
+ -grid lines in columns
+ -adjust columns to overlap by 1 pixel at borders
+ -ads
+ -in app purchase to remove adds
+ -powerup mode
+ -powerups
  */
 
 -(void)addRow {
@@ -113,26 +119,26 @@
     if (dropsArray.count ==0) [dropsArray addObject:[RZViewAction waitForDuration:0.2]];
     //Now i have a bunch of move actions in the drop array, or at least one.
     //do the drops
-    //if (dropsArray.count > 0) {
-    //    handleMatchesAnyway = NO;
-        [UIView rz_runAction:[RZViewAction group:dropsArray] withCompletion:^(BOOL finished) {
-                if (finished) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
-                    [self cleanBalls]; //update the models
-                    [self handleMatches]; //There were drops, so handle the matches.
-                }
-            }];
-   // }
-    
-   // if (handleMatchesAnyway) {
-   //     [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
-   //     [self handleMatches];
-   // }
+    [UIView rz_runAction:[RZViewAction group:dropsArray] withCompletion:^(BOOL finished) {
+        if (finished) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+            [self cleanBalls];//update the models
+            [self setColumnBackgroundColor:[UIColor whiteColor]];
+            [self handleMatches]; //There were drops, so handle the matches.
+        }
+    }];
+   
 }
 
 -(void)cleanBalls {
     for (Column *c in privateColumns) {
         [c cleanBalls];
+    }
+}
+
+-(void)setColumnBackgroundColor:(UIColor *)color {
+    for (Column *c in privateColumns) {
+        c.backgroundColor = color;
     }
 }
 

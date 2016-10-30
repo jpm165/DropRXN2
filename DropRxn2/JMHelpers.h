@@ -26,6 +26,7 @@
 +(UIColor *)jmLightGreenColor;
 +(UIColor *)jmLightGrayColor;
 
++(UIColor *)columnBGColor;
 
 +(UIColor *)randomColor;
 +(int)random;
