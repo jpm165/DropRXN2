@@ -83,6 +83,10 @@
     return b2R;
 }
 
+-(NSInteger)indexOfBall:(Circle *)ball {
+    return [balls indexOfObject:ball];
+}
+
 -(Circle *)ballAtRow:(NSNumber *)row {
     NSArray *inverted = [[balls reverseObjectEnumerator] allObjects];
     if (inverted.count > row.integerValue) {

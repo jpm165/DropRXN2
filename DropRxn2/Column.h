@@ -18,5 +18,6 @@
 -(NSArray *)checkColumnCount;
 -(Circle *)ballAtRow:(NSNumber *)row;
 -(void)addBallForNewRowWithNumber:(NSNumber *)number;
+-(NSInteger)indexOfBall:(Circle *)ball;
 
 @end

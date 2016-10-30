@@ -154,6 +154,13 @@
         if (ballsToRemove.count > 0) {
             for (Circle *c in ballsToRemove) {
                 [matches addObject:c];
+                NSInteger indexOfMatch = [col indexOfBall:c];
+                Circle *ballAbove = [col ballAtRow:@(indexOfMatch+1)];
+                if (ballAbove) {
+                    if (ballAbove.number > [JMHelpers numballs]) {
+                        [ballAbove setNumber:@(ballAbove.number.integerValue-1)];
+                    }
+                }
                 RZViewAction *removeAction = [RZViewAction action:^{
                     CGRect newFrame = CGRectMake(CGRectGetMidX(c.frame), CGRectGetMidY(c.frame), 0, 0);
                     c.frame = newFrame;
