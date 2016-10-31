@@ -13,7 +13,7 @@
 #define NUMCOLS 7
 #define CIRCLE_RADIUS 50.0f
 #define BORDER_WIDTH 3.0f
-#define FULL_DROP_COUNTER 15
+#define FULL_DROP_COUNTER 5
 
 static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";
@@ -65,6 +65,11 @@ static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputP
 +(int)random {
     NSArray *array = [JMHelpers allColors];
     return arc4random_uniform((int)array.count-2)+1;
+}
+
++(int)randomNonGrey {
+    NSArray *array = [JMHelpers allColors];
+    return arc4random_uniform((int)array.count-3)+1;
 }
 
 +(NSArray *)allColors {

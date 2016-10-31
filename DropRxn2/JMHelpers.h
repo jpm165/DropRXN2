@@ -30,6 +30,7 @@
 
 +(UIColor *)randomColor;
 +(int)random;
++(int)randomNonGrey;
 +(NSArray *)allColors;
 
 +(CGSize)sizeForText:(NSString *)text inBoundingBox:(CGRect)boundingBox withAttributes:(NSDictionary *)attributes;

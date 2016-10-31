@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSNumber *number;
 @property (nonatomic, strong) NSNumber *initialSlot;
 @property (nonatomic, assign) BOOL shouldRemove;
+@property (nonatomic, strong) NSNumber *columnNumber;
 
 -(instancetype)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth;
 -(void)setFillColor:(UIColor *)color;

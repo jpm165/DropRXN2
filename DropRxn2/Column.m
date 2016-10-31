@@ -31,6 +31,7 @@
     CGPoint startPoint = CGPointMake(0, [JMHelpers circleRadius]*([JMHelpers numballs].floatValue-1));
     Circle *circle = [[Circle alloc] initWithFrame:CGRectMake(startPoint.x, startPoint.y, [JMHelpers circleRadius], [JMHelpers circleRadius]) borderWidth:[JMHelpers borderWidth]];
     [circle setNumber:number];
+    circle.columnNumber = self.columnNumber;
     circle.initialSlot = @([JMHelpers numballs].intValue-1);
     [balls addObject:circle];
     
@@ -49,6 +50,7 @@
     CGPoint startPoint = CGPointMake(0, -[JMHelpers circleRadius]);
     Circle *circle = [[Circle alloc] initWithFrame:CGRectMake(startPoint.x, startPoint.y, [JMHelpers circleRadius], [JMHelpers circleRadius]) borderWidth:[JMHelpers borderWidth]];
     [circle setNumber:number];
+    circle.columnNumber = self.columnNumber;
     circle.initialSlot = @(-1);
     [balls insertObject:circle atIndex:0];
     [self addSubview:circle];
@@ -83,7 +85,8 @@
     return b2R;
 }
 
--(NSInteger)indexOfBall:(Circle *)ball {
+-(NSInteger)indexOfBall:(Circle *)ball inverted:(BOOL)inverted {
+    if (inverted) return [[[balls reverseObjectEnumerator] allObjects] indexOfObject:ball];
     return [balls indexOfObject:ball];
 }
 

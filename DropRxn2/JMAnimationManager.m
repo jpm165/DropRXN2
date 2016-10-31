@@ -71,6 +71,10 @@
  -in app purchase to remove adds
  -powerup mode
  -powerups
+ -Issue: removal from botom column happens too fast.
+ -Test: 8+ number setting works for all matches
+ -restore 9's
+ -animate 8+ number change
  */
 
 -(void)addRow {
@@ -142,6 +146,75 @@
     }
 }
 
+-(void)checkBallAbove:(Circle *)ball {
+    Column *col = privateColumns[ball.columnNumber.integerValue];
+    NSInteger indexOfMatch = [col indexOfBall:ball inverted:YES];
+    Circle *ballAbove = [col ballAtRow:@(indexOfMatch+1)];
+    if (ballAbove) {
+        if (ballAbove.number.integerValue > [JMHelpers numballs].integerValue) {
+            if (ballAbove.number.integerValue == [JMHelpers numballs].integerValue+1) {
+                [ballAbove setNumber:@([JMHelpers randomNonGrey])];
+            } else {
+                [ballAbove setNumber:@(ballAbove.number.integerValue-1)];
+            }
+        }
+    }
+}
+
+-(void)checkBallBelow:(Circle *)ball {
+    Column *col = privateColumns[ball.columnNumber.integerValue];
+    NSInteger indexOfMatch = [col indexOfBall:ball inverted:YES];
+    if (indexOfMatch > 0) {
+        Circle *ballBelow = [col ballAtRow:@(indexOfMatch-1)];
+        if (ballBelow) {
+            if (ballBelow.number.integerValue > [JMHelpers numballs].integerValue) {
+                if (ballBelow.number.integerValue == [JMHelpers numballs].integerValue+1) {
+                    [ballBelow setNumber:@([JMHelpers randomNonGrey])];
+                } else {
+                    [ballBelow setNumber:@(ballBelow.number.integerValue-1)];
+                }
+            }
+        }
+    }
+}
+
+-(void)checkBallLeftAndRightOf:(Circle *)ball {
+    Column *ballCol = privateColumns[ball.columnNumber.integerValue];
+    Column *rightCol;
+    Column *leftCol;
+    Circle *leftBall;
+    Circle *rightBall;
+    if (ball.columnNumber.integerValue > 0) leftCol = privateColumns[ball.columnNumber.integerValue-1];
+    if (ball.columnNumber.integerValue < privateColumns.count-2) rightCol = privateColumns[ball.columnNumber.integerValue+1];
+    
+    NSInteger indexOfMatch = [ballCol indexOfBall:ball inverted:YES];
+    
+    if (leftCol && indexOfMatch <= leftCol.getBalls.count-1) leftBall = [leftCol ballAtRow:@(indexOfMatch)];
+    if (rightCol && indexOfMatch <= rightCol.getBalls.count-1) rightBall = [rightCol ballAtRow:@(indexOfMatch)];
+    
+    if (leftBall && leftBall.number.integerValue > [JMHelpers numballs].integerValue) {
+        if (leftBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
+            [leftBall setNumber:@([JMHelpers randomNonGrey])];
+        } else {
+           [leftBall setNumber:@(leftBall.number.integerValue-1)];
+        }
+        
+    }
+    if (rightBall && rightBall.number.integerValue > [JMHelpers numballs].integerValue) {
+        if (rightBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
+            [rightBall setNumber:@([JMHelpers randomNonGrey])];
+        } else {
+            [rightBall setNumber:@(rightBall.number.integerValue-1)];
+        }
+    }
+}
+
+-(void)checkAdjacentsTo:(Circle *)ball {
+    [self checkBallAbove:ball];
+    [self checkBallBelow:ball];
+    [self checkBallLeftAndRightOf:ball];
+}
+
 -(void)handleMatches {
     //NSLog(@"Checking matches...");
     NSMutableSet *matches = [NSMutableSet set]; //keep track of matched objects to avoid duplicates
@@ -154,13 +227,7 @@
         if (ballsToRemove.count > 0) {
             for (Circle *c in ballsToRemove) {
                 [matches addObject:c];
-                NSInteger indexOfMatch = [col indexOfBall:c];
-                Circle *ballAbove = [col ballAtRow:@(indexOfMatch+1)];
-                if (ballAbove) {
-                    if (ballAbove.number > [JMHelpers numballs]) {
-                        [ballAbove setNumber:@(ballAbove.number.integerValue-1)];
-                    }
-                }
+                [self checkAdjacentsTo:c];
                 RZViewAction *removeAction = [RZViewAction action:^{
                     CGRect newFrame = CGRectMake(CGRectGetMidX(c.frame), CGRectGetMidY(c.frame), 0, 0);
                     c.frame = newFrame;
@@ -206,6 +273,8 @@
         for (Circle *ball in row) {
             if (ball.number.intValue == row.count) {
                 //match
+                
+                [self checkAdjacentsTo:ball];
                 if (![matches containsObject:ball]) {
                     ball.shouldRemove = YES;
                     [matches addObject:ball];
