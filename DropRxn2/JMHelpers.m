@@ -56,6 +56,11 @@ static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputP
     return RGBAUICOLOR(156, 156, 156, 1);
 }
 
++(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha {
+    CGFloat a = (alpha==nil) ? 1 : alpha.floatValue;
+    return RGBAUICOLOR(235, 235, 235, a);
+}
+
 +(UIColor *)randomColor {
     NSArray *array = [JMHelpers allColors];
     int random = arc4random_uniform((int)array.count);

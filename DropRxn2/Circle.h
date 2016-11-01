@@ -17,5 +17,6 @@
 
 -(instancetype)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth;
 -(void)setFillColor:(UIColor *)color;
+-(void)changeNumber:(NSNumber *)number;
 
 @end

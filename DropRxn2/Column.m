@@ -7,11 +7,14 @@
 //
 
 #import "Column.h"
+#import "GridBox.h"
 
 @interface Column ()
 
 {
     NSMutableArray *balls;
+    UIBezierPath *borderPath;
+    NSMutableArray *gridBoxes;
 }
 
 @end
@@ -21,10 +24,25 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         balls = [NSMutableArray arrayWithCapacity:[JMHelpers numballs].integerValue];
-        self.layer.borderColor = [UIColor blackColor].CGColor;
-        self.layer.borderWidth = 1.0;
+        self.backgroundColor = [UIColor clearColor];
+        [self addGrid];
     }
     return self;
+}
+
+-(void)addGrid {
+    if (!gridBoxes) gridBoxes = [NSMutableArray array];
+    for (int i=0; i<[JMHelpers numballs].integerValue; i++) {
+        GridBox *gb = [[GridBox alloc] initWithFrame:CGRectMake(0, [JMHelpers circleRadius]*i, [JMHelpers circleRadius], [JMHelpers circleRadius])];
+        [self addSubview:gb];
+        [gridBoxes insertObject:gb atIndex:0];
+    }
+}
+
+-(RZViewAction *)getFlashGridAtRow:(NSNumber *)rowNum on:(BOOL)on {
+    GridBox *gb = gridBoxes[rowNum.integerValue];
+    if (on) return [gb flashOnBG];
+    return [gb flashOffBG];
 }
 
 -(void)addBallForNewRowWithNumber:(NSNumber *)number {

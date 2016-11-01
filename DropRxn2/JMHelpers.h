@@ -27,6 +27,7 @@
 +(UIColor *)jmLightGrayColor;
 
 +(UIColor *)columnBGColor;
++(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha;
 
 +(UIColor *)randomColor;
 +(int)random;

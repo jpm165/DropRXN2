@@ -9,6 +9,7 @@
 #import "JMHelpers.h"
 
 @class Circle;
+@class RZViewAction;
 
 @interface Column : UIView
 
@@ -21,5 +22,6 @@
 -(Circle *)ballAtRow:(NSNumber *)row;
 -(void)addBallForNewRowWithNumber:(NSNumber *)number;
 -(NSInteger)indexOfBall:(Circle *)ball inverted:(BOOL)inverted;
+-(RZViewAction *)getFlashGridAtRow:(NSNumber *)rowNum on:(BOOL)on;
 
 @end

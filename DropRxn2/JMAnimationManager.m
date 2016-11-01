@@ -61,20 +61,17 @@
  -tweak animations
  -auto play behind game over screen with blur effect (auto play happens by changing the counter to 1.)
  -add difficulty by reducing the drop counter
- -detect removals and decrement adjacent 8's and 9's (make value random 1-7 after decremented from 8)
+ -change 8's and 9's to not display number, pick different way to convey
  -music
  -animate add row?
- -ball border is slightly cut off
- -grid lines in columns
- -adjust columns to overlap by 1 pixel at borders
+ -balancing: look into changing probability of certain values coming up as rows get higher
  -ads
  -in app purchase to remove adds
  -powerup mode
  -powerups
- -Issue: removal from botom column happens too fast.
  -Test: 8+ number setting works for all matches
- -restore 9's
- -animate 8+ number change
+ -animate nextball to column before dropping
+ -nextball over column 0 to start
  */
 
 -(void)addRow {
@@ -107,14 +104,16 @@
             int test = [JMHelpers numballs].intValue-i-1; //this is the slot #in balls array
             if (test > comp) {
                 int diff = (test-comp)*[JMHelpers circleRadius]; //diff is the number of slots the ball has to move
-                RZViewAction *moveAction = [RZViewAction action:^{
+                float dampingDampener = i/100;
+                float velocityReducer = i/10;
+                RZViewAction *moveAction = [RZViewAction springAction:^{
                     c.frame = CGRectMake(CGRectGetMinX(c.frame),
                                          CGRectGetMinY(c.frame)+(diff),
                                          [JMHelpers circleRadius],
-                                         [JMHelpers circleRadius]);}
-                                                   withDuration:0.3];
-                [dropsArray addObject:moveAction];
-                [dropsArray addObject:[RZViewAction waitForDuration:0.1]];
+                                         [JMHelpers circleRadius]);
+                } withDamping:0.85+dampingDampener initialVelocity:1.5-velocityReducer options:UIViewAnimationOptionCurveEaseIn duration:0.4];
+                [dropsArray addObject:[RZViewAction sequence:@[moveAction, [RZViewAction waitForDuration:0.1]]]];
+                
             }
             c.initialSlot = @(test);
         }
@@ -153,9 +152,9 @@
     if (ballAbove) {
         if (ballAbove.number.integerValue > [JMHelpers numballs].integerValue) {
             if (ballAbove.number.integerValue == [JMHelpers numballs].integerValue+1) {
-                [ballAbove setNumber:@([JMHelpers randomNonGrey])];
+                [ballAbove changeNumber:@([JMHelpers randomNonGrey])];
             } else {
-                [ballAbove setNumber:@(ballAbove.number.integerValue-1)];
+                [ballAbove changeNumber:@(ballAbove.number.integerValue-1)];
             }
         }
     }
@@ -169,9 +168,9 @@
         if (ballBelow) {
             if (ballBelow.number.integerValue > [JMHelpers numballs].integerValue) {
                 if (ballBelow.number.integerValue == [JMHelpers numballs].integerValue+1) {
-                    [ballBelow setNumber:@([JMHelpers randomNonGrey])];
+                    [ballBelow changeNumber:@([JMHelpers randomNonGrey])];
                 } else {
-                    [ballBelow setNumber:@(ballBelow.number.integerValue-1)];
+                    [ballBelow changeNumber:@(ballBelow.number.integerValue-1)];
                 }
             }
         }
@@ -194,17 +193,17 @@
     
     if (leftBall && leftBall.number.integerValue > [JMHelpers numballs].integerValue) {
         if (leftBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
-            [leftBall setNumber:@([JMHelpers randomNonGrey])];
+            [leftBall changeNumber:@([JMHelpers randomNonGrey])];
         } else {
-           [leftBall setNumber:@(leftBall.number.integerValue-1)];
+           [leftBall changeNumber:@(leftBall.number.integerValue-1)];
         }
         
     }
     if (rightBall && rightBall.number.integerValue > [JMHelpers numballs].integerValue) {
         if (rightBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
-            [rightBall setNumber:@([JMHelpers randomNonGrey])];
+            [rightBall changeNumber:@([JMHelpers randomNonGrey])];
         } else {
-            [rightBall setNumber:@(rightBall.number.integerValue-1)];
+            [rightBall changeNumber:@(rightBall.number.integerValue-1)];
         }
     }
 }
@@ -222,20 +221,29 @@
     
     //check the columns
     NSMutableArray *removesArray = [NSMutableArray array];
+    NSMutableArray *flashOnArray = [NSMutableArray array];
+    NSMutableArray *flashOffArray = [NSMutableArray array];
     for (Column *col in privateColumns) {
         NSArray *ballsToRemove = [col checkColumnCount];
         if (ballsToRemove.count > 0) {
-            for (Circle *c in ballsToRemove) {
+            for (Circle *ball in ballsToRemove) {
+                Circle *c = ball;
                 [matches addObject:c];
+                [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
+                [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
                 [self checkAdjacentsTo:c];
-                RZViewAction *removeAction = [RZViewAction action:^{
+                RZViewAction *removeAction1 = [RZViewAction action:^{
+                    CGRect newFramePulseBig = CGRectMake(CGRectGetMinX(c.frame)-2.5, CGRectGetMinY(c.frame)-2.5, CGRectGetWidth(c.frame)+5, CGRectGetHeight(c.frame)+5);
+                    
+                    c.frame = newFramePulseBig;
+                                    }
+                                                     withDuration:0.1];
+                RZViewAction *removeAction2 = [RZViewAction action:^{
                     CGRect newFrame = CGRectMake(CGRectGetMidX(c.frame), CGRectGetMidY(c.frame), 0, 0);
                     c.frame = newFrame;
-                }
-                                                     withDuration:0.25];
-                RZViewAction *wait = [RZViewAction waitForDuration:1];
-                [removesArray addObject:removeAction];
-                [removesArray addObject:wait];
+                } withDuration:0.3];
+                RZViewAction *removeSequence = [RZViewAction sequence:@[removeAction1, removeAction2]];
+                [removesArray addObject:removeSequence];
             }
         }
     }
@@ -273,19 +281,27 @@
         for (Circle *ball in row) {
             if (ball.number.intValue == row.count) {
                 //match
-                
                 [self checkAdjacentsTo:ball];
                 if (![matches containsObject:ball]) {
                     ball.shouldRemove = YES;
                     [matches addObject:ball];
-                    RZViewAction *removeAction = [RZViewAction action:^{ //TODO move this animation construction to Circle object
-                        CGRect newFrame = CGRectMake(CGRectGetMidX(ball.frame), CGRectGetMidY(ball.frame), 0, 0);
-                        ball.frame = newFrame;
+                    Circle *c = ball;
+                    Column *col = privateColumns[ball.columnNumber.integerValue];
+                    [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
+                    [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
+                    RZViewAction *removeAction1 = [RZViewAction action:^{
+                        CGRect newFramePulseBig = CGRectMake(CGRectGetMinX(c.frame)-2.5, CGRectGetMinY(c.frame)-2.5, CGRectGetWidth(c.frame)+5, CGRectGetHeight(c.frame)+5);
+                        
+                        c.frame = newFramePulseBig;
                     }
-                                                         withDuration:0.25];
-                    RZViewAction *wait = [RZViewAction waitForDuration:1];
-                    [removesArray addObject:removeAction];
-                    [removesArray addObject:wait];
+                                                          withDuration:0.1];
+                    RZViewAction *removeAction2 = [RZViewAction action:^{
+                        CGRect newFrame = CGRectMake(CGRectGetMidX(c.frame), CGRectGetMidY(c.frame), 0, 0);
+                        c.frame = newFrame;
+                    } withDuration:0.3];
+                    RZViewAction *removeSequence = [RZViewAction sequence:@[removeAction1, removeAction2]];
+                    [removesArray addObject:removeSequence];
+                    
                 }
             }
         }
@@ -294,13 +310,23 @@
     //now if we have any matches, remove, clean, and recurse
     if (removesArray.count>0) {
         //NSLog(@"Removing matches...");
-        [UIView rz_runAction:[RZViewAction group:removesArray] withCompletion:^(BOOL finished) {
+        [UIView rz_runAction:[RZViewAction group:flashOnArray] withCompletion:^(BOOL finished) {
             if (finished) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
-                [self cleanBalls];
-                [self doDrops];
+                [UIView rz_runAction:[RZViewAction group:removesArray] withCompletion:^(BOOL finished) {
+                    if (finished) {
+                        [UIView rz_runAction:[RZViewAction group:flashOffArray] withCompletion:^(BOOL finished) {
+                            if (finished) {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+                                [self cleanBalls];
+                                [self doDrops];
+                            }
+                        }];
+                        
+                    }
+                }];
             }
         }];
+        
     } else {
         BOOL shouldCheckEndGameState = YES;
         if ([self.dropCounter decrementCurrentDrop] == [JMHelpers numDrops]) {

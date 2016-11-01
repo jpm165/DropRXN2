@@ -20,6 +20,7 @@
 		D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */; };
 		D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC21DC430D800CA2BE1 /* ViewController.m */; };
 		D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */; };
+		D05404C81DC9274C00F356BF /* GridBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D05404C71DC9274C00F356BF /* GridBox.m */; };
 		D0947B361DC58B31005904F5 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = D0947B351DC58B31005904F5 /* window.png */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,8 @@
 		D010BFC21DC430D800CA2BE1 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
 		D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
+		D05404C61DC9274C00F356BF /* GridBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridBox.h; sourceTree = "<group>"; };
+		D05404C71DC9274C00F356BF /* GridBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridBox.m; sourceTree = "<group>"; };
 		D0947B351DC58B31005904F5 /* window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = window.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +108,8 @@
 				D010BFAA1DC430A900CA2BE1 /* LaunchScreen.storyboard */,
 				D010BFAD1DC430A900CA2BE1 /* Info.plist */,
 				D010BF9C1DC430A900CA2BE1 /* Supporting Files */,
+				D05404C61DC9274C00F356BF /* GridBox.h */,
+				D05404C71DC9274C00F356BF /* GridBox.m */,
 			);
 			path = DropRxn2;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 				D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */,
 				D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */,
 				D010BF9E1DC430A900CA2BE1 /* main.m in Sources */,
+				D05404C81DC9274C00F356BF /* GridBox.m in Sources */,
 				D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */,
 				D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */,
 			);
