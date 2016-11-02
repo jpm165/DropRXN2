@@ -7,16 +7,32 @@
 //
 #import "ViewController.h"
 
+@interface ViewController ()
+
+{
+    BOOL isGameStarting;
+}
+
+@end
+
 @implementation ViewController
 
 -(void)viewWillAppear:(BOOL)animated {
     [JMAnimationManager sharedInstance].demoModeEnabled = NO;
     [super viewWillAppear:animated];
-    [self performSelector:@selector(toggleUserInputPause) withObject:nil afterDelay:2];
-    
+    isGameStarting = YES;
+    [self performSelector:@selector(unfreezeGame) withObject:nil afterDelay:5];
+}
+
+-(void)unfreezeGame {
+    if (isGameStarting && self.view.userInteractionEnabled==NO) {
+        self.view.userInteractionEnabled = YES;
+        isGameStarting = NO;
+    }
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
     UITouch *touch = [touches anyObject];
     if ([touch.view isKindOfClass:[Column class]]) {
         for (Column *col in [JMAnimationManager sharedInstance].columns) {
