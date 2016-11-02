@@ -50,16 +50,16 @@
 
 //TODO
 /*
- -Still a problem with add row. If a row is full when a row is added, the game is over, but there is a case where the game could be saved: if the row is full, but a match occurs as a result of the row add that results in the full row losing a ball after the row is added. need to move the check game over condition to the end of handle checks. Can maybe test this by defining what would trigger the condition, determining the drop order for that state, and dropping that state instead of dropping random new balls.
+ -Still a problem with add row. If a row is full when a row is added, the game is over, but there is a case where the game could be saved: if the row is full, but a match occurs as a result of the row add that results in the full row losing a ball after the row is added. need to move the check game over condition to the end of handle checks. Can maybe test this by defining what would trigger the condition, determining the drop order for that state, and dropping that state instead of dropping random new balls. --CHECK THIS NOW
  -counter not quite working right. decrements one too much after first time through
- -game over not working - gets to the top and doesn't do game over when new row added
+ -game over not working - gets to the top and doesn't do game over when new row added -TEST this
+ -decrement 8/9's after remove not before
  -SWRevealViewController menu
  -Game over screen
  -score board and score
  -score animations.
  -score persists
  -tweak animations
- -auto play behind game over screen with blur effect (auto play happens by changing the counter to 1.)
  -add difficulty by reducing the drop counter
  -change 8's and 9's to not display number, pick different way to convey
  -music
@@ -72,6 +72,7 @@
  -Test: 8+ number setting works for all matches
  -animate nextball to column before dropping
  -nextball over column 0 to start
+ -is there a way to stop animations when switching off demo mode? or wait until they're done? If not, make a "GO" animation when user staets a new game
  */
 
 -(void)addRow {
@@ -79,12 +80,50 @@
     for (Column *c in privateColumns) {
         [c addBallForNewRowWithNumber:@([JMHelpers random])];
     }
-    [UIView rz_runAction:[RZViewAction waitForDuration:0.1] withCompletion:^(BOOL finished) {
-        if (finished) {
-            [self doDrops];
-        }
-    }];
     
+    BOOL endGame = NO;
+    
+    for (Column *c in privateColumns) {
+        if ([c getBalls].count == [JMHelpers numballs].integerValue-1) {
+            endGame = YES;
+        }
+    }
+    if (endGame) {
+        [self dropAllOffScreenWithCompletion:^(BOOL finished) {
+            if (finished) {
+                NSLog(@"Game Over!");
+                [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameOverNotification] object:nil];
+                return;
+            }
+        }];
+    } else {
+        [UIView rz_runAction:[RZViewAction waitForDuration:0.1] withCompletion:^(BOOL finished) {
+            if (finished) {
+                [self doDrops];
+            }
+        }];
+    }
+    
+}
+
+-(void)dropAllOffScreenWithCompletion:(completion)completion {
+    NSLog(@"in drop method!");
+    NSMutableArray *finalDrops = [NSMutableArray array];
+    for (Column *col in privateColumns) {
+        NSMutableArray *columnDrops = [NSMutableArray array];
+        NSArray *colBalls = [col getBalls];
+        for (Circle *ball in colBalls) {
+            CGRect newframe = CGRectMake(CGRectGetMinX(ball.frame), CGRectGetMaxY([UIScreen mainScreen].bounds)+CGRectGetHeight(ball.frame), CGRectGetWidth(ball.frame), CGRectGetHeight(ball.frame));
+            RZViewAction *moveAction = [RZViewAction action:^{
+                ball.frame = newframe;
+            } withDuration:0.25];
+            [columnDrops addObject:moveAction];
+        }
+        [finalDrops addObject:[RZViewAction sequence:columnDrops]];
+    }
+    [UIView rz_runAction:[RZViewAction group:finalDrops] withCompletion:^(BOOL finished) {
+        completion(YES);
+    }];
 }
 
 -(void)doDrops {
@@ -329,7 +368,9 @@
         
     } else {
         BOOL shouldCheckEndGameState = YES;
-        if ([self.dropCounter decrementCurrentDrop] == [JMHelpers numDrops]) {
+        NSInteger numdrops = [JMHelpers numDrops];
+        if (self.demoModeEnabled) numdrops = 1;
+        if ([self.dropCounter decrementCurrentDrop] == numdrops) {
             shouldCheckEndGameState = NO;
             [self addRow];
         }

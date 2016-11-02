@@ -69,7 +69,7 @@ static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputP
 
 +(int)random {
     NSArray *array = [JMHelpers allColors];
-    return arc4random_uniform((int)array.count-2)+1;
+    return arc4random_uniform((int)array.count-1)+1;
 }
 
 +(int)randomNonGrey {

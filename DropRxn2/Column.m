@@ -56,7 +56,6 @@
     for (int ball=0; ball<balls.count-1; ball++) {
         Circle *c = balls[ball];
         CGRect newFrame = CGRectMake(CGRectGetMinX(c.frame), CGRectGetMinY(c.frame)-[JMHelpers circleRadius], [JMHelpers circleRadius], [JMHelpers circleRadius]);
-        //c.initialSlot = @(c.initialSlot.intValue-1);
         c.frame = newFrame;
     }
     [self addSubview:circle];

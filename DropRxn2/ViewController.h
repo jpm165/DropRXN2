@@ -6,9 +6,9 @@
 //  Copyright © 2016 James Mundie. All rights reserved.
 //
 
-#import "JMHelpers.h"
+#import "GameViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : GameViewController
 
 @end
 

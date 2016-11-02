@@ -13,6 +13,8 @@
 #import "JMAnimationManager.h"
 #import "DropCounter.h"
 
+typedef void (^completion)(BOOL finished);
+
 @interface JMHelpers : NSObject
 
 +(UIColor *)jmDarkBlueColor;

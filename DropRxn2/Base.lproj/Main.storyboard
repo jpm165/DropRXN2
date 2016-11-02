@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cbK-y6-LHn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cbK-y6-LHn">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,9 +20,9 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -33,46 +37,49 @@
                         <viewControllerLayoutGuide type="bottom" id="jPQ-4C-wD3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hkh-er-PDb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="window.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Yg-sX-CZ7">
-                                <rect key="frame" x="180.5" y="56" width="240" height="488"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="droprxnLogo_transparent.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Kx-JB-X9e">
+                                <rect key="frame" x="0.0" y="-83" width="375" height="81"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="5Yg-sX-CZ7" secondAttribute="height" multiplier="283:576" id="LAp-Vh-rig"/>
+                                    <constraint firstAttribute="width" secondItem="2Kx-JB-X9e" secondAttribute="height" multiplier="65:14" constant="-1.071428571428612" id="qsa-yG-RAb"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHH-5r-ln9">
-                                <rect key="frame" x="180" y="285" width="240" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwg-ge-K9j">
+                                <rect key="frame" x="93.5" y="662.5" width="187.5" height="33.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="DHH-5r-ln9" secondAttribute="height" multiplier="8:1" constant="-160" id="WWQ-ty-bGQ"/>
+                                    <constraint firstAttribute="width" secondItem="hwg-ge-K9j" secondAttribute="height" multiplier="118:21" id="5GF-aB-RhE"/>
                                 </constraints>
-                                <state key="normal" title="New Game"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="newgameTransparent.png"/>
                                 <connections>
-                                    <action selector="startNewGame:" destination="cbK-y6-LHn" eventType="touchUpInside" id="5n4-5w-AXx"/>
+                                    <action selector="startNewGame:" destination="cbK-y6-LHn" eventType="touchUpInside" id="Df5-Bg-gKw"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="DHH-5r-ln9" firstAttribute="width" secondItem="5Yg-sX-CZ7" secondAttribute="width" multiplier="0.7" constant="72" id="4J5-Z4-O0o"/>
-                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="centerY" secondItem="Hkh-er-PDb" secondAttribute="centerY" id="J7M-BZ-AHw"/>
-                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" multiplier="0.4" id="L20-a0-TnN"/>
-                            <constraint firstItem="DHH-5r-ln9" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="MJW-LZ-lR6"/>
-                            <constraint firstItem="DHH-5r-ln9" firstAttribute="centerY" secondItem="Hkh-er-PDb" secondAttribute="centerY" constant="10" id="oAf-4r-Ap7"/>
-                            <constraint firstItem="5Yg-sX-CZ7" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="uqK-BU-SX2"/>
+                            <constraint firstItem="2Kx-JB-X9e" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" id="3GV-Gh-q6j"/>
+                            <constraint firstItem="hwg-ge-K9j" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="8MW-sp-pzd"/>
+                            <constraint firstItem="2Kx-JB-X9e" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="HKY-cp-fJO"/>
+                            <constraint firstAttribute="bottom" secondItem="hwg-ge-K9j" secondAttribute="bottom" constant="-29" id="TvN-XX-OG3"/>
+                            <constraint firstItem="2Kx-JB-X9e" firstAttribute="top" secondItem="GzZ-d5-wPQ" secondAttribute="bottom" constant="-103" id="eAn-lK-HRI"/>
+                            <constraint firstItem="hwg-ge-K9j" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" multiplier="0.5" id="t9G-BZ-ngU"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnNewGame" destination="DHH-5r-ln9" id="RSP-EO-1cB"/>
+                        <outlet property="btnNewGame" destination="hwg-ge-K9j" id="PKm-xc-T0u"/>
+                        <outlet property="logoImageView" destination="2Kx-JB-X9e" id="fni-PH-Zfy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwl-vs-6l4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="326" y="1151"/>
+            <point key="canvasLocation" x="325.60000000000002" y="1150.9745127436283"/>
         </scene>
     </scenes>
     <resources>
-        <image name="window.png" width="283" height="576"/>
+        <image name="droprxnLogo_transparent.png" width="396" height="102"/>
+        <image name="newgameTransparent.png" width="288" height="40"/>
     </resources>
 </document>

@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSArray *columns;
 @property (nonatomic, strong) DropCounter *dropCounter;
+@property (nonatomic, assign) BOOL demoModeEnabled;
 
 +(instancetype)sharedInstance;
 

@@ -21,16 +21,24 @@
 
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self addDropsForRadius:frame.size.height];
         self.backgroundColor = [UIColor clearColor];
-        currentDrop = [JMHelpers numDrops];
+        if ([JMAnimationManager sharedInstance].demoModeEnabled) {
+            currentDrop = 1;
+        } else {
+            currentDrop = [JMHelpers numDrops];
+        }
+        [self addDropsForRadius:frame.size.height];
     }
     return self;
 }
 
 -(NSInteger)decrementCurrentDrop {
     if (currentDrop==1) {
-        currentDrop = [JMHelpers numDrops];
+        if ([JMAnimationManager sharedInstance].demoModeEnabled) {
+            currentDrop = 1;
+        } else {
+            currentDrop = [JMHelpers numDrops];
+        }
         [self setNeedsDisplay];
         return currentDrop;
     }
@@ -41,7 +49,7 @@
 
 -(void)addDropsForRadius:(CGFloat)size {
     NSMutableArray *array = [NSMutableArray array];
-    for (int drop=0; drop<[JMHelpers numDrops]; drop++) {
+    for (int drop=0; drop<currentDrop; drop++) {
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake((drop*size)+(drop*2), 0, size, size)];
         [array addObject:path];
         
