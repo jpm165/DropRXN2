@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) NSNumber *columnNumber;
 
--(void)addBallWithNumber:(NSNumber *)number;
+-(RZViewAction *)addBallWithNumber:(NSNumber *)number;
 -(void)cleanBalls;
 -(NSArray *)getBalls;
 -(NSArray *)checkColumnCount;
@@ -23,5 +23,7 @@
 -(void)addBallForNewRowWithNumber:(NSNumber *)number;
 -(NSInteger)indexOfBall:(Circle *)ball inverted:(BOOL)inverted;
 -(RZViewAction *)getFlashGridAtRow:(NSNumber *)rowNum on:(BOOL)on;
+-(void)reset;
+-(void)autoAddBallWithNumber:(NSNumber *)number;
 
 @end

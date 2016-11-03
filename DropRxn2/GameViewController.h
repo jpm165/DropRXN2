@@ -10,16 +10,9 @@
 
 @interface GameViewController : UIViewController
 
-{
-    Circle *nextBall;
-    DropCounter *dc;
-}
-
-@property (nonatomic, assign) BOOL isDemo;
-
--(void)resetGame;
 -(void)addNextBall;
--(void)addColumns;
--(void)toggleUserInputPause;
+-(void)removeDropCounter;
+-(void)addDropCounter;
+-(void)hideNextBall;
 
 @end

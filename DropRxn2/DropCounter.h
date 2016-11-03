@@ -10,6 +10,9 @@
 
 @interface DropCounter : UIView
 
--(NSInteger)decrementCurrentDrop;
+@property (nonatomic, assign) NSInteger currentDrop;
+
+-(void)decrementCurrentDrop;
+-(void)resetDrops;
 
 @end

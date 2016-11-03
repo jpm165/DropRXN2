@@ -8,6 +8,8 @@
 
 #import "JMHelpers.h"
 
+@class RZViewAction;
+
 @interface Circle : UIView
 
 @property (nonatomic, strong) NSNumber *number;
@@ -17,6 +19,6 @@
 
 -(instancetype)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth;
 -(void)setFillColor:(UIColor *)color;
--(void)changeNumber:(NSNumber *)number;
+-(RZViewAction *)changeNumber:(NSNumber *)number;
 
 @end

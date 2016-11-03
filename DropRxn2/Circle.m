@@ -37,11 +37,22 @@
         self.fillColor = defaultFillColor;
         textAttributes = [JMHelpers textAttributesWithFontSize:24];
         self.userInteractionEnabled = NO;
+        [self setTranslatesAutoresizingMaskIntoConstraints:YES];
     }
     return self;
 }
 
--(void)changeNumber:(NSNumber *)number {
+-(void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    CGFloat borderWidth = [JMHelpers borderWidth];
+    CGFloat sizeWithBorder = frame.size.width - (borderWidth);
+    CGRect frameWithBorder = CGRectMake(borderWidth/2, borderWidth/2, sizeWithBorder-(borderWidth/2), sizeWithBorder-(borderWidth/2));
+    circlePath = [UIBezierPath bezierPathWithOvalInRect:frameWithBorder];
+    lineWidth = borderWidth;
+    circlePath.lineWidth = borderWidth;
+}
+
+-(RZViewAction *)changeNumber:(NSNumber *)number {
     CGRect oldframe = self.frame;
     RZViewAction *pulseUp = [RZViewAction action:^{
         CGRect newFramePulseBig = CGRectMake(CGRectGetMinX(self.frame)-2.5, CGRectGetMinY(self.frame)-2.5, CGRectGetWidth(self.frame)+5, CGRectGetHeight(self.frame)+5);
@@ -51,11 +62,13 @@
     RZViewAction *pulseDown = [RZViewAction action:^{
         self.frame = oldframe;
     } withDuration:0.1];
-    [UIView rz_runAction:[RZViewAction sequence:@[pulseUp, pulseDown]] withCompletion:^(BOOL finished) {
-        if (finished) {
-            [self setNumber:number];
-        }
-    }];
+    
+    return [RZViewAction sequence:@[pulseUp, pulseDown]];
+//    [UIView rz_runAction:[RZViewAction sequence:@[pulseUp, pulseDown]] withCompletion:^(BOOL finished) {
+//        if (finished) {
+//            [self setNumber:number];
+//        }
+//    }];
 }
 
 -(void)setNumber:(NSNumber *)number {

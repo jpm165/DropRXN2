@@ -72,6 +72,24 @@ static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputP
     return arc4random_uniform((int)array.count-1)+1;
 }
 
++(int)randomBasedOnRowCount:(int)rowCount {
+    NSArray *array = [JMHelpers allColors];
+    int quarter = arc4random_uniform(4)+1;
+    if (quarter == 3) {
+        return 9;
+    }
+    int half = [JMHelpers numballs].intValue/2;
+    if (rowCount>half) {
+        int coinFlip = arc4random_uniform(2)+1;
+        if (coinFlip>1) {
+            int random = arc4random_uniform((int)array.count-5)+1;
+            return random;
+        }
+    }
+    int random = arc4random_uniform((int)array.count-1)+1;
+    return random;
+}
+
 +(int)randomNonGrey {
     NSArray *array = [JMHelpers allColors];
     return arc4random_uniform((int)array.count-3)+1;

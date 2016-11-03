@@ -7,101 +7,93 @@
 //
 
 #import "GameViewController.h"
+#import "SWRevealViewController.h"
 
 @interface GameViewController ()
+
+{
+    Circle *nextBall;
+    DropCounter *dc;
+}
+
+@property (nonatomic, strong) UIView *gameView;
 
 @end
 
 @implementation GameViewController
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self resetGame];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleUserInputPause) name:[JMHelpers toggleUserInputPauseNotification] object:nil];
-    //[self addColumns];
-    //[self addNextBall];
+    [self addGameView];
+    [JMGameManager sharedInstance].activeGameController = self;
+    
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if ( revealViewController )
+    {
+        //[self.sidebarButton setTarget: self.revealViewController];
+        //[self.sidebarButton setAction: @selector( revealToggle: )];
+        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    }
     
 }
 
--(void)addColumns {
-    for (int i=0; i<[JMHelpers numColumns].intValue; i++) {
+-(void)receivedNotification:(NSNotification *)notification {
+    if (self.presentedViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+-(void)addGameView {
+    self.gameView = [[JMGameManager sharedInstance] getGameView];
+    if (!self.gameView) {
         CGPoint gridBeginPoint = CGPointMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2),
                                              CGRectGetMidY(self.view.bounds)-([JMHelpers columnHeight]/2));
-        Column *column = [[Column alloc] initWithFrame:[JMHelpers calculateColumnFrameAtPoint:gridBeginPoint offset:i]];
-        column.columnNumber = @(i);
-        [self.view addSubview:column];
-        [[JMAnimationManager sharedInstance] addColumn:column];
+        CGRect newframe = CGRectMake(gridBeginPoint.x, gridBeginPoint.y, [JMHelpers columnsWidth], [JMHelpers columnHeight]);
+        UIView *view = [[UIView alloc] initWithFrame:newframe];
+        view.backgroundColor = [UIColor clearColor];
+        self.gameView = view;
+        [[JMGameManager sharedInstance] setGameView:self.gameView];
     }
+    [self.view addSubview:self.gameView];
 }
 
--(void)removeAllBalls {
-    for (int i=0; i<self.view.subviews.count; i++) {
-        UIView *view = self.view.subviews[i];
-        if ([view isKindOfClass:[Circle class]]) {
-            [view removeFromSuperview];
-            view = nil;
-        }
-
-    }
+-(void)hideNextBall {
+    nextBall.hidden = YES;
 }
 
--(void)removeEffectViews {
-    for (int i=0; i<self.view.subviews.count; i++) {
-        UIView *view = self.view.subviews[i];
-        if ([view isKindOfClass:[UIVisualEffectView class]]) {
-            [view removeFromSuperview];
-            view = nil;
-        }
-        
-    }
-}
 
 -(void)addNextBall {
     CGFloat circleRadius = [JMHelpers circleRadius];
-    Circle *myNextBall = [[Circle alloc] initWithFrame:CGRectMake(30, 30, circleRadius, circleRadius) borderWidth:[JMHelpers borderWidth]];
-    myNextBall.number = @([JMHelpers random]);
+    Circle *myNextBall = [[JMGameManager sharedInstance] currentNextBall];
+    myNextBall.frame = CGRectMake(CGRectGetMinX(self.gameView.frame), CGRectGetMinY(self.gameView.frame)-circleRadius, circleRadius, circleRadius);
     if (nextBall) {
         [nextBall removeFromSuperview];
         nextBall = nil;
     }
     nextBall = myNextBall;
+    nextBall.number = myNextBall.number;
     [self.view addSubview:myNextBall];
+    
+    int counter = 0;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[Circle class]]) {
+            counter++;
+        }
+    }
+    NSLog(@"Number of balls in GameViewController: %d", counter);
 }
 
--(void)toggleUserInputPause {
-    
-    if ([JMAnimationManager sharedInstance].demoModeEnabled) return;
-    NSLog(@"user interaction toggles");
-    self.view.userInteractionEnabled = !self.view.userInteractionEnabled;
-}
-
--(void)resetGame {
-    if ([[JMAnimationManager sharedInstance] columns].count > 0) {
-        [[JMAnimationManager sharedInstance] removeAllColumns];
-    }
-    [self addColumns];
-    [self removeAllBalls];
-    [self addNextBall];
-    
-    [self removeEffectViews];
-    
-    if (dc) {
-        [dc removeFromSuperview];
-        dc = nil;
-    }
+-(void)addDropCounter {
     dc = [[DropCounter alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2), CGRectGetMidY(self.view.bounds)+([JMHelpers columnHeight]/2)+3, [JMHelpers columnsWidth], 10)];
     [self.view addSubview:dc];
-    [JMAnimationManager sharedInstance].dropCounter = dc;
+    [JMGameManager sharedInstance].dropCounter = dc;
+    if (![JMGameManager sharedInstance].demoModeEnabled) [dc resetDrops];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)removeDropCounter {
+    [dc removeFromSuperview];
+    [JMGameManager sharedInstance].dropCounter = nil;
+    dc = nil;
 }
 
 @end

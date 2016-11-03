@@ -8,6 +8,7 @@
 
 #import "Column.h"
 #import "GridBox.h"
+#import "UIView+RZViewActions.h"
 
 @interface Column ()
 
@@ -21,6 +22,16 @@
 
 @implementation Column
 
+-(void)reset {
+    [balls removeAllObjects];
+    for (UIView __strong *view in self.subviews) {
+        if ([view isKindOfClass:[Circle class]]) {
+            [view.layer removeAllAnimations];
+            [view removeFromSuperview];
+            view = nil;
+        }
+    }
+}
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         balls = [NSMutableArray arrayWithCapacity:[JMHelpers numballs].integerValue];
@@ -61,8 +72,7 @@
     [self addSubview:circle];
 }
 
-
--(void)addBallWithNumber:(NSNumber *)number {
+-(void)autoAddBallWithNumber:(NSNumber *)number {
     if (balls.count == [JMHelpers numballs].integerValue) return;
     CGPoint startPoint = CGPointMake(0, -[JMHelpers circleRadius]);
     Circle *circle = [[Circle alloc] initWithFrame:CGRectMake(startPoint.x, startPoint.y, [JMHelpers circleRadius], [JMHelpers circleRadius]) borderWidth:[JMHelpers borderWidth]];
@@ -72,6 +82,24 @@
     [balls insertObject:circle atIndex:0];
     [self addSubview:circle];
     [[JMAnimationManager sharedInstance] doDrops];
+}
+
+
+-(RZViewAction *)addBallWithNumber:(NSNumber *)number {
+    if (balls.count == [JMHelpers numballs].integerValue) return nil;
+    CGPoint startPoint = CGPointMake(-(self.columnNumber.integerValue*[JMHelpers circleRadius]), -[JMHelpers circleRadius]);
+    Circle *circle = [[Circle alloc] initWithFrame:CGRectMake(startPoint.x, startPoint.y, [JMHelpers circleRadius], [JMHelpers circleRadius]) borderWidth:[JMHelpers borderWidth]];
+    [circle setNumber:number];
+    circle.columnNumber = self.columnNumber;
+    circle.initialSlot = @(-1);
+    [balls insertObject:circle atIndex:0];
+    [self addSubview:circle];
+    
+    CGRect newframe = CGRectMake(0, -[JMHelpers circleRadius], [JMHelpers circleRadius], [JMHelpers circleRadius]);
+    RZViewAction *moveAction = [RZViewAction action:^{
+        circle.frame = newframe;
+    } withOptions:UIViewAnimationOptionCurveEaseOut duration:0.25];
+    return moveAction;
 }
 
 -(void)cleanBalls {
@@ -114,6 +142,28 @@
         return c;
     }
     return nil;
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (![JMAnimationManager sharedInstance].isAnimating && ![JMGameManager sharedInstance].demoModeEnabled) {
+        [[[JMGameManager sharedInstance] activeGameController] hideNextBall];
+        self.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
+        RZViewAction *moveAction = [self addBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
+        RZViewAction *bgColorChange = [RZViewAction action:^{
+            self.backgroundColor = [UIColor whiteColor];
+        } withDuration:0.1];
+        [UIView rz_runAction:moveAction withCompletion:^(BOOL finished) {
+            if (finished) {
+                [UIView rz_runAction:bgColorChange withCompletion:^(BOOL finished) {
+                    if (finished) {
+                        [[JMGameManager sharedInstance] updateNextBall];
+                        [[JMAnimationManager sharedInstance] doDrops];
+                    }
+                }];
+            }
+        }];
+        
+    }
 }
 
 @end

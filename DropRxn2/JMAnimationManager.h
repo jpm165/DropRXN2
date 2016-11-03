@@ -8,22 +8,17 @@
 
 #import "JMHelpers.h"
 
-@class RZViewAction;
-@class Column;
-@class DropCounter;
-
 @interface JMAnimationManager : NSObject
 
-@property (nonatomic, strong) NSArray *columns;
-@property (nonatomic, strong) DropCounter *dropCounter;
-@property (nonatomic, assign) BOOL demoModeEnabled;
+@property (nonatomic, assign) BOOL isAnimating;
+
 
 +(instancetype)sharedInstance;
 
--(void)addColumn:(Column *)column;
+
 -(void)handleMatches;
 -(void)doDrops;
 -(void)addRow;
--(void)removeAllColumns;
+//-(void)removeAllColumns;
 
 @end

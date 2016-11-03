@@ -12,6 +12,7 @@
 #import "Column.h"
 #import "JMAnimationManager.h"
 #import "DropCounter.h"
+#import "JMGameManager.h"
 
 typedef void (^completion)(BOOL finished);
 
@@ -33,6 +34,7 @@ typedef void (^completion)(BOOL finished);
 
 +(UIColor *)randomColor;
 +(int)random;
++(int)randomBasedOnRowCount:(int)rowCount;
 +(int)randomNonGrey;
 +(NSArray *)allColors;
 

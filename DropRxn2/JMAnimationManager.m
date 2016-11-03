@@ -13,7 +13,8 @@
 @interface JMAnimationManager ()
 
 {
-    NSMutableArray *privateColumns;
+    //NSMutableArray *privateColumns;
+    BOOL justAddedRow;
 }
 
 @end
@@ -33,27 +34,9 @@
     
 }
 
--(void)addColumn:(Column *)column {
-    if (!self.columns) self.columns = [NSArray array];
-    if (!privateColumns) privateColumns = [NSMutableArray array];
-    
-    if (privateColumns.count < [JMHelpers numColumns].integerValue) {
-        [privateColumns addObject:column];
-        self.columns = privateColumns;
-    }
-}
-
--(void)removeAllColumns {
-    [privateColumns removeAllObjects];
-    self.columns = privateColumns;
-}
-
 //TODO
 /*
- -Still a problem with add row. If a row is full when a row is added, the game is over, but there is a case where the game could be saved: if the row is full, but a match occurs as a result of the row add that results in the full row losing a ball after the row is added. need to move the check game over condition to the end of handle checks. Can maybe test this by defining what would trigger the condition, determining the drop order for that state, and dropping that state instead of dropping random new balls. --CHECK THIS NOW
- -counter not quite working right. decrements one too much after first time through
- -game over not working - gets to the top and doesn't do game over when new row added -TEST this
- -decrement 8/9's after remove not before
+ -quit button in game mode (or swreveal)
  -SWRevealViewController menu
  -Game over screen
  -score board and score
@@ -70,21 +53,20 @@
  -powerup mode
  -powerups
  -Test: 8+ number setting works for all matches
- -animate nextball to column before dropping
- -nextball over column 0 to start
- -is there a way to stop animations when switching off demo mode? or wait until they're done? If not, make a "GO" animation when user staets a new game
+ -If not, make a "GO" animation when user staets a new game
  */
 
 -(void)addRow {
     
-    for (Column *c in privateColumns) {
-        [c addBallForNewRowWithNumber:@([JMHelpers random])];
+    for (Column *c in [[JMGameManager sharedInstance] getColumns]) {
+        
+        [c addBallForNewRowWithNumber:@([JMHelpers randomBasedOnRowCount:(int)[c getBalls].count])];
     }
-    
+    justAddedRow = YES;
     BOOL endGame = NO;
     
-    for (Column *c in privateColumns) {
-        if ([c getBalls].count == [JMHelpers numballs].integerValue-1) {
+    for (Column *c in [[JMGameManager sharedInstance] getColumns]) {
+        if ([c getBalls].count == [JMHelpers numballs].integerValue+1) {
             endGame = YES;
         }
     }
@@ -106,33 +88,36 @@
     
 }
 
+
 -(void)dropAllOffScreenWithCompletion:(completion)completion {
     NSLog(@"in drop method!");
     NSMutableArray *finalDrops = [NSMutableArray array];
-    for (Column *col in privateColumns) {
+    for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
         NSMutableArray *columnDrops = [NSMutableArray array];
         NSArray *colBalls = [col getBalls];
         for (Circle *ball in colBalls) {
             CGRect newframe = CGRectMake(CGRectGetMinX(ball.frame), CGRectGetMaxY([UIScreen mainScreen].bounds)+CGRectGetHeight(ball.frame), CGRectGetWidth(ball.frame), CGRectGetHeight(ball.frame));
             RZViewAction *moveAction = [RZViewAction action:^{
                 ball.frame = newframe;
-            } withDuration:0.25];
+            } withDuration:0.5];
             [columnDrops addObject:moveAction];
         }
         [finalDrops addObject:[RZViewAction sequence:columnDrops]];
     }
     [UIView rz_runAction:[RZViewAction group:finalDrops] withCompletion:^(BOOL finished) {
-        completion(YES);
+        if (finished) {
+            completion(YES);
+        }
     }];
 }
 
+
 -(void)doDrops {
-    //NSLog(@"Dropping...");
     //get all drop animations for each column
-    [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+    self.isAnimating = YES;
     NSMutableArray *dropsArray = [NSMutableArray array];
     
-    for (Column *col in privateColumns) {
+    for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
         
         //reverse the balls array
         NSArray *tmpArray = [[[col getBalls] reverseObjectEnumerator] allObjects];
@@ -163,7 +148,7 @@
     //do the drops
     [UIView rz_runAction:[RZViewAction group:dropsArray] withCompletion:^(BOOL finished) {
         if (finished) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+            self.isAnimating = NO;
             [self cleanBalls];//update the models
             [self setColumnBackgroundColor:[UIColor whiteColor]];
             [self handleMatches]; //There were drops, so handle the matches.
@@ -173,96 +158,28 @@
 }
 
 -(void)cleanBalls {
-    for (Column *c in privateColumns) {
+    for (Column *c in [[JMGameManager sharedInstance] getColumns]) {
         [c cleanBalls];
     }
 }
 
 -(void)setColumnBackgroundColor:(UIColor *)color {
-    for (Column *c in privateColumns) {
+    for (Column *c in [[JMGameManager sharedInstance] getColumns]) {
         c.backgroundColor = color;
     }
-}
-
--(void)checkBallAbove:(Circle *)ball {
-    Column *col = privateColumns[ball.columnNumber.integerValue];
-    NSInteger indexOfMatch = [col indexOfBall:ball inverted:YES];
-    Circle *ballAbove = [col ballAtRow:@(indexOfMatch+1)];
-    if (ballAbove) {
-        if (ballAbove.number.integerValue > [JMHelpers numballs].integerValue) {
-            if (ballAbove.number.integerValue == [JMHelpers numballs].integerValue+1) {
-                [ballAbove changeNumber:@([JMHelpers randomNonGrey])];
-            } else {
-                [ballAbove changeNumber:@(ballAbove.number.integerValue-1)];
-            }
-        }
-    }
-}
-
--(void)checkBallBelow:(Circle *)ball {
-    Column *col = privateColumns[ball.columnNumber.integerValue];
-    NSInteger indexOfMatch = [col indexOfBall:ball inverted:YES];
-    if (indexOfMatch > 0) {
-        Circle *ballBelow = [col ballAtRow:@(indexOfMatch-1)];
-        if (ballBelow) {
-            if (ballBelow.number.integerValue > [JMHelpers numballs].integerValue) {
-                if (ballBelow.number.integerValue == [JMHelpers numballs].integerValue+1) {
-                    [ballBelow changeNumber:@([JMHelpers randomNonGrey])];
-                } else {
-                    [ballBelow changeNumber:@(ballBelow.number.integerValue-1)];
-                }
-            }
-        }
-    }
-}
-
--(void)checkBallLeftAndRightOf:(Circle *)ball {
-    Column *ballCol = privateColumns[ball.columnNumber.integerValue];
-    Column *rightCol;
-    Column *leftCol;
-    Circle *leftBall;
-    Circle *rightBall;
-    if (ball.columnNumber.integerValue > 0) leftCol = privateColumns[ball.columnNumber.integerValue-1];
-    if (ball.columnNumber.integerValue < privateColumns.count-2) rightCol = privateColumns[ball.columnNumber.integerValue+1];
-    
-    NSInteger indexOfMatch = [ballCol indexOfBall:ball inverted:YES];
-    
-    if (leftCol && indexOfMatch <= leftCol.getBalls.count-1) leftBall = [leftCol ballAtRow:@(indexOfMatch)];
-    if (rightCol && indexOfMatch <= rightCol.getBalls.count-1) rightBall = [rightCol ballAtRow:@(indexOfMatch)];
-    
-    if (leftBall && leftBall.number.integerValue > [JMHelpers numballs].integerValue) {
-        if (leftBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
-            [leftBall changeNumber:@([JMHelpers randomNonGrey])];
-        } else {
-           [leftBall changeNumber:@(leftBall.number.integerValue-1)];
-        }
-        
-    }
-    if (rightBall && rightBall.number.integerValue > [JMHelpers numballs].integerValue) {
-        if (rightBall.number.integerValue == [JMHelpers numballs].integerValue+1) {
-            [rightBall changeNumber:@([JMHelpers randomNonGrey])];
-        } else {
-            [rightBall changeNumber:@(rightBall.number.integerValue-1)];
-        }
-    }
-}
-
--(void)checkAdjacentsTo:(Circle *)ball {
-    [self checkBallAbove:ball];
-    [self checkBallBelow:ball];
-    [self checkBallLeftAndRightOf:ball];
 }
 
 -(void)handleMatches {
     //NSLog(@"Checking matches...");
     NSMutableSet *matches = [NSMutableSet set]; //keep track of matched objects to avoid duplicates
-    [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+    self.isAnimating = YES;
     
     //check the columns
     NSMutableArray *removesArray = [NSMutableArray array];
     NSMutableArray *flashOnArray = [NSMutableArray array];
     NSMutableArray *flashOffArray = [NSMutableArray array];
-    for (Column *col in privateColumns) {
+    NSMutableArray *decrementsArray = [NSMutableArray array];
+    for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
         NSArray *ballsToRemove = [col checkColumnCount];
         if (ballsToRemove.count > 0) {
             for (Circle *ball in ballsToRemove) {
@@ -270,7 +187,11 @@
                 [matches addObject:c];
                 [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
                 [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
-                [self checkAdjacentsTo:c];
+                //[[JMGameManager sharedInstance] checkAdjacentsTo:c];
+                NSArray *array = [[JMGameManager sharedInstance] checkAdjacentsTo:c];
+                if (array.count > 0) {
+                    [decrementsArray addObjectsFromArray:array];
+                }
                 RZViewAction *removeAction1 = [RZViewAction action:^{
                     CGRect newFramePulseBig = CGRectMake(CGRectGetMinX(c.frame)-2.5, CGRectGetMinY(c.frame)-2.5, CGRectGetWidth(c.frame)+5, CGRectGetHeight(c.frame)+5);
                     
@@ -292,8 +213,9 @@
     //this loop gives us all the subrows as arrays
     for (int row=0; row<[JMHelpers numballs].intValue; row++) {
         NSMutableArray *currentRow = [NSMutableArray array];
-        for (int column=0; column<privateColumns.count; column++) {
-            Column *col = privateColumns[column];
+        NSInteger count = [[JMGameManager sharedInstance] getColumns].count;
+        for (int column=0; column<count; column++) {
+            Column *col = [[JMGameManager sharedInstance] getColumns][column];
             Circle *ball = [col ballAtRow:@(row)];
             if (ball != nil) { //if there is a ball at that level, add it to the current row
                 [currentRow addObject:ball];
@@ -306,7 +228,7 @@
                     [currentRow removeAllObjects];
                 }
             }
-            if (column==privateColumns.count-1) {
+            if (column==count-1) {
                 if (currentRow.count>0) {
                     NSArray *rowCopy = [NSArray arrayWithArray:currentRow];
                     [rows addObject:rowCopy];
@@ -320,12 +242,16 @@
         for (Circle *ball in row) {
             if (ball.number.intValue == row.count) {
                 //match
-                [self checkAdjacentsTo:ball];
+                //[[JMGameManager sharedInstance] checkAdjacentsTo:ball];
+                NSArray *array = [[JMGameManager sharedInstance] checkAdjacentsTo:ball];
+                if (array.count > 0) {
+                    [decrementsArray addObjectsFromArray:array];
+                }
                 if (![matches containsObject:ball]) {
                     ball.shouldRemove = YES;
                     [matches addObject:ball];
                     Circle *c = ball;
-                    Column *col = privateColumns[ball.columnNumber.integerValue];
+                    Column *col = [[JMGameManager sharedInstance] getColumns][ball.columnNumber.integerValue];
                     [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
                     [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
                     RZViewAction *removeAction1 = [RZViewAction action:^{
@@ -345,19 +271,46 @@
             }
         }
     }
+    NSMutableArray *decAnimArray = [NSMutableArray array];
+    NSMutableArray *ballsToChange = [NSMutableArray array];
+    if (decrementsArray.count > 0) {
+        for (Circle *ball in decrementsArray) {
+            NSNumber *changeTo;
+            if (ball.number.integerValue == [JMHelpers numballs].integerValue+1) {
+                changeTo = @([JMHelpers randomNonGrey]);
+            } else {
+                changeTo = @(ball.number.integerValue-1);
+            }
+            [decAnimArray addObject:[ball changeNumber:@0]];
+            [ballsToChange addObject:@{@"ball":ball, @"numberTo":changeTo}];
+        }
+    }
     
     //now if we have any matches, remove, clean, and recurse
     if (removesArray.count>0) {
-        //NSLog(@"Removing matches...");
         [UIView rz_runAction:[RZViewAction group:flashOnArray] withCompletion:^(BOOL finished) {
             if (finished) {
                 [UIView rz_runAction:[RZViewAction group:removesArray] withCompletion:^(BOOL finished) {
                     if (finished) {
                         [UIView rz_runAction:[RZViewAction group:flashOffArray] withCompletion:^(BOOL finished) {
                             if (finished) {
-                                [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
-                                [self cleanBalls];
-                                [self doDrops];
+                                [UIView rz_runAction:[RZViewAction group:decAnimArray] withCompletion:^(BOOL finished) {
+                                    if (finished) {
+                                        for (NSDictionary *dict in ballsToChange) {
+                                            Circle *ball = dict[@"ball"];
+                                            NSNumber *num = dict[@"numberTo"];
+                                            [ball setNumber:num];
+                                        }
+                                        for (Circle __strong *ball in matches) {
+                                            [ball removeFromSuperview];
+                                            ball = nil;
+                                        }
+                                        self.isAnimating = NO;
+                                        [self cleanBalls];
+                                        [self doDrops];
+                                    }
+                                }];
+                                
                             }
                         }];
                         
@@ -367,25 +320,22 @@
         }];
         
     } else {
-        BOOL shouldCheckEndGameState = YES;
-        NSInteger numdrops = [JMHelpers numDrops];
-        if (self.demoModeEnabled) numdrops = 1;
-        if ([self.dropCounter decrementCurrentDrop] == numdrops) {
-            shouldCheckEndGameState = NO;
-            [self addRow];
+        if (!justAddedRow) {
+            [[JMGameManager sharedInstance].dropCounter decrementCurrentDrop];
+        } else {
+            justAddedRow = NO;
         }
-        if (shouldCheckEndGameState) {
-            for (Column *col in privateColumns) {
-                if ([col getBalls].count == [JMHelpers numballs].integerValue+1) {
-                    NSLog(@"Game Over!");
-                    [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameOverNotification] object:nil];
-                    return;
-                }
+        NSInteger numdrops = [JMHelpers numDrops];
+        if ([JMGameManager sharedInstance].demoModeEnabled) numdrops = 0;
+        if ([JMGameManager sharedInstance].dropCounter.currentDrop == 0) {
+            if (![JMGameManager sharedInstance].shouldEndNow) {
+                [[JMGameManager sharedInstance].dropCounter decrementCurrentDrop];
+                [self addRow];
             }
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers toggleUserInputPauseNotification] object:nil];
+        self.isAnimating = NO; //otherwise return control to the user
     }
-    //otherwise return control to the user
+    
 }
 
 @end

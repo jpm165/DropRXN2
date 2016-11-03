@@ -21,11 +21,13 @@
 		D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC21DC430D800CA2BE1 /* ViewController.m */; };
 		D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */; };
 		D05404C81DC9274C00F356BF /* GridBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D05404C71DC9274C00F356BF /* GridBox.m */; };
+		D056A4281DCB76A4009A76CD /* JMGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D056A4271DCB76A4009A76CD /* JMGameManager.m */; };
 		D0947B361DC58B31005904F5 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = D0947B351DC58B31005904F5 /* window.png */; };
 		D0A12FC31DCA41E30098B9DB /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A12FC21DCA41E30098B9DB /* GameViewController.m */; };
 		D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC41DCA71840098B9DB /* droprxnlogo.png */; };
 		D0A12FC71DCA77AA0098B9DB /* droprxnLogo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */; };
 		D0A12FC91DCA79000098B9DB /* newgameTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC81DCA79000098B9DB /* newgameTransparent.png */; };
+		D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,12 +57,16 @@
 		D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
 		D05404C61DC9274C00F356BF /* GridBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridBox.h; sourceTree = "<group>"; };
 		D05404C71DC9274C00F356BF /* GridBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridBox.m; sourceTree = "<group>"; };
+		D056A4261DCB76A4009A76CD /* JMGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMGameManager.h; sourceTree = "<group>"; };
+		D056A4271DCB76A4009A76CD /* JMGameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMGameManager.m; sourceTree = "<group>"; };
 		D0947B351DC58B31005904F5 /* window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = window.png; sourceTree = "<group>"; };
 		D0A12FC11DCA41E30098B9DB /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		D0A12FC21DCA41E30098B9DB /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		D0A12FC41DCA71840098B9DB /* droprxnlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnlogo.png; sourceTree = "<group>"; };
 		D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnLogo_transparent.png; sourceTree = "<group>"; };
 		D0A12FC81DCA79000098B9DB /* newgameTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newgameTransparent.png; sourceTree = "<group>"; };
+		D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +117,12 @@
 				D010BFC21DC430D800CA2BE1 /* ViewController.m */,
 				D0A12FC11DCA41E30098B9DB /* GameViewController.h */,
 				D0A12FC21DCA41E30098B9DB /* GameViewController.m */,
+				D056A4261DCB76A4009A76CD /* JMGameManager.h */,
+				D056A4271DCB76A4009A76CD /* JMGameManager.m */,
 				D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */,
 				D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */,
+				D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */,
+				D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */,
 				D0947B351DC58B31005904F5 /* window.png */,
 				D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */,
 				D0A12FC41DCA71840098B9DB /* droprxnlogo.png */,
@@ -211,12 +221,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D056A4281DCB76A4009A76CD /* JMGameManager.m in Sources */,
 				D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */,
 				D010BFC41DC430D800CA2BE1 /* Circle.m in Sources */,
 				D010BFC81DC430D800CA2BE1 /* JMHelpers.m in Sources */,
 				D010BFC51DC430D800CA2BE1 /* Column.m in Sources */,
 				D0A12FC31DCA41E30098B9DB /* GameViewController.m in Sources */,
 				D010BFC31DC430D800CA2BE1 /* AppDelegate.m in Sources */,
+				D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */,
 				D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */,
 				D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */,
 				D010BF9E1DC430A900CA2BE1 /* main.m in Sources */,

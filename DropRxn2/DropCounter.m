@@ -12,7 +12,6 @@
 
 {
     NSArray *drops;
-    NSInteger currentDrop;
 }
 
 @end
@@ -22,34 +21,38 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
-        if ([JMAnimationManager sharedInstance].demoModeEnabled) {
-            currentDrop = 1;
+        if ([JMGameManager sharedInstance].demoModeEnabled) {
+            _currentDrop = 1;
         } else {
-            currentDrop = [JMHelpers numDrops];
+            _currentDrop = [JMHelpers numDrops];
         }
         [self addDropsForRadius:frame.size.height];
     }
     return self;
 }
 
--(NSInteger)decrementCurrentDrop {
-    if (currentDrop==1) {
-        if ([JMAnimationManager sharedInstance].demoModeEnabled) {
-            currentDrop = 1;
+-(void)resetDrops {
+    _currentDrop = [JMHelpers numDrops];
+    [self setNeedsDisplay];
+}
+
+-(void)decrementCurrentDrop {
+    if (_currentDrop==0) {
+        if ([JMGameManager sharedInstance].demoModeEnabled) {
+            _currentDrop = 0;
         } else {
-            currentDrop = [JMHelpers numDrops];
+            _currentDrop = [JMHelpers numDrops];
         }
         [self setNeedsDisplay];
-        return currentDrop;
+        return;
     }
-    currentDrop--;
+    _currentDrop--;
     [self setNeedsDisplay];
-    return currentDrop;
 }
 
 -(void)addDropsForRadius:(CGFloat)size {
     NSMutableArray *array = [NSMutableArray array];
-    for (int drop=0; drop<currentDrop; drop++) {
+    for (int drop=0; drop<_currentDrop; drop++) {
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake((drop*size)+(drop*2), 0, size, size)];
         [array addObject:path];
         
@@ -61,7 +64,7 @@
     for (int drop=0; drop<drops.count; drop++) {
         UIBezierPath *path = drops[drop];
         [[UIColor lightGrayColor] setFill];
-        if (drop==currentDrop-1) [[UIColor blackColor] setFill];
+        if (drop==_currentDrop-1) [[UIColor blackColor] setFill];
         [path fill];
     }
 }
