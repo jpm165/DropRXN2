@@ -20,6 +20,12 @@
 		D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */; };
 		D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC21DC430D800CA2BE1 /* ViewController.m */; };
 		D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */; };
+		D02173071DCC281B00159C77 /* quit_game_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173061DCC281B00159C77 /* quit_game_highlighted.png */; };
+		D02173091DCC283000159C77 /* quit_game_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173081DCC283000159C77 /* quit_game_normal.png */; };
+		D021730C1DCC28A800159C77 /* LeftNavMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D021730B1DCC28A800159C77 /* LeftNavMenuTableViewController.m */; };
+		D021730F1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */; };
+		D02173121DCC313E00159C77 /* restart_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173101DCC313E00159C77 /* restart_highlighted.png */; };
+		D02173131DCC313E00159C77 /* restart_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173111DCC313E00159C77 /* restart_normal.png */; };
 		D05404C81DC9274C00F356BF /* GridBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D05404C71DC9274C00F356BF /* GridBox.m */; };
 		D056A4281DCB76A4009A76CD /* JMGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D056A4271DCB76A4009A76CD /* JMGameManager.m */; };
 		D0947B361DC58B31005904F5 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = D0947B351DC58B31005904F5 /* window.png */; };
@@ -55,6 +61,14 @@
 		D010BFC21DC430D800CA2BE1 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
 		D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
+		D02173061DCC281B00159C77 /* quit_game_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quit_game_highlighted.png; sourceTree = "<group>"; };
+		D02173081DCC283000159C77 /* quit_game_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quit_game_normal.png; sourceTree = "<group>"; };
+		D021730A1DCC28A800159C77 /* LeftNavMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftNavMenuTableViewController.h; sourceTree = "<group>"; };
+		D021730B1DCC28A800159C77 /* LeftNavMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftNavMenuTableViewController.m; sourceTree = "<group>"; };
+		D021730D1DCC2B0100159C77 /* LeftNavMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftNavMenuTableViewCell.h; sourceTree = "<group>"; };
+		D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftNavMenuTableViewCell.m; sourceTree = "<group>"; };
+		D02173101DCC313E00159C77 /* restart_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart_highlighted.png; sourceTree = "<group>"; };
+		D02173111DCC313E00159C77 /* restart_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart_normal.png; sourceTree = "<group>"; };
 		D05404C61DC9274C00F356BF /* GridBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridBox.h; sourceTree = "<group>"; };
 		D05404C71DC9274C00F356BF /* GridBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridBox.m; sourceTree = "<group>"; };
 		D056A4261DCB76A4009A76CD /* JMGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMGameManager.h; sourceTree = "<group>"; };
@@ -100,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				D010BFB31DC430D800CA2BE1 /* AppDelegate.h */,
+				D021730A1DCC28A800159C77 /* LeftNavMenuTableViewController.h */,
+				D021730B1DCC28A800159C77 /* LeftNavMenuTableViewController.m */,
 				D010BFB41DC430D800CA2BE1 /* AppDelegate.m */,
 				D010BFB51DC430D800CA2BE1 /* Circle.h */,
 				D010BFB61DC430D800CA2BE1 /* Circle.m */,
@@ -123,6 +139,10 @@
 				D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */,
 				D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */,
 				D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */,
+				D02173101DCC313E00159C77 /* restart_highlighted.png */,
+				D02173111DCC313E00159C77 /* restart_normal.png */,
+				D02173081DCC283000159C77 /* quit_game_normal.png */,
+				D02173061DCC281B00159C77 /* quit_game_highlighted.png */,
 				D0947B351DC58B31005904F5 /* window.png */,
 				D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */,
 				D0A12FC41DCA71840098B9DB /* droprxnlogo.png */,
@@ -134,6 +154,8 @@
 				D010BF9C1DC430A900CA2BE1 /* Supporting Files */,
 				D05404C61DC9274C00F356BF /* GridBox.h */,
 				D05404C71DC9274C00F356BF /* GridBox.m */,
+				D021730D1DCC2B0100159C77 /* LeftNavMenuTableViewCell.h */,
+				D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */,
 			);
 			path = DropRxn2;
 			sourceTree = "<group>";
@@ -204,11 +226,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D02173071DCC281B00159C77 /* quit_game_highlighted.png in Resources */,
+				D02173091DCC283000159C77 /* quit_game_normal.png in Resources */,
 				D0A12FC91DCA79000098B9DB /* newgameTransparent.png in Resources */,
 				D010BFAC1DC430A900CA2BE1 /* LaunchScreen.storyboard in Resources */,
+				D02173131DCC313E00159C77 /* restart_normal.png in Resources */,
 				D0947B361DC58B31005904F5 /* window.png in Resources */,
 				D010BFA91DC430A900CA2BE1 /* Assets.xcassets in Resources */,
 				D0A12FC71DCA77AA0098B9DB /* droprxnLogo_transparent.png in Resources */,
+				D02173121DCC313E00159C77 /* restart_highlighted.png in Resources */,
 				D010BFA71DC430A900CA2BE1 /* Main.storyboard in Resources */,
 				D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */,
 			);
@@ -230,9 +256,11 @@
 				D010BFC31DC430D800CA2BE1 /* AppDelegate.m in Sources */,
 				D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */,
 				D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */,
+				D021730C1DCC28A800159C77 /* LeftNavMenuTableViewController.m in Sources */,
 				D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */,
 				D010BF9E1DC430A900CA2BE1 /* main.m in Sources */,
 				D05404C81DC9274C00F356BF /* GridBox.m in Sources */,
+				D021730F1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m in Sources */,
 				D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */,
 				D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */,
 			);

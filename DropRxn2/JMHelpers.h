@@ -53,5 +53,5 @@ typedef void (^completion)(BOOL finished);
 
 +(NSString *)gameOverNotification;
 +(NSString *)toggleUserInputPauseNotification;
-
++(NSString *)gameRestartNotification;
 @end

@@ -26,20 +26,15 @@
     [super viewDidLoad];
     [self addGameView];
     [JMGameManager sharedInstance].activeGameController = self;
-    
-    SWRevealViewController *revealViewController = self.revealViewController;
-    if ( revealViewController )
-    {
-        //[self.sidebarButton setTarget: self.revealViewController];
-        //[self.sidebarButton setAction: @selector( revealToggle: )];
-        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    }
-    
+    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        //[self addDropCounter];
+    }];
 }
 
--(void)receivedNotification:(NSNotification *)notification {
-    if (self.presentedViewController) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (![self.view.subviews containsObject:self.gameView]) {
+        [self.view addSubview:self.gameView];
     }
 }
 
@@ -54,7 +49,6 @@
         self.gameView = view;
         [[JMGameManager sharedInstance] setGameView:self.gameView];
     }
-    [self.view addSubview:self.gameView];
 }
 
 -(void)hideNextBall {

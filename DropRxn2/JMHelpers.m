@@ -17,6 +17,7 @@
 
 static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";
+static NSString *const gameRestartNotificationName = @"gameRestartNotif";
 
 @implementation JMHelpers
 
@@ -168,6 +169,10 @@ static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputP
 
 +(NSString *)toggleUserInputPauseNotification {
     return toggleUserInputPauseNotificationName;
+}
+
++(NSString *)gameRestartNotification {
+    return gameRestartNotificationName;
 }
 
 @end

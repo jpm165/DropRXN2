@@ -45,6 +45,7 @@
     if (!gridBoxes) gridBoxes = [NSMutableArray array];
     for (int i=0; i<[JMHelpers numballs].integerValue; i++) {
         GridBox *gb = [[GridBox alloc] initWithFrame:CGRectMake(0, [JMHelpers circleRadius]*i, [JMHelpers circleRadius], [JMHelpers circleRadius])];
+        gb.backgroundColor = [UIColor clearColor];
         [self addSubview:gb];
         [gridBoxes insertObject:gb atIndex:0];
     }
@@ -147,7 +148,7 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (![JMAnimationManager sharedInstance].isAnimating && ![JMGameManager sharedInstance].demoModeEnabled) {
         [[[JMGameManager sharedInstance] activeGameController] hideNextBall];
-        self.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
+        //self.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
         RZViewAction *moveAction = [self addBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
         RZViewAction *bgColorChange = [RZViewAction action:^{
             self.backgroundColor = [UIColor whiteColor];

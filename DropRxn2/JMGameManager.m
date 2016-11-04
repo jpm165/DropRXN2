@@ -52,7 +52,12 @@
 }
 
 -(void)addColumns {
-    if (!_myColumns) {
+    for (Column *col in self.myColumns) {
+        [col reset];
+    }
+    [_myColumns removeAllObjects];
+    
+    //if (!_myColumns) {
         _myColumns = [NSMutableArray array];
         for (int i=0; i<[JMHelpers numColumns].intValue; i++) {
             Column *column = [[Column alloc] initWithFrame:[JMHelpers calculateColumnFrameAtPoint:CGPointZero offset:i]];
@@ -60,11 +65,9 @@
             [self.myGameView addSubview:column];
             [self.myColumns addObject:column];
         }
-    } else {
-        for (Column *col in self.myColumns) {
-            [col reset];
-        }
-    }
+    //} else {
+    
+    //}
 }
 
 -(Circle *)currentNextBall {

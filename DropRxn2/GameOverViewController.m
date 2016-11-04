@@ -13,6 +13,11 @@
 
 @interface GameOverViewController ()
 
+{
+    UIVisualEffectView *effectView;
+    UIVisualEffectView *vibrancyView;
+}
+
 @property (nonatomic, strong) IBOutlet UIButton *btnNewGame;
 @property (nonatomic, strong) IBOutlet UIImageView *logoImageView;
 
@@ -23,30 +28,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [JMGameManager sharedInstance].demoModeEnabled = YES;
     self.view.userInteractionEnabled = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:[JMHelpers gameOverNotification] object:nil];
     self.navigationController.navigationBar.hidden = YES;
+    self.btnNewGame.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
+    self.btnNewGame.layer.borderWidth = 1.0f;
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blur];
+    effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    
+    vibrancyView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+    
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.btnNewGame.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
-    self.btnNewGame.layer.borderWidth = 1.0f;
-    //self.btnNewGame.layer.cornerRadius = 5.0f;
-    [JMGameManager sharedInstance].demoModeEnabled = YES;
-    [self addDropCounter];
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-    UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blur];
-    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
     effectView.frame = self.view.frame;
-    UIVisualEffectView *vibrancyView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
     vibrancyView.frame = self.view.frame;
-    [self.view addSubview:effectView];
-    [self.view addSubview:vibrancyView];
-    [self autoplay];
+    [JMGameManager sharedInstance].demoModeEnabled = YES;
+    [self removeDropCounter];
+    [self addDropCounter];
+    if (![self.view.subviews containsObject:effectView]) [self.view addSubview:effectView];
+    if (![self.view.subviews containsObject:vibrancyView]) [self.view addSubview:vibrancyView];
+    [self.view bringSubviewToFront:effectView];
+    [self.view bringSubviewToFront:vibrancyView];
     [self doLogo];
+    
+    [JMGameManager sharedInstance].shouldEndNow = YES;
+    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
+        }
+    }];
     
 }
 
@@ -80,8 +94,12 @@
     }];
 }
 
--(void)toggleUserInputPause {
-    
+-(void)doAutoplay {
+    [JMGameManager sharedInstance].shouldEndNow = NO;
+    int random = arc4random_uniform((int)[[JMGameManager sharedInstance] getColumns].count-1);
+    Column *col = [[JMGameManager sharedInstance] getColumns][random];
+    col.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
+    [col autoAddBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
 }
 
 -(void)newGame {
@@ -97,25 +115,20 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
                 [JMGameManager sharedInstance].shouldEndNow = YES;
-                [JMGameManager sharedInstance].demoModeEnabled = NO;
                 //[self performSelector:@selector(newGame) withObject:nil afterDelay:1];
             }];
 }
 
-//-(IBAction)startNewGame:(id)sender {
-//    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-//        [JMGameManager sharedInstance].shouldEndNow = YES;
-//        [self performSelector:@selector(newGame) withObject:nil afterDelay:1];
-//    }];
-//}
-
 -(void)receivedNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameOverNotification]]) {
-        if (self.presentedViewController) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        } else {
-            [self performSelector:@selector(autoplay) withObject:nil afterDelay:5];
-        }
+        //[JMGameManager sharedInstance].shouldEndNow = YES;
+        //[[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        //    if (finished) {
+                [self.navigationController popViewControllerAnimated:YES];
+        //        [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
+        //    }
+        //}];
+        
     }
 }
 

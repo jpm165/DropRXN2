@@ -36,14 +36,14 @@
 
 //TODO
 /*
- -quit button in game mode (or swreveal)
+ -intercept leftward swipe to not go back
  -SWRevealViewController menu
  -Game over screen
  -score board and score
  -score animations.
  -score persists
  -tweak animations
- -add difficulty by reducing the drop counter
+ -add difficulty by reducing the drop counter over time
  -change 8's and 9's to not display number, pick different way to convey
  -music
  -animate add row?
@@ -66,7 +66,7 @@
     BOOL endGame = NO;
     
     for (Column *c in [[JMGameManager sharedInstance] getColumns]) {
-        if ([c getBalls].count == [JMHelpers numballs].integerValue+1) {
+        if ([c getBalls].count >= [JMHelpers numballs].integerValue-2) {
             endGame = YES;
         }
     }
@@ -90,6 +90,7 @@
 
 
 -(void)dropAllOffScreenWithCompletion:(completion)completion {
+    self.isAnimating = YES;
     NSLog(@"in drop method!");
     NSMutableArray *finalDrops = [NSMutableArray array];
     for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
