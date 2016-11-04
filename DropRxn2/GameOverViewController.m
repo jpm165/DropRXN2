@@ -21,6 +21,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *btnNewGame;
 @property (nonatomic, strong) IBOutlet UIImageView *logoImageView;
 
+
 @end
 
 @implementation GameOverViewController
@@ -29,17 +30,43 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.userInteractionEnabled = YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:[JMHelpers gameOverNotification] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:[JMHelpers gameResetNotificationName] object:nil];
     self.navigationController.navigationBar.hidden = YES;
     self.btnNewGame.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
     self.btnNewGame.layer.borderWidth = 1.0f;
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blur];
     effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectView.backgroundColor = [UIColor clearColor]; //[JMHelpers ghostWhiteColorWithAlpha:@(0.1)];
     
-    vibrancyView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
     
-    
+}
+
+-(void)animateTitleColor {
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFade;
+    transition.duration = 1;
+    [self.btnNewGame.layer addAnimation:transition forKey:kCATransition];
+    [self.btnNewGame setTitle:@"new game" forState:UIControlStateNormal];
+    [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
+    /*
+    CATextLayer *textLayer = [CATextLayer layer];
+    [textLayer setString:@"new game"];
+    [textLayer setForegroundColor:[JMHelpers jmRedColor].CGColor];
+    [textLayer setFrame:self.btnNewGame.bounds];
+    [self.btnNewGame.titleLabel. addSublayer:textLayer];
+     */
+    /*
+    RZViewAction *colorChange = [RZViewAction action:^{
+        [self.btnNewGame setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+    } withDuration:0.75];
+    RZViewAction *colorChangeBack = [RZViewAction action:^{
+        [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
+    } withDuration:0.75];
+    [UIView rz_runAction:[RZViewAction sequence:@[colorChange, colorChangeBack]] withCompletion:^(BOOL finished) {
+        if (finished) {
+            //[self animateTitleColor];
+        }
+    }];*/
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -50,9 +77,9 @@
     [self removeDropCounter];
     [self addDropCounter];
     if (![self.view.subviews containsObject:effectView]) [self.view addSubview:effectView];
-    if (![self.view.subviews containsObject:vibrancyView]) [self.view addSubview:vibrancyView];
     [self.view bringSubviewToFront:effectView];
-    [self.view bringSubviewToFront:vibrancyView];
+    [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
+    [self.btnNewGame setTitleColor:[JMHelpers jmTealColor] forState:UIControlStateHighlighted];
     [self doLogo];
     
     [JMGameManager sharedInstance].shouldEndNow = YES;
@@ -61,7 +88,6 @@
             [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
         }
     }];
-    
 }
 
 -(void)doLogo {
@@ -120,11 +146,12 @@
 }
 
 -(void)receivedNotification:(NSNotification *)notification {
-    if ([notification.name isEqualToString:[JMHelpers gameOverNotification]]) {
+    if ([notification.name isEqualToString:[JMHelpers gameResetNotificationName]]) {
         //[JMGameManager sharedInstance].shouldEndNow = YES;
         //[[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         //    if (finished) {
                 [self.navigationController popViewControllerAnimated:YES];
+        
         //        [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
         //    }
         //}];

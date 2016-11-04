@@ -9,6 +9,7 @@
 #import "Column.h"
 #import "GridBox.h"
 #import "UIView+RZViewActions.h"
+#import "ScoreSprite.h"
 
 @interface Column ()
 
@@ -35,6 +36,7 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         balls = [NSMutableArray arrayWithCapacity:[JMHelpers numballs].integerValue];
+        self.clipsToBounds = NO;
         self.backgroundColor = [UIColor clearColor];
         [self addGrid];
     }
@@ -131,6 +133,39 @@
     return b2R;
 }
 
+-(void)removeScoreSprites {
+    for (UIView __strong *view in self.subviews) {
+        if ([view isKindOfClass:[ScoreSprite class]]) {
+            [view removeFromSuperview];
+            view = nil;
+        }
+    }
+}
+
+-(RZViewAction *)addScoreSpriteForBall:(Circle *)ball {
+    ScoreSprite *ss = [[ScoreSprite alloc] initWithFrame:ball.frame number:@([JMGameManager sharedInstance].chainCount)];
+    ss.alpha = 0;
+    [self addSubview:ss];
+    CGRect oldFrame = ss.frame;
+    CGRect newframe = CGRectMake(CGRectGetMinX(ss.frame)-7, CGRectGetMinY(ss.frame)-7, CGRectGetWidth(ss.frame)+14, CGRectGetHeight(ss.frame)+14);
+    RZViewAction *fadein = [RZViewAction action:^{
+        ss.alpha = 1.0;
+    } withDuration:0.25];
+    RZViewAction *growAction = [RZViewAction action:^{
+        ss.frame = newframe;
+    } withDuration:0.25];
+    RZViewAction *fadeGrow = [RZViewAction group:@[fadein, growAction]];
+    RZViewAction *shrinkAction = [RZViewAction action:^{
+        ss.frame = oldFrame;
+    } withDuration:0.2];
+    RZViewAction *fadeout = [RZViewAction action:^{
+        ss.alpha = 0;
+    } withDuration:0.2];
+    RZViewAction *shrinkFade = [RZViewAction group:@[shrinkAction, fadeout]];
+    RZViewAction *sequence = [RZViewAction sequence:@[fadeGrow, shrinkFade]];
+    return sequence;
+}
+
 -(NSInteger)indexOfBall:(Circle *)ball inverted:(BOOL)inverted {
     if (inverted) return [[[balls reverseObjectEnumerator] allObjects] indexOfObject:ball];
     return [balls indexOfObject:ball];
@@ -146,25 +181,28 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    if (![JMAnimationManager sharedInstance].isAnimating && ![JMGameManager sharedInstance].demoModeEnabled) {
-        [[[JMGameManager sharedInstance] activeGameController] hideNextBall];
-        //self.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
-        RZViewAction *moveAction = [self addBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
+    if (balls.count==[JMHelpers numballs].integerValue) return;
+    if ([JMAnimationManager sharedInstance].isAnimating) return;
+    if ([JMGameManager sharedInstance].demoModeEnabled) return;
+    
+    [[[JMGameManager sharedInstance] activeGameController] hideNextBall];
+        self.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
+    RZViewAction *moveAction = [self addBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
         RZViewAction *bgColorChange = [RZViewAction action:^{
             self.backgroundColor = [UIColor whiteColor];
         } withDuration:0.1];
-        [UIView rz_runAction:moveAction withCompletion:^(BOOL finished) {
-            if (finished) {
-                [UIView rz_runAction:bgColorChange withCompletion:^(BOOL finished) {
-                    if (finished) {
-                        [[JMGameManager sharedInstance] updateNextBall];
-                        [[JMAnimationManager sharedInstance] doDrops];
-                    }
-                }];
-            }
-        }];
-        
-    }
+    [UIView rz_runAction:moveAction withCompletion:^(BOOL finished) {
+        if (finished) {
+            [UIView rz_runAction:bgColorChange withCompletion:^(BOOL finished) {
+                if (finished) {
+                    [[JMGameManager sharedInstance] updateNextBall];
+                    [JMGameManager sharedInstance].chainCount = 0;
+                    [[JMAnimationManager sharedInstance] doDrops];
+                }
+            }];
+        }
+    }];
+
 }
 
 @end

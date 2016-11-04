@@ -18,6 +18,7 @@
 static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";
 static NSString *const gameRestartNotificationName = @"gameRestartNotif";
+static NSString *const gameResetNotificationName = @"gameResetNotif";
 
 @implementation JMHelpers
 
@@ -60,6 +61,14 @@ static NSString *const gameRestartNotificationName = @"gameRestartNotif";
 +(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha {
     CGFloat a = (alpha==nil) ? 1 : alpha.floatValue;
     return RGBAUICOLOR(235, 235, 235, a);
+}
+
++(UIColor *)jmRedColor {
+    return RGBAUICOLOR(220, 0, 0, 1);
+}
+
++(UIColor *)jmTealColor {
+    return RGBAUICOLOR(0, 152, 206, 1);
 }
 
 +(UIColor *)randomColor {
@@ -112,6 +121,15 @@ static NSString *const gameRestartNotificationName = @"gameRestartNotif";
 +(CGSize)sizeForText:(NSString *)text inBoundingBox:(CGRect)boundingBox withAttributes:(NSDictionary *)attributes {
     CGRect textSizeRect = [text boundingRectWithSize:CGSizeMake(CGRectGetWidth(boundingBox), 200) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
     return textSizeRect.size;
+}
+
++(NSDictionary *)textAttributesWithGameFontSize:(CGFloat)fontSize color:(UIColor *)fontColor {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize],
+             NSParagraphStyleAttributeName: paragraphStyle,
+             NSForegroundColorAttributeName: fontColor};
 }
 
 +(NSDictionary *)textAttributesWithFontSize:(CGFloat)fontSize {
@@ -173,6 +191,10 @@ static NSString *const gameRestartNotificationName = @"gameRestartNotif";
 
 +(NSString *)gameRestartNotification {
     return gameRestartNotificationName;
+}
+
++(NSString *)gameResetNotificationName {
+    return gameResetNotificationName;
 }
 
 @end

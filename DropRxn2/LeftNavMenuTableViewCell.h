@@ -10,4 +10,6 @@
 
 @interface LeftNavMenuTableViewCell : UITableViewCell
 
+@property (nonatomic, strong) IBOutlet UILabel *cellTextLabel;
+
 @end

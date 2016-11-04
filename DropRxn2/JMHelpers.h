@@ -29,6 +29,9 @@ typedef void (^completion)(BOOL finished);
 +(UIColor *)jmLightGreenColor;
 +(UIColor *)jmLightGrayColor;
 
++(UIColor *)jmRedColor;
++(UIColor *)jmTealColor;
+
 +(UIColor *)columnBGColor;
 +(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha;
 
@@ -39,6 +42,7 @@ typedef void (^completion)(BOOL finished);
 +(NSArray *)allColors;
 
 +(CGSize)sizeForText:(NSString *)text inBoundingBox:(CGRect)boundingBox withAttributes:(NSDictionary *)attributes;
++(NSDictionary *)textAttributesWithGameFontSize:(CGFloat)fontSize color:(UIColor *)fontColor;
 +(NSDictionary *)textAttributesWithFontSize:(CGFloat)fontSize;
 +(CGRect)getRectForTextInBoundingBox:(CGRect)boundingBox withText:(NSString *)text withAttributes:(NSDictionary *)attributes;
 
@@ -54,4 +58,5 @@ typedef void (^completion)(BOOL finished);
 +(NSString *)gameOverNotification;
 +(NSString *)toggleUserInputPauseNotification;
 +(NSString *)gameRestartNotification;
++(NSString *)gameResetNotificationName;
 @end

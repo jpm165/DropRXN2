@@ -25,5 +25,7 @@
 -(RZViewAction *)getFlashGridAtRow:(NSNumber *)rowNum on:(BOOL)on;
 -(void)reset;
 -(void)autoAddBallWithNumber:(NSNumber *)number;
+-(RZViewAction *)addScoreSpriteForBall:(Circle *)ball;
+-(void)removeScoreSprites;
 
 @end

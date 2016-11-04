@@ -11,7 +11,7 @@
 
 @interface LeftNavMenuTableViewCell ()
 
-@property (nonatomic, strong) IBOutlet UIImageView *buttonImageView;
+
 
 @end
 

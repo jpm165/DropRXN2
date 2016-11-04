@@ -10,11 +10,12 @@
 #import "JMHelpers.h"
 #import "SWRevealViewController.h"
 #import "UIView+RZViewActions.h"
+#import "LeftNavMenuTableViewCell.h"
 
 @interface LeftNavMenuTableViewController ()
 
 {
-    NSArray *menuItems;
+    NSArray *menuItems, *menuTitles;
 }
 
 @property (nonatomic, strong) IBOutlet UIImageView *quitGameBtnImageView;
@@ -25,7 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    menuItems = @[@"menuItemCell0", @"menuItemCell1"];
+    //menuItems = @[@"menuItemCell0", @"menuItemCell1"];
+    menuTitles = @[@"quit game", @"restart"];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -48,15 +50,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return menuItems.count;
+    return menuTitles.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
-    NSString *identifier = menuItems[indexPath.row];
-    cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    
+    LeftNavMenuTableViewCell *cell;
+    NSString *title = menuTitles[indexPath.row];
+    cell = (LeftNavMenuTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"menuItemCell0" forIndexPath:indexPath];
+    cell.cellTextLabel.textColor = [JMHelpers jmTealColor];
+    cell.cellTextLabel.text = title;
     // Configure the cell...
     
     return cell;

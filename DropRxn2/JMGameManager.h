@@ -22,6 +22,7 @@ typedef void (^completion)(BOOL finished);
 @property (nonatomic, strong) GameViewController *activeGameController;
 @property (nonatomic, strong) DropCounter *dropCounter;
 @property (nonatomic, assign) BOOL shouldEndNow;
+@property (nonatomic, assign) NSInteger chainCount;
 
 +(instancetype)sharedInstance;
 -(UIView *)getGameView;
