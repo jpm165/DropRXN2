@@ -12,6 +12,7 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) IBOutlet UIImageView *gameOverImageView;
+@property (nonatomic, strong) UIView *scoreboardView;
 
 @end
 
@@ -46,6 +47,13 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.scoreboardView.frame = CGRectMake(CGRectGetMidX(self.view.frame)-([JMHelpers columnsWidth]/2),
+                                           20,
+                                           [JMHelpers columnsWidth],
+                                           (CGRectGetHeight(self.view.frame)-[JMHelpers columnHeight])/3);
+    self.scoreboardView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.scoreboardView.layer.borderWidth = 10.0;
+    [self.view addSubview:self.scoreboardView];
     [self restart];
     SWRevealViewController *revealViewController = self.revealViewController;
         if ( revealViewController )
@@ -55,6 +63,8 @@
             [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
         }
 }
+
+
 
 -(void)handleNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameRestartNotification]]) {

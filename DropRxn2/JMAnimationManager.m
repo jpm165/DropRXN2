@@ -50,7 +50,7 @@
     -3 chains: +? per match (cf:433, d7:224) (+235, +115) (+103, +45)
     -4 chains: +? per match (cf:794, d7:391) (+361, +167) (+126, +52)
     -5 chains: +? per match (cf:??, d7:617) (+??, +226)  (??, +59)
- -score animations.
+ -add up score and display
  -score persists
  -tweak animations
  -add difficulty by reducing the drop counter over time
@@ -82,6 +82,7 @@
     }
     if (endGame) {
         self.isAnimating = YES;
+        [JMGameManager sharedInstance].demoModeEnabled = YES;
         /*
         [self dropAllOffScreenWithCompletion:^(BOOL finished) {
             if (finished) {
