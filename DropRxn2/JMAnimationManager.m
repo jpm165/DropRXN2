@@ -16,6 +16,7 @@
 {
     //NSMutableArray *privateColumns;
     BOOL justAddedRow;
+    NSInteger scoreAccumulator;
 }
 
 @end
@@ -37,19 +38,14 @@
 
 //TODO
 /*
+ -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
+ -when 9 is between 2 removed balls, shoudl it decrement 2x?
  -intercept leftward swipe to not go back
  -SWRevealViewController menu
  -count chains - display after matches handled
  -longest chain (persists)
  -best score (per mode)
  -score board and score
-    
-    -0 chains: +9 per match (cf: 10, d7: 7)
-    -1 chain: +? per match (cf: 66, d7: 39) (+56, +32) (+76, +38)
-    -2 chains: +? per match (cf: 198, d7:109) (+132, +70) (+76, +45)
-    -3 chains: +? per match (cf:433, d7:224) (+235, +115) (+103, +45)
-    -4 chains: +? per match (cf:794, d7:391) (+361, +167) (+126, +52)
-    -5 chains: +? per match (cf:??, d7:617) (+??, +226)  (??, +59)
  -add up score and display
  -score persists
  -tweak animations
@@ -122,6 +118,17 @@
     
 }
 
+-(void)endGameWithCompletion:(completion)endGameCompletion {
+    
+    [self dropAllOffScreenWithCompletion:^(BOOL finished) {
+        if (finished) {
+            NSLog(@"Animations done.");
+            [JMAnimationManager sharedInstance].isAnimating = NO;
+            endGameCompletion(YES);
+        }
+    }];
+}
+
 
 -(void)dropAllOffScreenWithCompletion:(completion)completion {
     self.isAnimating = YES;
@@ -134,7 +141,7 @@
             CGRect newframe = CGRectMake(CGRectGetMinX(ball.frame), CGRectGetMaxY([UIScreen mainScreen].bounds)+CGRectGetHeight(ball.frame), CGRectGetWidth(ball.frame), CGRectGetHeight(ball.frame));
             RZViewAction *moveAction = [RZViewAction action:^{
                 ball.frame = newframe;
-            } withDuration:0.45];
+            } withOptions:UIViewAnimationOptionBeginFromCurrentState duration:0.45];
             [columnDrops addObject:moveAction];
         }
         [finalDrops addObject:[RZViewAction sequence:columnDrops]];
@@ -205,25 +212,21 @@
 }
 
 -(void)handleMatches {
+    if (self.shouldEndNow) return;
     //NSLog(@"Checking matches...");
     NSMutableSet *matches = [NSMutableSet set]; //keep track of matched objects to avoid duplicates
     self.isAnimating = YES;
     
     //check the columns
     NSMutableArray *removesArray = [NSMutableArray array];
-    NSMutableArray *flashOnArray = [NSMutableArray array];
-    NSMutableArray *flashOffArray = [NSMutableArray array];
     NSMutableArray *decrementsArray = [NSMutableArray array];
-    NSMutableArray *scoreAnimations = [NSMutableArray array];
+    //NSMutableArray *scoreAnimations = [NSMutableArray array];
     for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
         NSArray *ballsToRemove = [col checkColumnCount];
         if (ballsToRemove.count > 0) {
             for (Circle *ball in ballsToRemove) {
                 Circle *c = ball;
                 [matches addObject:c];
-                [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
-                [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
-                //[[JMGameManager sharedInstance] checkAdjacentsTo:c];
                 NSArray *array = [[JMGameManager sharedInstance] checkAdjacentsTo:c];
                 if (array.count > 0) {
                     [decrementsArray addObjectsFromArray:array];
@@ -239,9 +242,12 @@
                     c.frame = newFrame;
                 } withDuration:0.3];
                 
-                
-                if (![JMGameManager sharedInstance].demoModeEnabled) [scoreAnimations addObject:[col addScoreSpriteForBall:c]];
-                RZViewAction *removeSequence = [RZViewAction sequence:@[removeAction1, removeAction2]];
+                RZViewAction *removeSequence = [RZViewAction sequence:@[[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES],
+                                                                        removeAction1,
+                                                                        removeAction2,
+                                                                        [RZViewAction group:@[[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO],
+                                                                                              [col addScoreSpriteForBall:c]]
+                                                                        ]]];
                 [removesArray addObject:removeSequence];
             }
         }
@@ -281,7 +287,6 @@
         for (Circle *ball in row) {
             if (ball.number.intValue == row.count) {
                 //match
-                //[[JMGameManager sharedInstance] checkAdjacentsTo:ball];
                 NSArray *array = [[JMGameManager sharedInstance] checkAdjacentsTo:ball];
                 if (array.count > 0) {
                     [decrementsArray addObjectsFromArray:array];
@@ -291,8 +296,6 @@
                     [matches addObject:ball];
                     Circle *c = ball;
                     Column *col = [[JMGameManager sharedInstance] getColumns][ball.columnNumber.integerValue];
-                    [flashOnArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES]];
-                    [flashOffArray addObject:[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO]];
                     RZViewAction *removeAction1 = [RZViewAction action:^{
                         CGRect newFramePulseBig = CGRectMake(CGRectGetMinX(c.frame)-2.5, CGRectGetMinY(c.frame)-2.5, CGRectGetWidth(c.frame)+5, CGRectGetHeight(c.frame)+5);
                         
@@ -303,8 +306,12 @@
                         CGRect newFrame = CGRectMake(CGRectGetMidX(c.frame), CGRectGetMidY(c.frame), 0, 0);
                         c.frame = newFrame;
                     } withDuration:0.3];
-                    if (![JMGameManager sharedInstance].demoModeEnabled) [scoreAnimations addObject:[col addScoreSpriteForBall:c]];
-                    RZViewAction *removeSequence = [RZViewAction sequence:@[removeAction1, removeAction2]];
+                    RZViewAction *removeSequence = [RZViewAction sequence:@[[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:YES],
+                                                                            removeAction1,
+                                                                            removeAction2,
+                                                                            [RZViewAction group:@[[col getFlashGridAtRow:@([col indexOfBall:ball inverted:YES]) on:NO],
+                                                                                                  [col addScoreSpriteForBall:c]]
+                                                                             ]]];
                     [removesArray addObject:removeSequence];
                     
                 }
@@ -328,9 +335,15 @@
     
     //now if we have any matches, remove, clean, and recurse
     if (removesArray.count>0) {
-        RZViewAction *theAction = [RZViewAction sequence:@[[RZViewAction group:flashOnArray], [RZViewAction group:removesArray], [RZViewAction group:scoreAnimations], [RZViewAction group:flashOffArray], [RZViewAction group:decAnimArray]]];
+        if (self.shouldEndNow) {
+            return;
+        }
+        RZViewAction *theAction = [RZViewAction sequence:@[[RZViewAction group:removesArray], [RZViewAction group:decAnimArray]]];
         [UIView rz_runAction:theAction withCompletion:^(BOOL finished) {
             if (finished) {
+                if (self.shouldEndNow) {
+                    return;
+                }
                 for (NSDictionary *dict in ballsToChange) {
                     Circle *ball = dict[@"ball"];
                     NSNumber *num = dict[@"numberTo"];
@@ -343,9 +356,18 @@
                 for (Column *col in [[JMGameManager sharedInstance] getColumns]) {
                     [col removeScoreSprites];
                 }
+                if (![JMGameManager sharedInstance].demoModeEnabled) {
+                    for (Circle *ball in matches) {
+                        NSInteger bs = ball.number.integerValue;
+                        bs++;
+                        scoreAccumulator += [[JMGameManager sharedInstance] calculateNumberWithMultiplier:@([[JMGameManager sharedInstance] chainCount])].integerValue;
+                        //[[JMGameManager sharedInstance] setCurrentScore:[[JMGameManager sharedInstance] calculateNumberWithMultiplier:@([[JMGameManager sharedInstance] chainCount])]];
+                    }
+                }
                 self.isAnimating = NO;
                 [self cleanBalls];
                 [JMGameManager sharedInstance].chainCount++;
+                
                 [self doDrops];
             }
         }];
@@ -359,13 +381,15 @@
         NSInteger numdrops = [JMHelpers numDrops];
         if ([JMGameManager sharedInstance].demoModeEnabled) numdrops = 0;
         if ([JMGameManager sharedInstance].dropCounter.currentDrop == 0) {
-            if (![JMGameManager sharedInstance].shouldEndNow) {
+            if (!self.shouldEndNow) {
                 [[JMGameManager sharedInstance].dropCounter decrementCurrentDrop];
                 [self addRow];
             }
         }
         self.isAnimating = NO;
         //otherwise return control to the user
+        [[JMGameManager sharedInstance] setCurrentScore:@(scoreAccumulator)];
+        scoreAccumulator = 0;
     }
     
 }

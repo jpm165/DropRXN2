@@ -33,6 +33,51 @@
     
 }
 
+-(void)setCurrentScore:(NSNumber *)currentScore {
+    NSInteger score = _currentScore.integerValue;
+    score += currentScore.integerValue;
+    _currentScore = @(score);
+    if (self.highScore.integerValue < currentScore.integerValue) self.highScore = currentScore;
+    NSLog(@"in set score");
+    if (![JMAnimationManager sharedInstance].shouldEndNow) [self.activeGameController scoreUpdated];
+}
+
+-(NSNumber *)calculateNumberWithMultiplier:(NSNumber *)multiplier {
+    /*
+     formula: for n chains, score = (7 + (n*7))* n) * (tier multiplier)
+     = (7n +7)n * tm
+     = 7n^2 +7n * tm
+     -0: 7 x1
+     -1: 14 x1
+     -2: 42 x1
+     -3: 84 x1
+     -4: 140 * 2 = 280
+     -5: 420 x2
+     -6: 882 x3
+     -7: 1176 x3
+     -8: 1512 x3
+     -9: 2520 x4
+     -10: x4
+     -11: x4
+     -12: x4
+     -13: x5 = 6370 (max)
+     */
+    long num = multiplier.longValue;
+    if (num==13) return @(6370);
+    if (num==0) return @(7);
+    int tierMultiplier = 1;
+    if (num >= 4) tierMultiplier++;
+    if (num >= 6) tierMultiplier++;
+    if (num >= 9) tierMultiplier++;
+    NSNumber *score = @(((7*num*num)+(7*num))*tierMultiplier);
+    [self setCurrentScore:score];
+    NSLog(@"after score updated");
+    //dispatch_async(dispatch_get_main_queue(), ^{
+    //[[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers currentScoreUpdateNotification] object:nil];
+    //});
+    return score;
+}
+
 -(UIView *)getGameView {
     return self.myGameView;
 }
@@ -47,8 +92,14 @@
 }
 
 -(void)resetGameWithCompletion:(completion)completion {
-    [self addColumns];
-    completion(YES);
+    [[JMAnimationManager sharedInstance] endGameWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [self addColumns];
+            _currentScore = @0;
+            completion(YES);
+        }
+    }];
+    
 }
 
 -(void)addColumns {

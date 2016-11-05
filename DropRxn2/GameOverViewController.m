@@ -39,6 +39,7 @@
     effectView.backgroundColor = [UIColor clearColor]; //[JMHelpers ghostWhiteColorWithAlpha:@(0.1)];
     
     
+    
 }
 
 -(void)animateTitleColor {
@@ -69,6 +70,28 @@
     }];*/
 }
 
+-(IBAction)doNewGameSegue:(id)sender {
+    [JMAnimationManager sharedInstance].shouldEndNow = YES;
+    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        if (finished) {
+            int colcount = 0;
+            int ballcount = 0;
+            for (UIView *colview in self.gameView.subviews) {
+                if ([colview isKindOfClass:[Column class]]) {
+                    colcount++;
+                    for (UIView *ballview in colview.subviews) {
+                        if ([ballview isKindOfClass:[Circle class]]) {
+                            ballcount++;
+                        }
+                    }
+                }
+            }
+            NSLog(@"After reset: %d cols with %d balls", colcount, ballcount);
+            [self performSegueWithIdentifier:@"newgamesegue" sender:nil];
+        }
+    }];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     effectView.frame = self.view.frame;
@@ -82,7 +105,7 @@
     [self.btnNewGame setTitleColor:[JMHelpers jmTealColor] forState:UIControlStateHighlighted];
     [self doLogo];
     
-    [JMGameManager sharedInstance].shouldEndNow = YES;
+    [JMAnimationManager sharedInstance].shouldEndNow = YES;
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         if (finished) {
             [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
@@ -121,7 +144,7 @@
 }
 
 -(void)doAutoplay {
-    [JMGameManager sharedInstance].shouldEndNow = NO;
+    [JMAnimationManager sharedInstance].shouldEndNow = NO;
     int random = arc4random_uniform((int)[[JMGameManager sharedInstance] getColumns].count-1);
     Column *col = [[JMGameManager sharedInstance] getColumns][random];
     col.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:0.75];
@@ -139,10 +162,11 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-                [JMGameManager sharedInstance].shouldEndNow = YES;
-                //[self performSelector:@selector(newGame) withObject:nil afterDelay:1];
-            }];
+    
+//    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+//        if (finished) NSLog(@"finished");
+//                //[self performSelector:@selector(newGame) withObject:nil afterDelay:1];
+//            }];
 }
 
 -(void)receivedNotification:(NSNotification *)notification {

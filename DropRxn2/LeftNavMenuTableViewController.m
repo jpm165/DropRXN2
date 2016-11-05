@@ -100,7 +100,7 @@
                 [UIView rz_runAction:delay2 withCompletion:^(BOOL finished) {
                     if (finished) {
                         [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-                            [JMGameManager sharedInstance].shouldEndNow = YES;
+                            [JMAnimationManager sharedInstance].shouldEndNow = YES;
                             [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameRestartNotification] object:nil];
                             [self.revealViewController revealToggleAnimated:YES];
                         }];

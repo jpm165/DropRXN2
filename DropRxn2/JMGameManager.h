@@ -21,8 +21,10 @@ typedef void (^completion)(BOOL finished);
 @property (nonatomic, strong) Circle *currentNextBall;
 @property (nonatomic, strong) GameViewController *activeGameController;
 @property (nonatomic, strong) DropCounter *dropCounter;
-@property (nonatomic, assign) BOOL shouldEndNow;
+//@property (nonatomic, assign) BOOL shouldEndNow;
 @property (nonatomic, assign) NSInteger chainCount;
+@property (nonatomic, strong) NSNumber *currentScore;
+@property (nonatomic, strong) NSNumber *highScore;
 
 +(instancetype)sharedInstance;
 -(UIView *)getGameView;
@@ -31,6 +33,6 @@ typedef void (^completion)(BOOL finished);
 -(void)resetGameWithCompletion:(completion)completion;
 -(void)updateNextBall;
 -(NSArray *)checkAdjacentsTo:(Circle *)ball;
-
+-(NSNumber *)calculateNumberWithMultiplier:(NSNumber *)multiplier;
 
 @end

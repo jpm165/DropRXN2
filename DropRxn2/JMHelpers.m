@@ -19,6 +19,7 @@ static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";
 static NSString *const gameRestartNotificationName = @"gameRestartNotif";
 static NSString *const gameResetNotificationName = @"gameResetNotif";
+static NSString *const currentScoreUpdated = @"currentScoreUpdatedNotif";
 
 @implementation JMHelpers
 
@@ -197,4 +198,7 @@ static NSString *const gameResetNotificationName = @"gameResetNotif";
     return gameResetNotificationName;
 }
 
++(NSString *)currentScoreUpdateNotification {
+    return currentScoreUpdated;
+}
 @end

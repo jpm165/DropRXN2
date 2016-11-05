@@ -16,7 +16,7 @@
     DropCounter *dc;
 }
 
-@property (nonatomic, strong) UIView *gameView;
+
 
 @end
 
@@ -39,20 +39,21 @@
 }
 
 -(void)addGameView {
-    self.gameView = [[JMGameManager sharedInstance] getGameView];
-    if (!self.gameView) {
-        CGPoint gridBeginPoint = CGPointMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2),
+    CGPoint gridBeginPoint = CGPointMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2),
                                              CGRectGetMidY(self.view.bounds)-([JMHelpers columnHeight]/2));
-        CGRect newframe = CGRectMake(gridBeginPoint.x, gridBeginPoint.y, [JMHelpers columnsWidth], [JMHelpers columnHeight]);
-        UIView *view = [[UIView alloc] initWithFrame:newframe];
-        view.backgroundColor = [UIColor clearColor];
-        self.gameView = view;
-        [[JMGameManager sharedInstance] setGameView:self.gameView];
-    }
+    CGRect newframe = CGRectMake(gridBeginPoint.x, gridBeginPoint.y, [JMHelpers columnsWidth], [JMHelpers columnHeight]);
+    UIView *view = [[UIView alloc] initWithFrame:newframe];
+    view.backgroundColor = [UIColor clearColor];
+    self.gameView = view;
+    [[JMGameManager sharedInstance] setGameView:self.gameView];
 }
 
 -(void)hideNextBall {
     nextBall.hidden = YES;
+}
+
+-(void)scoreUpdated {
+    
 }
 
 
@@ -78,6 +79,7 @@
 }
 
 -(void)addDropCounter {
+    [self removeDropCounter];
     dc = [[DropCounter alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2), CGRectGetMidY(self.view.bounds)+([JMHelpers columnHeight]/2)+3, [JMHelpers columnsWidth], 10)];
     [self.view addSubview:dc];
     [JMGameManager sharedInstance].dropCounter = dc;

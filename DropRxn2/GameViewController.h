@@ -9,10 +9,11 @@
 #import "JMHelpers.h"
 
 @interface GameViewController : UIViewController
-
+@property (nonatomic, strong) UIView *gameView;
 -(void)addNextBall;
 -(void)removeDropCounter;
 -(void)addDropCounter;
 -(void)hideNextBall;
+-(void)scoreUpdated;
 
 @end

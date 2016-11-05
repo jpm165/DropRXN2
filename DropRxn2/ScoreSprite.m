@@ -64,7 +64,13 @@ formula: for n chains, score = (7 + (n*7))* n) * (tier multiplier)
     if (num >= 4) tierMultiplier++;
     if (num >= 6) tierMultiplier++;
     if (num >= 9) tierMultiplier++;
-    return @(((7*num*num)+(7*num))*tierMultiplier);
+    NSNumber *score = @(((7*num*num)+(7*num))*tierMultiplier);
+    //[[JMGameManager sharedInstance] setCurrentScore:score];
+    //NSLog(@"after score updated");
+    //dispatch_async(dispatch_get_main_queue(), ^{
+        //[[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers currentScoreUpdateNotification] object:nil];
+    //});
+    return score;
 }
 
 - (void)drawRect:(CGRect)rect {

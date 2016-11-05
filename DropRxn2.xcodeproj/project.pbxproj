@@ -39,6 +39,7 @@
 		D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC41DCA71840098B9DB /* droprxnlogo.png */; };
 		D0A12FC71DCA77AA0098B9DB /* droprxnLogo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */; };
 		D0A12FC91DCA79000098B9DB /* newgameTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC81DCA79000098B9DB /* newgameTransparent.png */; };
+		D0CC22EF1DCD83500059A641 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CC22EE1DCD83500059A641 /* QuartzCore.framework */; };
 		D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +93,7 @@
 		D0A12FC41DCA71840098B9DB /* droprxnlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnlogo.png; sourceTree = "<group>"; };
 		D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnLogo_transparent.png; sourceTree = "<group>"; };
 		D0A12FC81DCA79000098B9DB /* newgameTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newgameTransparent.png; sourceTree = "<group>"; };
+		D0CC22EE1DCD83500059A641 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0CC22EF1DCD83500059A641 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +115,7 @@
 			children = (
 				D010BF9B1DC430A900CA2BE1 /* DropRxn2 */,
 				D010BF9A1DC430A900CA2BE1 /* Products */,
+				D0CC22ED1DCD834F0059A641 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +190,14 @@
 				D010BF9D1DC430A900CA2BE1 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0CC22ED1DCD834F0059A641 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC22EE1DCD83500059A641 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

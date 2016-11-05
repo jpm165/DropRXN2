@@ -10,7 +10,7 @@
 #import "GridBox.h"
 #import "UIView+RZViewActions.h"
 #import "ScoreSprite.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface Column ()
 
 {
@@ -24,10 +24,13 @@
 @implementation Column
 
 -(void)reset {
+    [self removeFromSuperview];
     [balls removeAllObjects];
     for (UIView __strong *view in self.subviews) {
         if ([view isKindOfClass:[Circle class]]) {
+            [CATransaction begin];
             [view.layer removeAllAnimations];
+            [CATransaction commit];
             [view removeFromSuperview];
             view = nil;
         }
@@ -143,7 +146,8 @@
 }
 
 -(RZViewAction *)addScoreSpriteForBall:(Circle *)ball {
-    ScoreSprite *ss = [[ScoreSprite alloc] initWithFrame:ball.frame number:@([JMGameManager sharedInstance].chainCount)];
+    NSNumber *multiplier = @([JMGameManager sharedInstance].chainCount);
+    ScoreSprite *ss = [[ScoreSprite alloc] initWithFrame:ball.frame number:multiplier];
     ss.alpha = 0;
     [self addSubview:ss];
     CGRect oldFrame = ss.frame;

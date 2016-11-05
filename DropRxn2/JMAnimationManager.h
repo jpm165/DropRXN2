@@ -8,9 +8,12 @@
 
 #import "JMHelpers.h"
 
+typedef void (^completion)(BOOL finished);
+
 @interface JMAnimationManager : NSObject
 
 @property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, assign) BOOL shouldEndNow;
 
 
 +(instancetype)sharedInstance;
@@ -20,5 +23,6 @@
 -(void)doDrops;
 -(void)addRow;
 //-(void)removeAllColumns;
+-(void)endGameWithCompletion:(completion)endGameCompletion;
 
 @end
