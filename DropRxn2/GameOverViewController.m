@@ -1,3 +1,4 @@
+
 //
 //  GameOverViewController.m
 //  DropRxn2
@@ -37,6 +38,13 @@
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
     effectView.backgroundColor = [UIColor clearColor]; //[JMHelpers ghostWhiteColorWithAlpha:@(0.1)];
+    [JMGameManager sharedInstance].demoModeEnabled = YES;
+    [self addDropCounter];
+    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:4];
+        }
+    }];
     
     
     
@@ -49,25 +57,6 @@
     [self.btnNewGame.layer addAnimation:transition forKey:kCATransition];
     [self.btnNewGame setTitle:@"new game" forState:UIControlStateNormal];
     [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
-    /*
-    CATextLayer *textLayer = [CATextLayer layer];
-    [textLayer setString:@"new game"];
-    [textLayer setForegroundColor:[JMHelpers jmRedColor].CGColor];
-    [textLayer setFrame:self.btnNewGame.bounds];
-    [self.btnNewGame.titleLabel. addSublayer:textLayer];
-     */
-    /*
-    RZViewAction *colorChange = [RZViewAction action:^{
-        [self.btnNewGame setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
-    } withDuration:0.75];
-    RZViewAction *colorChangeBack = [RZViewAction action:^{
-        [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
-    } withDuration:0.75];
-    [UIView rz_runAction:[RZViewAction sequence:@[colorChange, colorChangeBack]] withCompletion:^(BOOL finished) {
-        if (finished) {
-            //[self animateTitleColor];
-        }
-    }];*/
 }
 
 -(IBAction)doNewGameSegue:(id)sender {
@@ -96,18 +85,30 @@
     [super viewWillAppear:animated];
     effectView.frame = self.view.frame;
     vibrancyView.frame = self.view.frame;
-    [JMGameManager sharedInstance].demoModeEnabled = YES;
-    [self removeDropCounter];
-    [self addDropCounter];
+    //[JMGameManager sharedInstance].demoModeEnabled = YES;
+    //[self removeDropCounter];
+    
+    if (![self.view.subviews containsObject:self.gameView]) {
+        [self.view addSubview:self.gameView];
+    }
     if (![self.view.subviews containsObject:effectView]) [self.view addSubview:effectView];
     [self.view bringSubviewToFront:effectView];
     [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
     [self.btnNewGame setTitleColor:[JMHelpers jmTealColor] forState:UIControlStateHighlighted];
     [self doLogo];
     
-    [JMAnimationManager sharedInstance].shouldEndNow = YES;
+    [JMAnimationManager sharedInstance].shouldEndNow = NO;
+    
+}
+
+-(void)handleGameOver {
+    
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         if (finished) {
+            [self.gameView removeFromSuperview];
+            self.gameView = [JMGameManager sharedInstance].getGameView;
+            [self.view addSubview:self.gameView];
+            [self doLogo];
             [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
         }
     }];
@@ -151,15 +152,6 @@
     [col autoAddBallWithNumber:[[JMGameManager sharedInstance] currentNextBall].number];
 }
 
--(void)newGame {
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"mainVC"];
-    self.modalPresentationStyle = UIModalPresentationFullScreen;
-    self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    
-    [self presentViewController:vc animated:YES completion:nil];
-}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -172,13 +164,20 @@
 -(void)receivedNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameResetNotificationName]]) {
         //[JMGameManager sharedInstance].shouldEndNow = YES;
-        //[[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-        //    if (finished) {
-                [self.navigationController popViewControllerAnimated:YES];
         
-        //        [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
-        //    }
-        //}];
+        [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+            if (finished) {
+                [JMGameManager sharedInstance].demoModeEnabled = YES;
+                [self.navigationController popViewControllerAnimated:YES];
+                [self.gameView removeFromSuperview];
+                //[self removeDropCounter];
+                [[JMGameManager sharedInstance].dropCounter resetDrops];
+                self.gameView = [JMGameManager sharedInstance].getGameView;
+                [self.view addSubview:self.gameView];
+                [self doLogo];
+                [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:5];
+            }
+        }];
         
     }
 }

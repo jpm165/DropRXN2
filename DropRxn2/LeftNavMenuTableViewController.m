@@ -99,11 +99,8 @@
                 RZViewAction *delay2 = [RZViewAction waitForDuration:0.25];
                 [UIView rz_runAction:delay2 withCompletion:^(BOOL finished) {
                     if (finished) {
-                        [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-                            [JMAnimationManager sharedInstance].shouldEndNow = YES;
-                            [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameRestartNotification] object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameRestartNotification] object:nil];
                             [self.revealViewController revealToggleAnimated:YES];
-                        }];
                     }
                 }];
             }

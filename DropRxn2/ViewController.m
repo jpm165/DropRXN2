@@ -23,7 +23,10 @@
     [super viewDidLoad];
     [JMAnimationManager sharedInstance].shouldEndNow = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameRestartNotification] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameOverNotification] object:nil];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
+        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
+    [self restart];
+    self.mainScoreLabel.hidden = YES;
 }
 
 -(void)doGameOver {
@@ -37,7 +40,12 @@
     } withDamping:0.5 initialVelocity:2.0 options:UIViewAnimationOptionCurveEaseInOut duration:0.75];
     [UIView rz_runAction:[RZViewAction sequence:@[wait, move, wait]] withCompletion:^(BOOL finished) {
         if (finished) {
-            [self performSelector:@selector(resetGame) withObject:nil afterDelay:4];
+            [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+                if (finished) {
+                    [self performSelector:@selector(resetGame) withObject:nil afterDelay:4];
+                }
+            }];
+            
         }
     }];
 }
@@ -48,7 +56,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self restart];
     SWRevealViewController *revealViewController = self.revealViewController;
         if ( revealViewController )
         {
@@ -56,6 +63,18 @@
     //        //[self.sidebarButton setAction: @selector( revealToggle: )];
             [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
         }
+    
+}
+
+-(void)handleGameOver {
+    [self doGameOver];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self resetScoreBoard];
+    self.mainScoreLabel.text = @"0";
+    self.mainScoreLabel.hidden = NO;
     [JMAnimationManager sharedInstance].shouldEndNow = NO;
 }
 
@@ -92,19 +111,26 @@
 -(void)handleNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameRestartNotification]]) {
         [self restart];
+        self.mainScoreLabel.text = @"0";
+        self.mainScoreLabel.hidden = NO;
+        [JMAnimationManager sharedInstance].shouldEndNow = NO;
     } else if ([notification.name isEqualToString:[JMHelpers gameOverNotification]]) {
-        [self doGameOver];
+        
     }
 }
 
+
 -(void)restart {
-    [JMGameManager sharedInstance].demoModeEnabled = NO;
-    [[JMGameManager sharedInstance] updateNextBall];
-    [self removeDropCounter];
+    [JMAnimationManager sharedInstance].shouldEndNow = YES;
+    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [JMGameManager sharedInstance].demoModeEnabled = NO;
+            [[JMGameManager sharedInstance] updateNextBall];
+            [[JMGameManager sharedInstance].dropCounter resetDrops];
+            [self resetScoreBoard];
+        }
+    }];
     
-    [self addDropCounter];
-    
-    [self resetScoreBoard];
 }
 
 @end

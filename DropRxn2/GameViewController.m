@@ -26,9 +26,6 @@
     [super viewDidLoad];
     [self addGameView];
     [JMGameManager sharedInstance].activeGameController = self;
-    [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-        //[self addDropCounter];
-    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -50,6 +47,10 @@
 
 -(void)hideNextBall {
     nextBall.hidden = YES;
+}
+
+-(void)handleGameOver {
+    
 }
 
 -(void)scoreUpdated {

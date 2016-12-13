@@ -33,6 +33,17 @@
     
 }
 
+-(id)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameOverNotification] object:nil];
+    }
+    return self;
+}
+
+-(void)handleNotification:(NSNotification *)notification {
+    [self.activeGameController handleGameOver];
+}
+
 -(void)setCurrentScore:(NSNumber *)currentScore {
     NSInteger score = _currentScore.integerValue;
     score += currentScore.integerValue;
@@ -96,6 +107,7 @@
         if (finished) {
             [self addColumns];
             _currentScore = @0;
+            
             completion(YES);
         }
     }];

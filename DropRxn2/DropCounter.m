@@ -32,17 +32,17 @@
 }
 
 -(void)resetDrops {
-    _currentDrop = [JMHelpers numDrops];
+    if ([JMGameManager sharedInstance].demoModeEnabled) {
+        _currentDrop = 0;
+    } else {
+        _currentDrop = [JMHelpers numDrops];
+    }
     [self setNeedsDisplay];
 }
 
 -(void)decrementCurrentDrop {
     if (_currentDrop==0) {
-        if ([JMGameManager sharedInstance].demoModeEnabled) {
-            _currentDrop = 0;
-        } else {
-            _currentDrop = [JMHelpers numDrops];
-        }
+        [self resetDrops];
         [self setNeedsDisplay];
         return;
     }

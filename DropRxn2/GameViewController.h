@@ -15,5 +15,6 @@
 -(void)addDropCounter;
 -(void)hideNextBall;
 -(void)scoreUpdated;
+-(void)handleGameOver;
 
 @end

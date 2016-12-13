@@ -40,6 +40,7 @@
 /*
  -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
  -when 9 is between 2 removed balls, shoudl it decrement 2x?
+ -clean up if statements in handlematches and move all reset-ables to jmGameManager
  -intercept leftward swipe to not go back
  -SWRevealViewController menu
  -count chains - display after matches handled
@@ -380,6 +381,7 @@
         }
         NSInteger numdrops = [JMHelpers numDrops];
         if ([JMGameManager sharedInstance].demoModeEnabled) numdrops = 0;
+        NSLog(@"numdrops: %ld, currentDrops: %ld", numdrops, [JMGameManager sharedInstance].dropCounter.currentDrop);
         if ([JMGameManager sharedInstance].dropCounter.currentDrop == 0) {
             if (!self.shouldEndNow) {
                 [[JMGameManager sharedInstance].dropCounter decrementCurrentDrop];
