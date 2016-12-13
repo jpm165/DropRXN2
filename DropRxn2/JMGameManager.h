@@ -25,8 +25,10 @@ typedef void (^completion)(BOOL finished);
 @property (nonatomic, assign) NSInteger chainCount;
 @property (nonatomic, strong) NSNumber *currentScore;
 @property (nonatomic, strong) NSNumber *highScore;
+@property (nonatomic, strong) NSNumber *difficultyLevel;
 
 +(instancetype)sharedInstance;
+-(NSNumber *)getDifficultyLevel;
 -(UIView *)getGameView;
 -(void)setGameView:(UIView *)gameView;
 -(NSArray *)getColumns;

@@ -13,7 +13,8 @@
 #define NUMCOLS 7
 #define CIRCLE_RADIUS 50.0f
 #define BORDER_WIDTH 3.0f
-#define FULL_DROP_COUNTER 5
+#define FULL_DROP_COUNTER 25
+#define DEFAULTDIFFICULTY 0
 
 static NSString *const gameOverNotificationName = @"gameOverNotif";
 static NSString *const toggleUserInputPauseNotificationName = @"toggleUserInputPauseNotif";
@@ -200,5 +201,9 @@ static NSString *const currentScoreUpdated = @"currentScoreUpdatedNotif";
 
 +(NSString *)currentScoreUpdateNotification {
     return currentScoreUpdated;
+}
+
++(NSNumber *)defaultDifficulty {
+    return @(DEFAULTDIFFICULTY);
 }
 @end

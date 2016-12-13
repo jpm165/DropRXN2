@@ -15,7 +15,7 @@
 @interface LeftNavMenuTableViewController ()
 
 {
-    NSArray *menuItems, *menuTitles;
+    NSArray *menuItems, *menuTitles, *difficulties;
 }
 
 @property (nonatomic, strong) IBOutlet UIImageView *quitGameBtnImageView;
@@ -27,7 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //menuItems = @[@"menuItemCell0", @"menuItemCell1"];
-    menuTitles = @[@"quit game", @"restart"];
+    menuTitles = @[@"quit game", @"restart", @"difficulty"];
+    difficulties = @[@"easy", @"less easy", @"harder", @"more harder", @"insane"];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -59,7 +60,15 @@
     NSString *title = menuTitles[indexPath.row];
     cell = (LeftNavMenuTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"menuItemCell0" forIndexPath:indexPath];
     cell.cellTextLabel.textColor = [JMHelpers jmTealColor];
-    cell.cellTextLabel.text = title;
+    NSString *str;
+    if (indexPath.row==2) {
+        NSNumber *num = [[JMGameManager sharedInstance] getDifficultyLevel];
+        str = [NSString stringWithFormat:@"%@", difficulties[num.intValue]];
+        [cell.cellTextLabel setAdjustsFontSizeToFitWidth:YES];
+    } else {
+        str = title;
+    }
+    cell.cellTextLabel.text = str;
     // Configure the cell...
     
     return cell;
@@ -105,6 +114,15 @@
                 }];
             }
         }];
+    } else if (indexPath.row==2) {
+        NSNumber *num = [JMGameManager sharedInstance].difficultyLevel;
+        if (num.intValue >= 4) {
+            num = @0;
+        } else {
+            num = @(num.intValue + 1);
+        }
+        [[JMGameManager sharedInstance] setDifficultyLevel:num];
+        [self.tableView reloadData];
     }
 }
 

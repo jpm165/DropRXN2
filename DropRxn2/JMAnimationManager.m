@@ -41,16 +41,12 @@
  -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
  -when 9 is between 2 removed balls, shoudl it decrement 2x?
  -clean up if statements in handlematches and move all reset-ables to jmGameManager
- -intercept leftward swipe to not go back
  -SWRevealViewController menu
  -count chains - display after matches handled
  -longest chain (persists)
  -best score (per mode)
- -score board and score
- -add up score and display
  -score persists
  -tweak animations
- -add difficulty by reducing the drop counter over time
  -change 8's and 9's to not display number, pick different way to convey
  -music
  -animate add row?
@@ -61,6 +57,8 @@
  -powerups
  -make a "GO" animation when user staets a new game?
  -set breakpoints at isAnimating=NO to find out why it's reverting to yes when the game is over. Also might set demoMode as soon as game ends in addrow as a workaround
+ - delay in adding ball to first column
+ - score bonus and level up animation when level increases
  */
 
 -(void)addRow {

@@ -60,4 +60,6 @@ typedef void (^completion)(BOOL finished);
 +(NSString *)gameRestartNotification;
 +(NSString *)gameResetNotificationName;
 +(NSString *)currentScoreUpdateNotification;
+
++(NSNumber *)defaultDifficulty;
 @end

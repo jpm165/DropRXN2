@@ -101,22 +101,6 @@
                                     <outlet property="cellTextLabel" destination="E91-Nv-EFE" id="821-yE-p9x"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="menuItemCell1" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuItemCell1" id="G7P-5D-Y06">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G7P-5D-Y06" id="Ec5-WP-QSB">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KXU-3w-3Kq">
-                                <rect key="frame" x="0.0" y="116" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KXU-3w-3Kq" id="hYW-k3-R6j">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="sL8-Cr-y4B" id="gde-pa-81U"/>
@@ -141,15 +125,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="droprxnLogo_transparent.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Kx-JB-X9e">
-                                <rect key="frame" x="0.0" y="-58" width="375" height="81"/>
+                                <rect key="frame" x="0.0" y="-82" width="375" height="81"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2Kx-JB-X9e" secondAttribute="height" multiplier="65:14" constant="-1.071428571428612" id="qsa-yG-RAb"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwg-ge-K9j">
-                                <rect key="frame" x="94" y="662.5" width="187" height="33.5"/>
+                                <rect key="frame" x="94" y="669" width="187" height="33"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="hwg-ge-K9j" secondAttribute="height" multiplier="118:21" id="5GF-aB-RhE"/>
+                                    <constraint firstAttribute="width" secondItem="hwg-ge-K9j" secondAttribute="height" multiplier="118:21" constant="1.5714285714285836" id="5GF-aB-RhE"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="RepublikaII" family="Republika II" pointSize="25"/>
                                 <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -164,8 +148,8 @@
                             <constraint firstItem="2Kx-JB-X9e" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" id="3GV-Gh-q6j"/>
                             <constraint firstItem="hwg-ge-K9j" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="8MW-sp-pzd"/>
                             <constraint firstItem="2Kx-JB-X9e" firstAttribute="centerX" secondItem="Hkh-er-PDb" secondAttribute="centerX" id="HKY-cp-fJO"/>
-                            <constraint firstAttribute="bottom" secondItem="hwg-ge-K9j" secondAttribute="bottom" constant="-29" id="TvN-XX-OG3"/>
-                            <constraint firstItem="2Kx-JB-X9e" firstAttribute="top" secondItem="GzZ-d5-wPQ" secondAttribute="bottom" constant="-122" id="eAn-lK-HRI"/>
+                            <constraint firstAttribute="bottom" secondItem="hwg-ge-K9j" secondAttribute="bottom" constant="-35" id="TvN-XX-OG3"/>
+                            <constraint firstItem="2Kx-JB-X9e" firstAttribute="top" secondItem="GzZ-d5-wPQ" secondAttribute="bottom" constant="-146" id="eAn-lK-HRI"/>
                             <constraint firstItem="hwg-ge-K9j" firstAttribute="width" secondItem="Hkh-er-PDb" secondAttribute="width" multiplier="0.5" id="t9G-BZ-ngU"/>
                         </constraints>
                     </view>

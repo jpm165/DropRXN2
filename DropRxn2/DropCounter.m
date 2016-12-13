@@ -12,6 +12,7 @@
 
 {
     NSArray *drops;
+    NSNumber *decMod;
 }
 
 @end
@@ -21,10 +22,11 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
+        decMod = @0;
         if ([JMGameManager sharedInstance].demoModeEnabled) {
             _currentDrop = 1;
         } else {
-            _currentDrop = [JMHelpers numDrops];
+            _currentDrop = [self totalDrops].integerValue;
         }
         [self addDropsForRadius:frame.size.height];
     }
@@ -35,13 +37,31 @@
     if ([JMGameManager sharedInstance].demoModeEnabled) {
         _currentDrop = 0;
     } else {
-        _currentDrop = [JMHelpers numDrops];
+        _currentDrop = [self totalDrops].integerValue;
     }
     [self setNeedsDisplay];
 }
 
+-(NSNumber *)totalDrops {
+    NSNumber *numDrops = @([JMHelpers numDrops]);
+    int difficultyModifiedNumdrops = numDrops.intValue - (5*[JMGameManager sharedInstance].difficultyLevel.intValue);
+    int currentTotalDrops = difficultyModifiedNumdrops - decMod.intValue;
+    return @(currentTotalDrops);
+}
+
+-(void)removeADrop {
+    if ([self totalDrops].intValue - 1 >= 5) {
+        decMod = @(decMod.intValue+1);
+        NSMutableArray *array = [drops mutableCopy];
+        [array removeLastObject];
+        drops = array;
+        [self setNeedsDisplay];
+    }
+}
+
 -(void)decrementCurrentDrop {
     if (_currentDrop==0) {
+        [self removeADrop];
         [self resetDrops];
         [self setNeedsDisplay];
         return;

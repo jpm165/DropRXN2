@@ -18,7 +18,15 @@
 
 @implementation JMGameManager
 
+-(void)setDifficultyLevel:(NSNumber *)difficultyLevel {
+    if (difficultyLevel.intValue < 0 || difficultyLevel.intValue > 4) return;
+    _difficultyLevel = difficultyLevel;
+}
 
+-(NSNumber *)getDifficultyLevel {
+    if (!_difficultyLevel) return [JMHelpers defaultDifficulty];
+    return _difficultyLevel;
+}
 
 +(instancetype)sharedInstance {
     

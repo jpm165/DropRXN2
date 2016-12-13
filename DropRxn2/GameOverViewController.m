@@ -17,10 +17,11 @@
 {
     UIVisualEffectView *effectView;
     UIVisualEffectView *vibrancyView;
+    BOOL shouldNotDoAutoplay;
 }
 
-@property (nonatomic, strong) IBOutlet UIButton *btnNewGame;
-@property (nonatomic, strong) IBOutlet UIImageView *logoImageView;
+@property (nonatomic, strong) UIButton *btnNewGame;
+@property (nonatomic, strong) UIImageView *logoImageView;
 
 
 @end
@@ -33,6 +34,8 @@
     self.view.userInteractionEnabled = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:[JMHelpers gameResetNotificationName] object:nil];
     self.navigationController.navigationBar.hidden = YES;
+    [self.btnNewGame setTranslatesAutoresizingMaskIntoConstraints:YES];
+    [self.logoImageView setTranslatesAutoresizingMaskIntoConstraints:YES];
     self.btnNewGame.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
     self.btnNewGame.layer.borderWidth = 1.0f;
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
@@ -60,6 +63,7 @@
 }
 
 -(IBAction)doNewGameSegue:(id)sender {
+    shouldNotDoAutoplay = YES;
     [JMAnimationManager sharedInstance].shouldEndNow = YES;
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         if (finished) {
@@ -83,6 +87,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    shouldNotDoAutoplay = NO;
     effectView.frame = self.view.frame;
     vibrancyView.frame = self.view.frame;
     //[JMGameManager sharedInstance].demoModeEnabled = YES;
@@ -95,8 +100,10 @@
     [self.view bringSubviewToFront:effectView];
     [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
     [self.btnNewGame setTitleColor:[JMHelpers jmTealColor] forState:UIControlStateHighlighted];
-    [self doLogo];
+    //[self.btnNewGame setFrame:CGRectMake(CGRectGetMidX(self.view.frame)-(33.5/2), 0, 187, 33.5)];
+    [self.view addSubview:_btnNewGame];
     
+    [self doLogo];
     [JMAnimationManager sharedInstance].shouldEndNow = NO;
     
 }
@@ -115,6 +122,7 @@
 }
 
 -(void)doLogo {
+    NSLog(@"Do logo.");
     [self.view bringSubviewToFront:self.logoImageView];
     [self.view bringSubviewToFront:self.btnNewGame];
     RZViewAction *wait = [RZViewAction waitForDuration:1.5];
@@ -145,6 +153,7 @@
 }
 
 -(void)doAutoplay {
+    if (shouldNotDoAutoplay) return;
     [JMAnimationManager sharedInstance].shouldEndNow = NO;
     int random = arc4random_uniform((int)[[JMGameManager sharedInstance] getColumns].count-1);
     Column *col = [[JMGameManager sharedInstance] getColumns][random];

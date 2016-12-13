@@ -126,6 +126,8 @@
         if (finished) {
             [JMGameManager sharedInstance].demoModeEnabled = NO;
             [[JMGameManager sharedInstance] updateNextBall];
+            [self removeDropCounter];
+            [self addDropCounter];
             [[JMGameManager sharedInstance].dropCounter resetDrops];
             [self resetScoreBoard];
         }

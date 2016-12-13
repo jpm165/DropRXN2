@@ -35,6 +35,8 @@
     }
 }
 
+
+
 -(void)addGameView {
     CGPoint gridBeginPoint = CGPointMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2),
                                              CGRectGetMidY(self.view.bounds)-([JMHelpers columnHeight]/2));
