@@ -14,6 +14,8 @@
 @property (nonatomic, strong) IBOutlet UIImageView *gameOverImageView;
 @property (nonatomic, strong) UIView *scoreboardView;
 @property (nonatomic, strong) UILabel *mainScoreLabel;
+@property (nonatomic, strong) UILabel *bestScoreLabel;
+@property (nonatomic, strong) UILabel *mostChainsLabel;
 
 @end
 
@@ -73,9 +75,9 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self resetScoreBoard];
-    self.mainScoreLabel.text = @"0";
     self.mainScoreLabel.hidden = NO;
     [JMAnimationManager sharedInstance].shouldEndNow = NO;
+    [self.revealViewController revealToggleAnimated:YES];
 }
 
 -(void)resetScoreBoard {
@@ -96,14 +98,45 @@
     [self.mainScoreLabel setTextAlignment:NSTextAlignmentRight];
     [self.mainScoreLabel setTextColor:[JMHelpers jmTealColor]];
     self.mainScoreLabel.backgroundColor = [UIColor clearColor];
-    self.mainScoreLabel.text = @"0";
+    self.mainScoreLabel.text = @"score: 0";
     [self.scoreboardView addSubview:self.mainScoreLabel];
+    
+    self.bestScoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetHeight(self.scoreboardView.frame)/3, CGRectGetWidth(self.scoreboardView.frame)-20, CGRectGetHeight(self.scoreboardView.frame)/3)];
+    self.bestScoreLabel.backgroundColor = [UIColor clearColor];
+    [self.bestScoreLabel setFont:[UIFont systemFontOfSize:25.0 weight:UIFontWeightThin]];
+    [self.bestScoreLabel setTextAlignment:NSTextAlignmentRight];
+    [self.bestScoreLabel setTextColor:[JMHelpers jmRedColor]];
+    NSString *best = [[JMGameManager sharedInstance] getHighScore].stringValue;
+    self.bestScoreLabel.text = [NSString stringWithFormat:@"best: %@", best];
+    [self.scoreboardView addSubview:self.bestScoreLabel];
+    
+    self.mostChainsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetHeight(self.scoreboardView.frame)-CGRectGetHeight(self.scoreboardView.frame)/3, CGRectGetWidth(self.scoreboardView.frame)-20, CGRectGetHeight(self.scoreboardView.frame)/3)];
+    self.mostChainsLabel.backgroundColor = [UIColor clearColor];
+    [self.mostChainsLabel setFont:[UIFont systemFontOfSize:20 weight:UIFontWeightLight]];
+    [self.mostChainsLabel setTextAlignment:NSTextAlignmentRight];
+    [self.mostChainsLabel setTextColor:[UIColor grayColor]];
+    NSNumber *mostChains = [[JMGameManager sharedInstance] getBestChainCount];
+    NSString *bestChainString = [NSNumberFormatter localizedStringFromNumber:mostChains numberStyle:NSNumberFormatterDecimalStyle];
+    NSString *mostChainsStr = [NSString stringWithFormat:@"rxn: 0x0%@", bestChainString];
+    self.mostChainsLabel.text = mostChainsStr;
+    [self.scoreboardView addSubview:self.mostChainsLabel];
 }
 
 -(void)scoreUpdated {
     NSNumber *score = [JMGameManager sharedInstance].currentScore;
     NSString *scoreString = [NSNumberFormatter localizedStringFromNumber:score numberStyle:NSNumberFormatterDecimalStyle];
-    self.mainScoreLabel.text = scoreString;
+    NSString *scoreStr = [NSString stringWithFormat:@"score: %@", scoreString];
+    self.mainScoreLabel.text = scoreStr;
+    
+    NSNumber *highscore = [[JMGameManager sharedInstance] getHighScore];
+    NSString *highscoreString = [NSNumberFormatter localizedStringFromNumber:highscore numberStyle:NSNumberFormatterDecimalStyle];
+    NSString *highscoreStr = [NSString stringWithFormat:@"best: %@", highscoreString];
+    self.bestScoreLabel.text = highscoreStr;
+    
+    NSNumber *mostChains = [[JMGameManager sharedInstance] getBestChainCount];
+    NSString *bestChainString = [NSNumberFormatter localizedStringFromNumber:mostChains numberStyle:NSNumberFormatterDecimalStyle];
+    NSString *mostChainsStr = [NSString stringWithFormat:@"rxn: 0x0%@", bestChainString];
+    self.mostChainsLabel.text = mostChainsStr;
 }
 
 
@@ -111,7 +144,7 @@
 -(void)handleNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameRestartNotification]]) {
         [self restart];
-        self.mainScoreLabel.text = @"0";
+        self.mainScoreLabel.text = @"score: 0";
         self.mainScoreLabel.hidden = NO;
         [JMAnimationManager sharedInstance].shouldEndNow = NO;
     } else if ([notification.name isEqualToString:[JMHelpers gameOverNotification]]) {

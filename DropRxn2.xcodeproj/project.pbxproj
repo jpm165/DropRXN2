@@ -39,6 +39,7 @@
 		D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC41DCA71840098B9DB /* droprxnlogo.png */; };
 		D0A12FC71DCA77AA0098B9DB /* droprxnLogo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */; };
 		D0A12FC91DCA79000098B9DB /* newgameTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC81DCA79000098B9DB /* newgameTransparent.png */; };
+		D0B690DA1E01C9800063378B /* JMPersistenceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B690D91E01C9800063378B /* JMPersistenceManager.m */; };
 		D0CC22EF1DCD83500059A641 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CC22EE1DCD83500059A641 /* QuartzCore.framework */; };
 		D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */; };
 /* End PBXBuildFile section */
@@ -93,6 +94,8 @@
 		D0A12FC41DCA71840098B9DB /* droprxnlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnlogo.png; sourceTree = "<group>"; };
 		D0A12FC61DCA77AA0098B9DB /* droprxnLogo_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droprxnLogo_transparent.png; sourceTree = "<group>"; };
 		D0A12FC81DCA79000098B9DB /* newgameTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newgameTransparent.png; sourceTree = "<group>"; };
+		D0B690D81E01C9800063378B /* JMPersistenceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMPersistenceManager.h; sourceTree = "<group>"; };
+		D0B690D91E01C9800063378B /* JMPersistenceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMPersistenceManager.m; sourceTree = "<group>"; };
 		D0CC22EE1DCD83500059A641 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -180,6 +183,8 @@
 				D05404C71DC9274C00F356BF /* GridBox.m */,
 				D021730D1DCC2B0100159C77 /* LeftNavMenuTableViewCell.h */,
 				D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */,
+				D0B690D81E01C9800063378B /* JMPersistenceManager.h */,
+				D0B690D91E01C9800063378B /* JMPersistenceManager.m */,
 			);
 			path = DropRxn2;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				D05404C81DC9274C00F356BF /* GridBox.m in Sources */,
 				D021730F1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m in Sources */,
 				D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */,
+				D0B690DA1E01C9800063378B /* JMPersistenceManager.m in Sources */,
 				D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

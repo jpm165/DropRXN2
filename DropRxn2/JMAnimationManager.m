@@ -39,13 +39,12 @@
 //TODO
 /*
  -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
- -when 9 is between 2 removed balls, shoudl it decrement 2x?
  -clean up if statements in handlematches and move all reset-ables to jmGameManager
- -SWRevealViewController menu
+ -SWRevealViewController menu (mode)
+ -SWRevealViewController menu (directions)?
  -count chains - display after matches handled
- -longest chain (persists)
- -best score (per mode)
- -score persists
+ -longest chain per mode
+ -best score per mode
  -tweak animations
  -change 8's and 9's to not display number, pick different way to convey
  -music
@@ -57,7 +56,6 @@
  -powerups
  -make a "GO" animation when user staets a new game?
  -set breakpoints at isAnimating=NO to find out why it's reverting to yes when the game is over. Also might set demoMode as soon as game ends in addrow as a workaround
- - delay in adding ball to first column
  - score bonus and level up animation when level increases
  */
 
@@ -321,11 +319,19 @@
     NSMutableArray *ballsToChange = [NSMutableArray array];
     if (decrementsArray.count > 0) {
         for (Circle *ball in decrementsArray) {
+            int decrementValue = 0;
             NSNumber *changeTo;
+            for (Circle *ball2 in decrementsArray) {
+                if (ball2==ball) decrementValue++;
+            }
             if (ball.number.integerValue == [JMHelpers numballs].integerValue+1) {
                 changeTo = @([JMHelpers randomNonGrey]);
             } else {
-                changeTo = @(ball.number.integerValue-1);
+                if (decrementValue > 1) {
+                    changeTo = @([JMHelpers randomNonGrey]);
+                } else {
+                    changeTo = @(ball.number.intValue-1);
+                }
             }
             [decAnimArray addObject:[ball changeNumber:@0]];
             [ballsToChange addObject:@{@"ball":ball, @"numberTo":changeTo}];
@@ -365,7 +371,7 @@
                 }
                 self.isAnimating = NO;
                 [self cleanBalls];
-                [JMGameManager sharedInstance].chainCount++;
+                [[JMGameManager sharedInstance] incrementChainCount];
                 
                 [self doDrops];
             }

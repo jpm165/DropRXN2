@@ -195,7 +195,11 @@
         RZViewAction *bgColorChange = [RZViewAction action:^{
             self.backgroundColor = [UIColor whiteColor];
         } withDuration:0.1];
-    [UIView rz_runAction:moveAction withCompletion:^(BOOL finished) {
+    NSTimeInterval delay = 0;
+    if (self.columnNumber.intValue ==0) delay = 0.25;
+    RZViewAction *waitAction = [RZViewAction waitForDuration:delay];
+    NSArray *actionSequence = @[waitAction, moveAction];
+    [UIView rz_runAction:[RZViewAction sequence:actionSequence] withCompletion:^(BOOL finished) {
         if (finished) {
             [UIView rz_runAction:bgColorChange withCompletion:^(BOOL finished) {
                 if (finished) {

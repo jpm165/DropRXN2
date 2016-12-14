@@ -24,8 +24,12 @@ typedef void (^completion)(BOOL finished);
 //@property (nonatomic, assign) BOOL shouldEndNow;
 @property (nonatomic, assign) NSInteger chainCount;
 @property (nonatomic, strong) NSNumber *currentScore;
-@property (nonatomic, strong) NSNumber *highScore;
+@property (nonatomic, strong) NSNumber *bestChainCount;
+@property (nonatomic, strong) NSMutableDictionary *highScores;
+@property (nonatomic, strong) NSNumber *highscoreForCurrentDifficultyLevel;
 @property (nonatomic, strong) NSNumber *difficultyLevel;
+@property (nonatomic, strong) NSString *currentDifficulty;
+@property (nonatomic, strong) NSArray *difficulties;
 
 +(instancetype)sharedInstance;
 -(NSNumber *)getDifficultyLevel;
@@ -36,5 +40,8 @@ typedef void (^completion)(BOOL finished);
 -(void)updateNextBall;
 -(NSArray *)checkAdjacentsTo:(Circle *)ball;
 -(NSNumber *)calculateNumberWithMultiplier:(NSNumber *)multiplier;
+-(NSNumber *)getHighScore;
+-(void)incrementChainCount;
+-(NSNumber *)getBestChainCount;
 
 @end

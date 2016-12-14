@@ -11,11 +11,14 @@
 #import "SWRevealViewController.h"
 #import "UIView+RZViewActions.h"
 #import "LeftNavMenuTableViewCell.h"
+#import "JMGameManager.h"
 
 @interface LeftNavMenuTableViewController ()
 
 {
-    NSArray *menuItems, *menuTitles, *difficulties;
+    NSArray *menuItems, *menuTitles;
+    NSString *restartString;
+    NSString *currentDifficulty;
 }
 
 @property (nonatomic, strong) IBOutlet UIImageView *quitGameBtnImageView;
@@ -28,13 +31,19 @@
     [super viewDidLoad];
     //menuItems = @[@"menuItemCell0", @"menuItemCell1"];
     menuTitles = @[@"quit game", @"restart", @"difficulty"];
-    difficulties = @[@"easy", @"less easy", @"harder", @"more harder", @"insane"];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    menuTitles = @[@"quit game", @"restart", @"difficulty"];
+    currentDifficulty = [JMGameManager sharedInstance].currentDifficulty;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,6 +63,27 @@
     return menuTitles.count;
 }
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section != 0) return nil;
+    return @"droprxn";
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if (section != 0) return;
+    
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
+    header.layer.borderWidth = 1.0;
+    header.tintColor = [UIColor clearColor];
+    header.textLabel.textColor = [JMHelpers jmRedColor];
+    header.textLabel.font = [UIFont fontWithName:@"RepublikaII" size:35.0];
+    CGRect headerFrame = header.frame;
+    header.textLabel.frame = headerFrame;
+    header.textLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     LeftNavMenuTableViewCell *cell;
@@ -62,11 +92,15 @@
     cell.cellTextLabel.textColor = [JMHelpers jmTealColor];
     NSString *str;
     if (indexPath.row==2) {
-        NSNumber *num = [[JMGameManager sharedInstance] getDifficultyLevel];
-        str = [NSString stringWithFormat:@"%@", difficulties[num.intValue]];
+        str = [NSString stringWithFormat:@"%@", currentDifficulty];
         [cell.cellTextLabel setAdjustsFontSizeToFitWidth:YES];
     } else {
         str = title;
+    }
+    if (indexPath.row==1) {
+        if ([title isEqualToString:@"start"]) {
+            cell.cellTextLabel.textColor = [JMHelpers jmLightGreenColor];
+        }
     }
     cell.cellTextLabel.text = str;
     // Configure the cell...
@@ -77,10 +111,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section==0) return 100.0f;
     return 0;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayHeaderView:(nonnull UIView *)view forSection:(NSInteger)section {
-    if (section==0) [view setTintColor:[UIColor clearColor]];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -101,6 +131,8 @@
         }];
         
     } else if (indexPath.row==1) {
+        NSInteger difficultyLevel = [[JMGameManager sharedInstance].difficulties indexOfObject:currentDifficulty];
+        [[JMGameManager sharedInstance] setDifficultyLevel:@(difficultyLevel)];
         RZViewAction *delay = [RZViewAction waitForDuration:0.25];
         [UIView rz_runAction:delay withCompletion:^(BOOL finished) {
             if (finished) {
@@ -115,15 +147,25 @@
             }
         }];
     } else if (indexPath.row==2) {
-        NSNumber *num = [JMGameManager sharedInstance].difficultyLevel;
+        NSInteger difficultyLevel = [[JMGameManager sharedInstance].difficulties indexOfObject:currentDifficulty];
+        NSNumber *num = @(difficultyLevel);
         if (num.intValue >= 4) {
             num = @0;
         } else {
             num = @(num.intValue + 1);
         }
-        [[JMGameManager sharedInstance] setDifficultyLevel:num];
+        currentDifficulty = [JMGameManager sharedInstance].difficulties[num.intValue];
+        if ([currentDifficulty isEqualToString:[JMGameManager sharedInstance].currentDifficulty]) {
+            menuTitles = @[@"quit game", @"restart", @"difficulty"];
+        } else {
+            menuTitles = @[@"quit game", @"start", @"difficulty"];
+        }
         [self.tableView reloadData];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
     }
+    //currentDifficulty = [JMGameManager sharedInstance].difficulties[indexPath.row];
 }
 
 /*

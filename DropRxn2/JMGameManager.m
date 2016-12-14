@@ -7,6 +7,7 @@
 //
 
 #import "JMGameManager.h"
+#import "JMPersistenceManager.h"
 
 @interface JMGameManager ()
 
@@ -19,8 +20,11 @@
 @implementation JMGameManager
 
 -(void)setDifficultyLevel:(NSNumber *)difficultyLevel {
-    if (difficultyLevel.intValue < 0 || difficultyLevel.intValue > 4) return;
+    if (difficultyLevel.intValue < 0 || difficultyLevel.intValue > self.difficulties.count) return;
     _difficultyLevel = difficultyLevel;
+    _currentDifficulty = self.difficulties[difficultyLevel.integerValue];
+    _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:_currentDifficulty];
+    _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:_currentDifficulty];
 }
 
 -(NSNumber *)getDifficultyLevel {
@@ -44,19 +48,73 @@
 -(id)init {
     if (self = [super init]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameOverNotification] object:nil];
+        self.difficulties = @[@"easy", @"less easy", @"harder", @"more harder", @"insane"];
+        self.currentDifficulty = @"easy";
+        [self loadHighScores];
     }
     return self;
+}
+
+-(void)loadHighScores {
+    NSDictionary *dict = [[JMPersistenceManager sharedInstance] getState];
+    if (dict) {
+        self.highScores = [dict mutableCopy];
+    } else {
+        self.highScores = [@{@"easy": @{@"score": @0, @"chains": @0},
+                             @"less easy": @{@"score": @0, @"chains": @0},
+                             @"harder": @{@"score": @0, @"chains": @0},
+                             @"more harder": @{@"score": @0, @"chains": @0},
+                             @"insane": @{@"score": @0, @"chains": @0}} mutableCopy];
+    }
 }
 
 -(void)handleNotification:(NSNotification *)notification {
     [self.activeGameController handleGameOver];
 }
 
+-(NSNumber *)getBestChainCount {
+    if (!_bestChainCount) {
+        _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:_currentDifficulty];
+    }
+    return _bestChainCount;
+}
+
+-(NSNumber *)getHighScore {
+    
+    if (!_highscoreForCurrentDifficultyLevel) {
+        _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:_currentDifficulty];
+    }
+    return _highscoreForCurrentDifficultyLevel;
+}
+
+-(void)incrementChainCount {
+    self.chainCount++;
+    if (_chainCount >= _bestChainCount.integerValue) {
+        _bestChainCount = @(_chainCount);
+        NSMutableDictionary *dict = [self.highScores mutableCopy];
+        NSDictionary *statsDict = dict[_currentDifficulty];
+        NSDictionary *targetDict = @{@"score": statsDict[@"score"], @"chains":_bestChainCount};
+        dict[_currentDifficulty] = targetDict;
+        self.highScores = dict;
+        [[JMPersistenceManager sharedInstance] saveState];
+    }
+}
+
 -(void)setCurrentScore:(NSNumber *)currentScore {
-    NSInteger score = _currentScore.integerValue;
-    score += currentScore.integerValue;
+    if (currentScore.intValue==0) return;
+    long score = _currentScore.intValue;
+    score += currentScore.longValue;
     _currentScore = @(score);
-    if (self.highScore.integerValue < currentScore.integerValue) self.highScore = currentScore;
+    long highscore = [self getHighScore].longValue;
+    if (highscore <= score) {
+        self.highscoreForCurrentDifficultyLevel = _currentScore;
+        NSMutableDictionary *dict = [self.highScores mutableCopy];
+        NSDictionary *statsDict = dict[_currentDifficulty];
+        NSDictionary *targetDict = @{@"score": _highscoreForCurrentDifficultyLevel, @"chains": statsDict[@"chains"]};
+        dict[_currentDifficulty] = targetDict;
+        self.highScores = dict;
+        [[JMPersistenceManager sharedInstance] saveState];
+    }
     NSLog(@"in set score");
     if (![JMAnimationManager sharedInstance].shouldEndNow) [self.activeGameController scoreUpdated];
 }
@@ -89,7 +147,7 @@
     if (num >= 6) tierMultiplier++;
     if (num >= 9) tierMultiplier++;
     NSNumber *score = @(((7*num*num)+(7*num))*tierMultiplier);
-    [self setCurrentScore:score];
+    //[self setCurrentScore:score];
     NSLog(@"after score updated");
     //dispatch_async(dispatch_get_main_queue(), ^{
     //[[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers currentScoreUpdateNotification] object:nil];
