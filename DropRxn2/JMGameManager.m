@@ -100,8 +100,14 @@
     }
 }
 
+-(void)updateLevel:(NSNumber *)level {
+    if (!self.demoModeEnabled) [self.activeGameController updateLevel:level];
+    [self setCurrentScore:@10000];
+}
+
 -(void)setCurrentScore:(NSNumber *)currentScore {
     if (currentScore.intValue==0) return;
+    if (_chainCount > 0 && ![currentScore isEqualToNumber:@10000]) [self.activeGameController gotBestChain:@(_chainCount)];
     long score = _currentScore.intValue;
     score += currentScore.longValue;
     _currentScore = @(score);

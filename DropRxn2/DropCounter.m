@@ -13,6 +13,7 @@
 {
     NSArray *drops;
     NSNumber *decMod;
+    NSNumber *level;
 }
 
 @end
@@ -28,6 +29,7 @@
         } else {
             _currentDrop = [self totalDrops].integerValue;
         }
+        level = @1;
         [self addDropsForRadius:frame.size.height];
     }
     return self;
@@ -61,6 +63,8 @@
 
 -(void)decrementCurrentDrop {
     if (_currentDrop==0) {
+        level = @(level.intValue+1);
+        [[JMGameManager sharedInstance] updateLevel:level];
         [self removeADrop];
         [self resetDrops];
         [self setNeedsDisplay];

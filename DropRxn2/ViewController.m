@@ -9,13 +9,16 @@
 #import "SWRevealViewController.h"
 #import "UIView+RZViewActions.h"
 
-@interface ViewController ()
+@interface ViewController () <SWRevealViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UIImageView *gameOverImageView;
 @property (nonatomic, strong) UIView *scoreboardView;
 @property (nonatomic, strong) UILabel *mainScoreLabel;
 @property (nonatomic, strong) UILabel *bestScoreLabel;
 @property (nonatomic, strong) UILabel *mostChainsLabel;
+@property (nonatomic, strong) UILabel *currentChainCountLabel;
+@property (nonatomic, strong) UILabel *levelUpLabel;
+
 
 @end
 
@@ -61,11 +64,26 @@
     SWRevealViewController *revealViewController = self.revealViewController;
         if ( revealViewController )
         {
+            revealViewController.delegate = self;
     //        //[self.sidebarButton setTarget: self.revealViewController];
     //        //[self.sidebarButton setAction: @selector( revealToggle: )];
             [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
         }
     
+}
+
+-(void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position {
+    NSLog(@"will move to position");
+    switch (position) {
+        case FrontViewPositionRight:
+            self.gameView.userInteractionEnabled = NO;
+            break;
+        case FrontViewPositionLeft:
+            self.gameView.userInteractionEnabled = YES;
+            break;
+        default:
+            break;
+    }
 }
 
 -(void)handleGameOver {
@@ -120,6 +138,41 @@
     NSString *mostChainsStr = [NSString stringWithFormat:@"rxn: 0x0%@", bestChainString];
     self.mostChainsLabel.text = mostChainsStr;
     [self.scoreboardView addSubview:self.mostChainsLabel];
+    
+    self.currentChainCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.scoreboardView.frame)+12.5, CGRectGetWidth(self.view.frame)-60, 50)];
+    self.currentChainCountLabel.backgroundColor = [UIColor clearColor];
+    self.currentChainCountLabel.textAlignment = NSTextAlignmentCenter;
+    self.currentChainCountLabel.text = @"rxn: 0x02";
+    [self.currentChainCountLabel setTextColor:[JMHelpers jmRedColor]];
+    self.currentChainCountLabel.alpha = 0.0;
+    [self.currentChainCountLabel setFont:[UIFont fontWithName:@"RepublikaII" size:40]];
+    if (![self.view.subviews containsObject:self.currentChainCountLabel]) [self.view addSubview:self.currentChainCountLabel];
+    
+    self.levelUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.currentChainCountLabel.frame)+10, CGRectGetWidth(self.view.frame)-60, 50)];
+    self.levelUpLabel.backgroundColor = [UIColor clearColor];
+    self.levelUpLabel.textAlignment = NSTextAlignmentCenter;
+    self.levelUpLabel.text = @"LEVEL UP!";
+    [self.levelUpLabel setTextColor:[JMHelpers jmDarkOrangeColor]];
+    self.levelUpLabel.alpha = 0.0;
+    [self.levelUpLabel setFont:[UIFont fontWithName:@"RepublikaII" size:40]];
+    if (![self.view.subviews containsObject:self.levelUpLabel]) [self.view addSubview:self.levelUpLabel];
+
+    
+}
+
+-(void)gotBestChain:(NSNumber *)chainCount {
+    NSString *str = [NSString stringWithFormat:@"rxn: 0x0%@", chainCount.stringValue];
+    self.currentChainCountLabel.text = str;
+    RZViewAction *unfadeAction = [RZViewAction action:^{
+        self.currentChainCountLabel.alpha = 0.75;
+    } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+    RZViewAction *wait = [RZViewAction waitForDuration:0.5];
+    RZViewAction *fadeAction = [RZViewAction action:^{
+        self.currentChainCountLabel.alpha = 0.0;
+    } withOptions:UIViewAnimationOptionCurveEaseOut duration:0.5];
+    [UIView rz_runAction:[RZViewAction sequence:@[unfadeAction, fadeAction]]];
+    
+    //self.currentChainCountLabel.alpha = 1;
 }
 
 -(void)scoreUpdated {
@@ -139,6 +192,20 @@
     self.mostChainsLabel.text = mostChainsStr;
 }
 
+-(void)updateLevel:(NSNumber *)level {
+    NSString *text = [NSString stringWithFormat:@"LVL: 0x%02d", level.intValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lvlLabel2.text = text;
+        RZViewAction *unfadeAction = [RZViewAction action:^{
+            self.levelUpLabel.alpha = 0.75;
+        } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+        RZViewAction *wait = [RZViewAction waitForDuration:0.5];
+        RZViewAction *fadeAction = [RZViewAction action:^{
+            self.levelUpLabel.alpha = 0.0;
+        } withOptions:UIViewAnimationOptionCurveEaseOut duration:0.5];
+        [UIView rz_runAction:[RZViewAction sequence:@[unfadeAction, wait, fadeAction]]];
+    });
+}
 
 
 -(void)handleNotification:(NSNotification *)notification {

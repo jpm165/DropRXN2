@@ -43,5 +43,6 @@ typedef void (^completion)(BOOL finished);
 -(NSNumber *)getHighScore;
 -(void)incrementChainCount;
 -(NSNumber *)getBestChainCount;
+-(void)updateLevel:(NSNumber *)level;
 
 @end

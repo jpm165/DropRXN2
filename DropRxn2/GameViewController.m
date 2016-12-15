@@ -13,7 +13,6 @@
 
 {
     Circle *nextBall;
-    DropCounter *dc;
 }
 
 
@@ -59,6 +58,10 @@
     
 }
 
+-(void)gotBestChain:(NSNumber *)chainCount {
+    
+}
+
 
 -(void)addNextBall {
     CGFloat circleRadius = [JMHelpers circleRadius];
@@ -87,12 +90,25 @@
     [self.view addSubview:dc];
     [JMGameManager sharedInstance].dropCounter = dc;
     if (![JMGameManager sharedInstance].demoModeEnabled) [dc resetDrops];
+    
+    NSString *text = @"LVL: 0x01";
+    CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16 weight:UIFontWeightMedium]}];
+    self.lvlLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(dc.frame), CGRectGetMaxY(dc.frame)+3, CGRectGetWidth(self.view.bounds), textSize.height)];
+    self.lvlLabel2.textColor = [JMHelpers jmDarkOrangeColor];
+    self.lvlLabel2.backgroundColor = [UIColor clearColor];
+    [self.lvlLabel2 setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightMedium]];
+    self.lvlLabel2.text = text;
+    self.lvlLabel2.opaque = NO;
+    if (![self.view.subviews containsObject:self.lvlLabel2]) [self.view addSubview:self.lvlLabel2];
 }
 
 -(void)removeDropCounter {
     [dc removeFromSuperview];
     [JMGameManager sharedInstance].dropCounter = nil;
     dc = nil;
+    
+    [self.lvlLabel2 removeFromSuperview];
+    self.lvlLabel2 = nil;
 }
 
 @end

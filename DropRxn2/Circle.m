@@ -8,6 +8,7 @@
 
 #import "Circle.h"
 #import "UIView+RZViewActions.h"
+#import "JMHelpers.h"
 
 @interface Circle ()
 
@@ -17,6 +18,7 @@
     UIColor *defaultFillColor;
     CGRect numberRect;
     NSDictionary *textAttributes;
+    BOOL shouldDrawNumber;
 }
 
 @property (nonatomic, strong) UIColor *fillColor;
@@ -38,6 +40,7 @@
         textAttributes = [JMHelpers textAttributesWithFontSize:24];
         self.userInteractionEnabled = NO;
         [self setTranslatesAutoresizingMaskIntoConstraints:YES];
+        shouldDrawNumber = YES;
     }
     return self;
 }
@@ -63,7 +66,10 @@
         self.frame = oldframe;
     } withDuration:0.1];
     
+    
     return [RZViewAction sequence:@[pulseUp, pulseDown]];
+    
+    
 //    [UIView rz_runAction:[RZViewAction sequence:@[pulseUp, pulseDown]] withCompletion:^(BOOL finished) {
 //        if (finished) {
 //            [self setNumber:number];
@@ -77,6 +83,11 @@
     NSArray *colors = [JMHelpers allColors];
     
     _fillColor = (number.integerValue<colors.count) ? colors[number.integerValue] : colors[0];
+    if (number.intValue > [JMHelpers numballs].intValue) {
+        shouldDrawNumber = NO;
+    } else {
+        shouldDrawNumber = YES;
+    }
     [self setNeedsDisplay];
 }
 
@@ -91,7 +102,7 @@
     [circlePath fill];
     
     //draw the number
-    [self.number.stringValue drawInRect:numberRect withAttributes:textAttributes];
+    if (shouldDrawNumber) [self.number.stringValue drawInRect:numberRect withAttributes:textAttributes];
 }
 
 

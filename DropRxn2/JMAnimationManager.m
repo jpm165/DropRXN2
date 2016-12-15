@@ -40,23 +40,25 @@
 /*
  -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
  -clean up if statements in handlematches and move all reset-ables to jmGameManager
- -SWRevealViewController menu (mode)
- -SWRevealViewController menu (directions)?
- -count chains - display after matches handled
+ -SWRevealViewController menu (modes, tutorial, help, about)
+ -Settings bundle to reset scores
+ -powerup mode
+ -powerups
+ -SWRevealViewController menu (contextual directions)?
  -longest chain per mode
  -best score per mode
  -tweak animations
- -change 8's and 9's to not display number, pick different way to convey
+ -pick different way to convey 8's & 9's??
  -music
  -animate add row?
  -balancing: look into changing probability of certain values coming up as rows get higher
  -ads
  -in app purchase to remove adds
- -powerup mode
- -powerups
  -make a "GO" animation when user staets a new game?
  -set breakpoints at isAnimating=NO to find out why it's reverting to yes when the game is over. Also might set demoMode as soon as game ends in addrow as a workaround
- - score bonus and level up animation when level increases
+ - stats view after game over??
+ - what happens when app goes to background? currently it kills the game
+ - icon and art
  */
 
 -(void)addRow {
@@ -367,11 +369,12 @@
                         bs++;
                         scoreAccumulator += [[JMGameManager sharedInstance] calculateNumberWithMultiplier:@([[JMGameManager sharedInstance] chainCount])].integerValue;
                         //[[JMGameManager sharedInstance] setCurrentScore:[[JMGameManager sharedInstance] calculateNumberWithMultiplier:@([[JMGameManager sharedInstance] chainCount])]];
+                        
                     }
                 }
                 self.isAnimating = NO;
                 [self cleanBalls];
-                [[JMGameManager sharedInstance] incrementChainCount];
+                if (![JMGameManager sharedInstance].demoModeEnabled) [[JMGameManager sharedInstance] incrementChainCount];
                 
                 [self doDrops];
             }
@@ -394,7 +397,7 @@
         }
         self.isAnimating = NO;
         //otherwise return control to the user
-        [[JMGameManager sharedInstance] setCurrentScore:@(scoreAccumulator)];
+        if (![JMGameManager sharedInstance].demoModeEnabled) [[JMGameManager sharedInstance] setCurrentScore:@(scoreAccumulator)];
         scoreAccumulator = 0;
     }
     

@@ -34,8 +34,14 @@
     self.view.userInteractionEnabled = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedNotification:) name:[JMHelpers gameResetNotificationName] object:nil];
     self.navigationController.navigationBar.hidden = YES;
-    [self.btnNewGame setTranslatesAutoresizingMaskIntoConstraints:YES];
-    [self.logoImageView setTranslatesAutoresizingMaskIntoConstraints:YES];
+    self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"droprxnLogo_transparent"]];
+    self.logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.logoImageView];
+    self.btnNewGame = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.btnNewGame setTitle:@"new game" forState:UIControlStateNormal];
+    [self.btnNewGame.titleLabel setFont:[UIFont fontWithName:@"RepublikaII" size:20]];
+    [self.btnNewGame addTarget:self action:@selector(doNewGameSegue:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.btnNewGame];
     self.btnNewGame.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
     self.btnNewGame.layer.borderWidth = 1.0f;
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
@@ -90,18 +96,12 @@
     shouldNotDoAutoplay = NO;
     effectView.frame = self.view.frame;
     vibrancyView.frame = self.view.frame;
-    //[JMGameManager sharedInstance].demoModeEnabled = YES;
-    //[self removeDropCounter];
-    
-    if (![self.view.subviews containsObject:self.gameView]) {
-        [self.view addSubview:self.gameView];
-    }
+    if (![self.view.subviews containsObject:self.gameView]) [self.view addSubview:self.gameView];
     if (![self.view.subviews containsObject:effectView]) [self.view addSubview:effectView];
     [self.view bringSubviewToFront:effectView];
     [self.btnNewGame setTitleColor:[JMHelpers jmRedColor] forState:UIControlStateNormal];
     [self.btnNewGame setTitleColor:[JMHelpers jmTealColor] forState:UIControlStateHighlighted];
-    //[self.btnNewGame setFrame:CGRectMake(CGRectGetMidX(self.view.frame)-(33.5/2), 0, 187, 33.5)];
-    [self.view addSubview:_btnNewGame];
+    if (![self.view.subviews containsObject:self.btnNewGame]) [self.view addSubview:_btnNewGame];
     
     [self doLogo];
     [JMAnimationManager sharedInstance].shouldEndNow = NO;
@@ -112,9 +112,9 @@
     
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         if (finished) {
-            [self.gameView removeFromSuperview];
-            self.gameView = [JMGameManager sharedInstance].getGameView;
-            [self.view addSubview:self.gameView];
+            //[self.gameView removeFromSuperview];
+            //self.gameView = [JMGameManager sharedInstance].getGameView;
+            if (![self.view.subviews containsObject:self.gameView]) [self.view addSubview:self.gameView];
             [self doLogo];
             [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:2];
         }
@@ -123,6 +123,10 @@
 
 -(void)doLogo {
     NSLog(@"Do logo.");
+    self.logoImageView.frame = CGRectMake(0, -102, CGRectGetWidth(self.view.frame), 102);
+    self.btnNewGame.frame = CGRectMake(CGRectGetMidX(self.view.frame)-CGRectGetWidth(self.view.frame)/6, CGRectGetMaxY(self.view.frame), CGRectGetWidth(self.view.frame)/3, 33);
+    [self.view bringSubviewToFront:self.gameView];
+    [self.view bringSubviewToFront:effectView];
     [self.view bringSubviewToFront:self.logoImageView];
     [self.view bringSubviewToFront:self.btnNewGame];
     RZViewAction *wait = [RZViewAction waitForDuration:1.5];
@@ -172,10 +176,8 @@
 
 -(void)receivedNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:[JMHelpers gameResetNotificationName]]) {
-        //[JMGameManager sharedInstance].shouldEndNow = YES;
-        
-        [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
-            if (finished) {
+        //[[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
+            //if (finished) {
                 [JMGameManager sharedInstance].demoModeEnabled = YES;
                 [self.navigationController popViewControllerAnimated:YES];
                 [self.gameView removeFromSuperview];
@@ -183,10 +185,10 @@
                 [[JMGameManager sharedInstance].dropCounter resetDrops];
                 self.gameView = [JMGameManager sharedInstance].getGameView;
                 [self.view addSubview:self.gameView];
-                [self doLogo];
-                [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:5];
-            }
-        }];
+                //[self doLogo];
+                [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:3];
+            //}
+        //}];
         
     }
 }
