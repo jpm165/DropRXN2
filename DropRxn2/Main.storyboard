@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,18 +26,9 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dgameover_normal.png" translatesAutoresizingMaskIntoConstraints="NO" id="pHs-xX-hZD">
-                                <rect key="frame" x="0.0" y="-75" width="375" height="69"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <connections>
-                        <outlet property="gameOverImageView" destination="pHs-xX-hZD" id="dtf-Se-nfA"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -111,6 +103,62 @@
             </objects>
             <point key="canvasLocation" x="376.80000000000001" y="187.55622188905548"/>
         </scene>
+        <!--Power Up Popover Info And Select View Controller-->
+        <scene sceneID="lRO-SH-yk6">
+            <objects>
+                <viewController storyboardIdentifier="powerUpInfoPopover" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y6j-ee-74U" customClass="PowerUpPopoverInfoAndSelectViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZlP-k9-GTT"/>
+                        <viewControllerLayoutGuide type="bottom" id="nBB-dP-pRs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tWr-gv-o9S">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="29" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CAd-oU-7IY">
+                                <rect key="frame" x="16" y="13" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="Tcd-OF-MS8"/>
+                                    <constraint firstAttribute="width" constant="75" id="lEm-Mz-LuL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="RepublikaII" family="Republika II" pointSize="57"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QiS-Ca-yzz">
+                                <rect key="frame" x="99" y="13" width="260" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="149-fw-vct"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="RepublikaII" family="Republika II" pointSize="20"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="leading" secondItem="CAd-oU-7IY" secondAttribute="trailing" constant="8" id="5Gd-ct-HW6"/>
+                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="centerY" secondItem="tWr-gv-o9S" secondAttribute="centerY" id="B0Z-yl-UqS"/>
+                            <constraint firstItem="CAd-oU-7IY" firstAttribute="centerY" secondItem="tWr-gv-o9S" secondAttribute="centerY" id="Nbo-vw-yDZ"/>
+                            <constraint firstAttribute="trailing" secondItem="QiS-Ca-yzz" secondAttribute="trailing" constant="16" id="Zq7-PR-PO0"/>
+                            <constraint firstItem="CAd-oU-7IY" firstAttribute="leading" secondItem="tWr-gv-o9S" secondAttribute="leadingMargin" id="bIx-SU-emx"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="100"/>
+                    <connections>
+                        <outlet property="powerUpInfoLabel" destination="QiS-Ca-yzz" id="ogt-au-tnA"/>
+                        <outlet property="powerUpSymbol" destination="CAd-oU-7IY" id="izH-9e-eex"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lNd-h3-Mjw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1984.8" y="484.85757121439286"/>
+        </scene>
         <!--Game Over View Controller-->
         <scene sceneID="aNh-xQ-IfV">
             <objects>
@@ -139,7 +187,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4NO-qQ-ogu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MsJ-n7-SgE">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="MsJ-n7-SgE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -153,7 +201,4 @@
             <point key="canvasLocation" x="1269.5999999999999" y="1091.6041979010495"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="dgameover_normal.png" width="576" height="102"/>
-    </resources>
 </document>

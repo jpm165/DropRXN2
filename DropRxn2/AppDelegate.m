@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "JMPersistenceManager.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +18,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     return YES;
+}
+
+-(void)resetGameScoresAndStats {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *resetNum = [defaults valueForKey:@"scoreResetPreference"];
+    if (resetNum==nil) {
+        [defaults setValue:@(NO) forKey:@"scoreResetPreference"];
+    } else if (resetNum.boolValue==YES) {
+        [[JMPersistenceManager sharedInstance] resetState];
+        [defaults setValue:@(NO) forKey:@"scoreResetPreference"];
+    }
 }
 
 
@@ -40,6 +53,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self resetGameScoresAndStats];
 }
 
 

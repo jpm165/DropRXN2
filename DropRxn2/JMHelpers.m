@@ -206,4 +206,43 @@ static NSString *const currentScoreUpdated = @"currentScoreUpdatedNotif";
 +(NSNumber *)defaultDifficulty {
     return @(DEFAULTDIFFICULTY);
 }
+
++(NSString *)displayNameForGameMode:(GameMode)gameMode {
+    switch (gameMode) {
+        case kGameModeClassic:
+            return @"classic";
+            break;
+        case kGameModePower:
+            return @"power";
+            break;
+        case kGameModeTimeAttack:
+            return @"time-attack";
+        default:
+            break;
+    }
+    return nil;
+}
+
++(GameMode)gameModeForDisplayName:(NSString *)displayName {
+    if ([displayName isEqualToString:@"classic"]) return kGameModeClassic;
+    if ([displayName isEqualToString:@"power"]) return kGameModePower;
+    if ([displayName isEqualToString:@"time-attack"]) return kGameModeTimeAttack;
+    return kGameModeClassic;
+}
+
++(NSArray *)gameModes {
+    return @[@"classic", @"power", @"time-attack"];
+}
+
++(GameDifficulty)gameDifficultyForDisplayName:(NSString *)displayName {
+    return (GameDifficulty)[[self gameDifficulties] indexOfObject:displayName];
+}
+
++(NSString *)displayNameForGameDifficulty:(GameDifficulty)gameDifficulty {
+    return [self gameDifficulties][gameDifficulty];
+}
+
++(NSArray *)gameDifficulties {
+    return @[@"easy", @"less easy", @"harder", @"more harder", @"insane"];
+}
 @end

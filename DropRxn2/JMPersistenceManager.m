@@ -102,6 +102,15 @@
     return nil;
 }
 
+-(void)resetState {
+    NSString *fullPath = [[self class] pathForStateFile];
+    if ([[self class] fileExistsAtPath:fullPath]) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error];
+        if (error) NSLog(@"Error removing %@: %@", fullPath, error.localizedDescription);
+    }
+}
+
 -(void)saveState {
     NSDictionary *highscores = [JMGameManager sharedInstance].highScores;
     if (![NSPropertyListSerialization propertyList:highscores isValidForFormat:NSPropertyListXMLFormat_v1_0]) {

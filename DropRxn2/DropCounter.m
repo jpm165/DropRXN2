@@ -46,7 +46,7 @@
 
 -(NSNumber *)totalDrops {
     NSNumber *numDrops = @([JMHelpers numDrops]);
-    int difficultyModifiedNumdrops = numDrops.intValue - (5*[JMGameManager sharedInstance].difficultyLevel.intValue);
+    int difficultyModifiedNumdrops = numDrops.intValue - (5*[JMGameManager sharedInstance].currentDifficulty);
     int currentTotalDrops = difficultyModifiedNumdrops - decMod.intValue;
     return @(currentTotalDrops);
 }

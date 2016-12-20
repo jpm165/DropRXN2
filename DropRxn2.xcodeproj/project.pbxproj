@@ -33,6 +33,10 @@
 		D0490DE31DCCE8DE00B57263 /* REPUB2__.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0490DE21DCCE6F900B57263 /* REPUB2__.ttf */; };
 		D05404C81DC9274C00F356BF /* GridBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D05404C71DC9274C00F356BF /* GridBox.m */; };
 		D056A4281DCB76A4009A76CD /* JMGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D056A4271DCB76A4009A76CD /* JMGameManager.m */; };
+		D07EA5241E0836020084405D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D07EA5231E0836020084405D /* Settings.bundle */; };
+		D07EA5271E085B560084405D /* PowerUpSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = D07EA5261E085B560084405D /* PowerUpSelector.m */; };
+		D07EA52A1E0988110084405D /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = D07EA5291E0988110084405D /* PowerUp.m */; };
+		D07EA52D1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D07EA52C1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.m */; };
 		D0947B361DC58B31005904F5 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = D0947B351DC58B31005904F5 /* window.png */; };
 		D0A12FC31DCA41E30098B9DB /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A12FC21DCA41E30098B9DB /* GameViewController.m */; };
 		D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A12FC41DCA71840098B9DB /* droprxnlogo.png */; };
@@ -87,6 +91,13 @@
 		D05404C71DC9274C00F356BF /* GridBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridBox.m; sourceTree = "<group>"; };
 		D056A4261DCB76A4009A76CD /* JMGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMGameManager.h; sourceTree = "<group>"; };
 		D056A4271DCB76A4009A76CD /* JMGameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMGameManager.m; sourceTree = "<group>"; };
+		D07EA5231E0836020084405D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		D07EA5251E085B560084405D /* PowerUpSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUpSelector.h; sourceTree = "<group>"; };
+		D07EA5261E085B560084405D /* PowerUpSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUpSelector.m; sourceTree = "<group>"; };
+		D07EA5281E0988110084405D /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
+		D07EA5291E0988110084405D /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
+		D07EA52B1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUpPopoverInfoAndSelectViewController.h; sourceTree = "<group>"; };
+		D07EA52C1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUpPopoverInfoAndSelectViewController.m; sourceTree = "<group>"; };
 		D0947B351DC58B31005904F5 /* window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = window.png; sourceTree = "<group>"; };
 		D0A12FC11DCA41E30098B9DB /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		D0A12FC21DCA41E30098B9DB /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
@@ -134,31 +145,99 @@
 			isa = PBXGroup;
 			children = (
 				D010BFB31DC430D800CA2BE1 /* AppDelegate.h */,
-				D021730A1DCC28A800159C77 /* LeftNavMenuTableViewController.h */,
-				D021730B1DCC28A800159C77 /* LeftNavMenuTableViewController.m */,
 				D010BFB41DC430D800CA2BE1 /* AppDelegate.m */,
+				D010BFBD1DC430D800CA2BE1 /* JMHelpers.h */,
+				D010BFBE1DC430D800CA2BE1 /* JMHelpers.m */,
+				D07EA51E1E08350C0084405D /* Interface Objects */,
+				D07EA51F1E08353B0084405D /* Managers */,
+				D07EA5201E0835660084405D /* View Controllers */,
+				D07EA5211E0835790084405D /* 3rd Party */,
+				D07EA5221E0835880084405D /* images */,
+				D010BF9C1DC430A900CA2BE1 /* Supporting Files */,
+			);
+			path = DropRxn2;
+			sourceTree = "<group>";
+		};
+		D010BF9C1DC430A900CA2BE1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0B690DB1E02F09C0063378B /* Main.storyboard */,
+				D010BFA81DC430A900CA2BE1 /* Assets.xcassets */,
+				D010BFAA1DC430A900CA2BE1 /* LaunchScreen.storyboard */,
+				D010BFAD1DC430A900CA2BE1 /* Info.plist */,
+				D010BF9D1DC430A900CA2BE1 /* main.m */,
+				D07EA5231E0836020084405D /* Settings.bundle */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D07EA51E1E08350C0084405D /* Interface Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D021730D1DCC2B0100159C77 /* LeftNavMenuTableViewCell.h */,
+				D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */,
+				D017C3231DCCF5F70019E828 /* ScoreSprite.h */,
+				D017C3241DCCF5F70019E828 /* ScoreSprite.m */,
+				D05404C61DC9274C00F356BF /* GridBox.h */,
+				D05404C71DC9274C00F356BF /* GridBox.m */,
 				D010BFB51DC430D800CA2BE1 /* Circle.h */,
 				D010BFB61DC430D800CA2BE1 /* Circle.m */,
+				D07EA5281E0988110084405D /* PowerUp.h */,
+				D07EA5291E0988110084405D /* PowerUp.m */,
 				D010BFB71DC430D800CA2BE1 /* Column.h */,
 				D010BFB81DC430D800CA2BE1 /* Column.m */,
 				D010BFB91DC430D800CA2BE1 /* DropCounter.h */,
 				D010BFBA1DC430D800CA2BE1 /* DropCounter.m */,
+				D07EA5251E085B560084405D /* PowerUpSelector.h */,
+				D07EA5261E085B560084405D /* PowerUpSelector.m */,
+			);
+			name = "Interface Objects";
+			sourceTree = "<group>";
+		};
+		D07EA51F1E08353B0084405D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
 				D010BFBB1DC430D800CA2BE1 /* JMAnimationManager.h */,
 				D010BFBC1DC430D800CA2BE1 /* JMAnimationManager.m */,
-				D010BFBD1DC430D800CA2BE1 /* JMHelpers.h */,
-				D010BFBE1DC430D800CA2BE1 /* JMHelpers.m */,
-				D010BFBF1DC430D800CA2BE1 /* UIView+RZViewActions.h */,
-				D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */,
+				D056A4261DCB76A4009A76CD /* JMGameManager.h */,
+				D056A4271DCB76A4009A76CD /* JMGameManager.m */,
+				D0B690D81E01C9800063378B /* JMPersistenceManager.h */,
+				D0B690D91E01C9800063378B /* JMPersistenceManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		D07EA5201E0835660084405D /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D021730A1DCC28A800159C77 /* LeftNavMenuTableViewController.h */,
+				D021730B1DCC28A800159C77 /* LeftNavMenuTableViewController.m */,
 				D010BFC11DC430D800CA2BE1 /* ViewController.h */,
 				D010BFC21DC430D800CA2BE1 /* ViewController.m */,
 				D0A12FC11DCA41E30098B9DB /* GameViewController.h */,
 				D0A12FC21DCA41E30098B9DB /* GameViewController.m */,
-				D056A4261DCB76A4009A76CD /* JMGameManager.h */,
-				D056A4271DCB76A4009A76CD /* JMGameManager.m */,
 				D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */,
 				D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */,
+				D07EA52B1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.h */,
+				D07EA52C1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D07EA5211E0835790084405D /* 3rd Party */ = {
+			isa = PBXGroup;
+			children = (
+				D010BFBF1DC430D800CA2BE1 /* UIView+RZViewActions.h */,
+				D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */,
 				D0D4F6C01DCBD2B70029CEA2 /* SWRevealViewController.h */,
 				D0D4F6C11DCBD2B70029CEA2 /* SWRevealViewController.m */,
+			);
+			name = "3rd Party";
+			sourceTree = "<group>";
+		};
+		D07EA5221E0835880084405D /* images */ = {
+			isa = PBXGroup;
+			children = (
 				D0490DDA1DCCCB3900B57263 /* dgameover_blue.png */,
 				D0490DDB1DCCCB3900B57263 /* dgameover_green.png */,
 				D0490DDC1DCCCB3900B57263 /* dgameover_normal.png */,
@@ -172,29 +251,8 @@
 				D0A12FC41DCA71840098B9DB /* droprxnlogo.png */,
 				D0490DE21DCCE6F900B57263 /* REPUB2__.ttf */,
 				D0A12FC81DCA79000098B9DB /* newgameTransparent.png */,
-				D017C3231DCCF5F70019E828 /* ScoreSprite.h */,
-				D017C3241DCCF5F70019E828 /* ScoreSprite.m */,
-				D0B690DB1E02F09C0063378B /* Main.storyboard */,
-				D010BFA81DC430A900CA2BE1 /* Assets.xcassets */,
-				D010BFAA1DC430A900CA2BE1 /* LaunchScreen.storyboard */,
-				D010BFAD1DC430A900CA2BE1 /* Info.plist */,
-				D010BF9C1DC430A900CA2BE1 /* Supporting Files */,
-				D05404C61DC9274C00F356BF /* GridBox.h */,
-				D05404C71DC9274C00F356BF /* GridBox.m */,
-				D021730D1DCC2B0100159C77 /* LeftNavMenuTableViewCell.h */,
-				D021730E1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m */,
-				D0B690D81E01C9800063378B /* JMPersistenceManager.h */,
-				D0B690D91E01C9800063378B /* JMPersistenceManager.m */,
 			);
-			path = DropRxn2;
-			sourceTree = "<group>";
-		};
-		D010BF9C1DC430A900CA2BE1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				D010BF9D1DC430A900CA2BE1 /* main.m */,
-			);
-			name = "Supporting Files";
+			name = images;
 			sourceTree = "<group>";
 		};
 		D0CC22ED1DCD834F0059A641 /* Frameworks */ = {
@@ -231,7 +289,7 @@
 		D010BF911DC430A900CA2BE1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "James Mundie";
 				TargetAttributes = {
 					D010BF981DC430A900CA2BE1 = {
@@ -263,6 +321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07EA5241E0836020084405D /* Settings.bundle in Resources */,
 				D02173071DCC281B00159C77 /* quit_game_highlighted.png in Resources */,
 				D0490DDF1DCCCB3900B57263 /* dgameover_green.png in Resources */,
 				D0490DE11DCCCB3900B57263 /* dgameover_orange.png in Resources */,
@@ -298,7 +357,9 @@
 				D0A12FC31DCA41E30098B9DB /* GameViewController.m in Sources */,
 				D010BFC31DC430D800CA2BE1 /* AppDelegate.m in Sources */,
 				D0D4F6C21DCBD2B70029CEA2 /* SWRevealViewController.m in Sources */,
+				D07EA5271E085B560084405D /* PowerUpSelector.m in Sources */,
 				D010BFC61DC430D800CA2BE1 /* DropCounter.m in Sources */,
+				D07EA52D1E0993120084405D /* PowerUpPopoverInfoAndSelectViewController.m in Sources */,
 				D021730C1DCC28A800159C77 /* LeftNavMenuTableViewController.m in Sources */,
 				D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */,
 				D010BF9E1DC430A900CA2BE1 /* main.m in Sources */,
@@ -306,6 +367,7 @@
 				D021730F1DCC2B0100159C77 /* LeftNavMenuTableViewCell.m in Sources */,
 				D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */,
 				D0B690DA1E01C9800063378B /* JMPersistenceManager.m in Sources */,
+				D07EA52A1E0988110084405D /* PowerUp.m in Sources */,
 				D010BFC71DC430D800CA2BE1 /* JMAnimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,8 +400,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -383,8 +447,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

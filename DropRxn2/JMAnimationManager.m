@@ -38,12 +38,36 @@
 
 //TODO
 /*
- -Still need to work on game loop and resetting. Still not totally resetting game when reset is called. MAybe try posting a reset nitification in reset and remove the animations in that handler. or maybe try decoupling the setup in new game view and demo game view. Just load them separately. I think this is stopping the animations now... now I just need to stop the score from updating...
  -clean up if statements in handlematches and move all reset-ables to jmGameManager
  -SWRevealViewController menu (modes, tutorial, help, about)
- -Settings bundle to reset scores
+ -time attack mode
  -powerup mode
+    -start/restart in left nav configures and starts game with mode and difficulty
+    -game view slides over, "Select 3 Power-ups" is displayed, userinteraction disabled
+    -choose 1 or more powerups
+        -label directions to select (3? (decrements as powerups selected))
+        -touching powerup pops up label to describe what powerup does (turnoffable in settings?)
+        -red, green, and blue powerups to match meter bars
+        -selection is permananent for game
+        -certain combinations of powerups preclude others??
+        -powerup changes color when selected, deselected, and unavailable (or the rest disappear when unavailable)
+        -when game mode start touching powerup activates for use if available
+        -issue - go label text not being replaced in startPowerMode
+        -when starting classic after power mode need to remove powerup selector and reset
+    -powerup meter appears somewhere
+    -powerups unavailable until meter fills
+    -scores and chains are retrieved and recorded per mode AND difficulty
  -powerups
+    do next-remove all of a certain color/number (determined by nextball?) - symbol: X!
+    do next-decrement all greys - V
+    do next-decrement all numbers - VV
+    do next-increment all numbers AA
+    -increase rate of meter fill M
+    -increase points by x% - $
+    -invert the board (All balls swap places as if their cloumn was turned upside down)
+    -rotate the board 90 degrees (might be too difficult)
+    -explode 1 ball and all adjacent +
+    -explode 1 ball and all adjacent incl corners *
  -SWRevealViewController menu (contextual directions)?
  -longest chain per mode
  -best score per mode
@@ -54,11 +78,12 @@
  -balancing: look into changing probability of certain values coming up as rows get higher
  -ads
  -in app purchase to remove adds
- -make a "GO" animation when user staets a new game?
- -set breakpoints at isAnimating=NO to find out why it's reverting to yes when the game is over. Also might set demoMode as soon as game ends in addrow as a workaround
  - stats view after game over??
  - what happens when app goes to background? currently it kills the game
  - icon and art
+    -startup logo
+ -night color scheme
+ -transparent logo on game vc where logo is on nav
  */
 
 -(void)addRow {

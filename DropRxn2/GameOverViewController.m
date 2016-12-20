@@ -185,7 +185,7 @@
                 [[JMGameManager sharedInstance].dropCounter resetDrops];
                 self.gameView = [JMGameManager sharedInstance].getGameView;
                 [self.view addSubview:self.gameView];
-                //[self doLogo];
+                [self doLogo];
                 [self performSelector:@selector(doAutoplay) withObject:nil afterDelay:3];
             //}
         //}];

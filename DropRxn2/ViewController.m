@@ -8,34 +8,111 @@
 #import "ViewController.h"
 #import "SWRevealViewController.h"
 #import "UIView+RZViewActions.h"
+#import "JMHelpers.h"
+#import "PowerUpSelector.h"
+#import "PowerUp.h"
+#import "PowerUpPopoverInfoAndSelectViewController.h"
 
-@interface ViewController () <SWRevealViewControllerDelegate>
 
-@property (nonatomic, strong) IBOutlet UIImageView *gameOverImageView;
+
+@interface ViewController () <SWRevealViewControllerDelegate, UIPopoverPresentationControllerDelegate>
+
+@property (nonatomic, strong) UIImageView *gameOverImageView;
 @property (nonatomic, strong) UIView *scoreboardView;
 @property (nonatomic, strong) UILabel *mainScoreLabel;
 @property (nonatomic, strong) UILabel *bestScoreLabel;
 @property (nonatomic, strong) UILabel *mostChainsLabel;
 @property (nonatomic, strong) UILabel *currentChainCountLabel;
 @property (nonatomic, strong) UILabel *levelUpLabel;
+@property (nonatomic, strong) UILabel *goLabel;
+
+
+@property (nonatomic, strong) PowerUpSelector *powerUpSelector;
 
 
 @end
 
 @implementation ViewController
 
+-(void)isSelected:(id)sender {
+    PowerUp *p = (PowerUp *)sender;
+    PowerUpPopoverInfoAndSelectViewController *pupiasvc = [self.storyboard instantiateViewControllerWithIdentifier:@"powerUpInfoPopover"];
+    pupiasvc.modalPresentationStyle = UIModalPresentationPopover;
+    pupiasvc.popoverPresentationController.delegate = self;
+    pupiasvc.powerUp = p;
+    pupiasvc.popoverPresentationController.sourceView = p;
+    pupiasvc.popoverPresentationController.sourceRect = p.bounds;
+    pupiasvc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    [self presentViewController:pupiasvc animated:YES completion:nil];
+}
+
+-(void)isDelselected:(id)sender {
+    
+}
+
 -(void)viewDidLoad {
     [super viewDidLoad];
     [JMAnimationManager sharedInstance].shouldEndNow = YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameRestartNotification] object:nil];
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
         [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
-    [self restart];
+    [self changeMode:kGameModeClassic];
+    
+}
+
+-(void)doPopoverWithContent:(UIViewController *)content {
+    
+}
+
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
+}
+
+-(void)addPowerUpChooser {
+    //self.powerUpSelector = [[PowerUpSelector alloc] initWithFrame:CGRectMake(, CGRectGetMaxY(self.lvlLabel2.frame)+3, CGRectGetWidth(), ];
+    CGFloat remainingSpace = CGRectGetMaxY(self.view.frame) - CGRectGetMaxY(self.lvlLabel2.frame) - 40;
+    CGFloat myHeight = ([JMHelpers circleRadius]+10>remainingSpace) ? [JMHelpers circleRadius]+10 : remainingSpace;
+    CGRect powerUpChooserFrame = CGRectMake(CGRectGetMinX(self.scoreboardView.frame), CGRectGetMaxY(self.lvlLabel2.frame)+3, CGRectGetWidth(self.scoreboardView.frame), myHeight);
+    self.powerUpSelector = [[PowerUpSelector alloc] initWithFrame:powerUpChooserFrame];
+    self.powerUpSelector.backgroundColor = [UIColor clearColor];
+    self.powerUpSelector.layer.borderColor = [JMHelpers ghostWhiteColorWithAlpha:@1].CGColor;
+    self.powerUpSelector.layer.borderWidth = 1.0;
+    self.powerUpSelector.layer.cornerRadius = 5.0;
+    [self.view addSubview:self.powerUpSelector];
+}
+
+-(void)removePowerUpChooser {
+    
+}
+
+-(void)startPowerMode {
+    RZViewAction *fadeAction = [RZViewAction action:^{
+        self.goLabel.alpha = 0;
+    } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+    [UIView rz_runAction:[RZViewAction sequence:@[fadeAction]] withCompletion:^(BOOL finished) {
+        if (finished) [self doGoLabel];
+    }];
+}
+
+-(void)changeMode:(GameMode)gameMode {
     self.mainScoreLabel.hidden = YES;
+    [self restart];
+    switch (gameMode) {
+        case kGameModePower:
+            [self addPowerUpChooser];
+            self.gameView.userInteractionEnabled = NO;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 -(void)doGameOver {
     self.view.userInteractionEnabled = NO;
+    self.gameOverImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dgameover_normal"]];
+    if (![self.view.subviews containsObject:self.gameOverImageView]) [self.view addSubview:self.gameOverImageView];
+    self.gameOverImageView.frame = CGRectMake(0, -102, CGRectGetWidth(self.view.frame), 102);
+    self.gameOverImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.gameOverImageView.hidden = NO;
     [self.view bringSubviewToFront:self.gameOverImageView];
     RZViewAction *wait = [RZViewAction waitForDuration:0.75];
@@ -59,6 +136,76 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:[JMHelpers gameResetNotificationName] object:nil];
 }
 
+-(void)chooseLabel {
+    if ([JMGameManager sharedInstance].currentGameMode==kGameModePower) {
+        [self doSelectPowerUpLabel];
+    } else {
+        [self doGoLabel];
+    }
+}
+
+-(void)doLabelWithMessage:(NSString *)message size:(CGFloat)size {
+    
+    CGSize labelTextSize = [message sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"RepublikaII" size:size]}];
+    CGRect boundingBox = [message boundingRectWithSize:CGSizeMake(self.view.bounds.size.width-100, 500) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"RepublikaII" size:size]} context:nil];
+    [self.goLabel removeFromSuperview];
+    self.goLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame)-boundingBox.size.width/2, CGRectGetMidY(self.view.frame)-boundingBox.size.height/2, boundingBox.size.width, boundingBox.size.height)];
+    self.goLabel.text = message;
+    self.goLabel.textAlignment = NSTextAlignmentCenter;
+    [self.goLabel setFont:[UIFont fontWithName:@"RepublikaII" size:size]];
+    self.goLabel.textColor = [JMHelpers jmRedColor];
+    self.goLabel.alpha = 0.0;
+    self.goLabel.numberOfLines = 0;
+    self.goLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    if (![self.view.subviews containsObject:self.goLabel]) [self.view addSubview:self.goLabel];
+    [self.view bringSubviewToFront:self.goLabel];
+}
+
+-(void)addedPowerUp {
+    NSLog(@"Added powerup");
+    RZViewAction *fadeAction = [RZViewAction action:^{
+        self.goLabel.alpha = 0;
+    } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+    [UIView rz_runAction:[RZViewAction sequence:@[fadeAction]] withCompletion:^(BOOL finished) {
+        if (finished) [self doSelectPowerUpLabel];
+    }];
+    
+}
+
+-(void)doSelectPowerUpLabel {
+    if (self.isGameOver) return;
+    NSString *message = [NSString stringWithFormat:@"Select %lu Power-ups Below...", 3-[JMGameManager sharedInstance].selectedPowerups.count];
+    [self doLabelWithMessage:message size:30];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        RZViewAction *unfadeAction = [RZViewAction action:^{
+            self.goLabel.alpha = 0.75;
+        } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+        [UIView rz_runAction:[RZViewAction sequence:@[unfadeAction]] withCompletion:^(BOOL finished) {
+            if (finished) self.gameView.userInteractionEnabled = NO;
+        }];
+    });
+}
+
+-(void)doGoLabel {
+    if (self.isGameOver) return;
+    [self doLabelWithMessage:@"GO!" size:80];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        RZViewAction *unfadeAction = [RZViewAction action:^{
+            self.goLabel.alpha = 0.75;
+        } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
+        RZViewAction *wait = [RZViewAction waitForDuration:0.5];
+        RZViewAction *fadeAction = [RZViewAction action:^{
+            self.goLabel.alpha = 0.0;
+        } withOptions:UIViewAnimationOptionCurveEaseOut duration:0.5];
+        [UIView rz_runAction:[RZViewAction sequence:@[unfadeAction, wait, fadeAction]] withCompletion:^(BOOL finished) {
+            if (finished) self.gameView.userInteractionEnabled = YES;
+        }];
+    });
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     SWRevealViewController *revealViewController = self.revealViewController;
@@ -79,7 +226,8 @@
             self.gameView.userInteractionEnabled = NO;
             break;
         case FrontViewPositionLeft:
-            self.gameView.userInteractionEnabled = YES;
+            
+            [self chooseLabel];
             break;
         default:
             break;
@@ -124,7 +272,7 @@
     [self.bestScoreLabel setFont:[UIFont systemFontOfSize:25.0 weight:UIFontWeightThin]];
     [self.bestScoreLabel setTextAlignment:NSTextAlignmentRight];
     [self.bestScoreLabel setTextColor:[JMHelpers jmRedColor]];
-    NSString *best = [[JMGameManager sharedInstance] getHighScore].stringValue;
+    NSString *best = [NSNumberFormatter localizedStringFromNumber:[[JMGameManager sharedInstance] getHighScore] numberStyle:NSNumberFormatterDecimalStyle];
     self.bestScoreLabel.text = [NSString stringWithFormat:@"best: %@", best];
     [self.scoreboardView addSubview:self.bestScoreLabel];
     
@@ -166,7 +314,6 @@
     RZViewAction *unfadeAction = [RZViewAction action:^{
         self.currentChainCountLabel.alpha = 0.75;
     } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
-    RZViewAction *wait = [RZViewAction waitForDuration:0.5];
     RZViewAction *fadeAction = [RZViewAction action:^{
         self.currentChainCountLabel.alpha = 0.0;
     } withOptions:UIViewAnimationOptionCurveEaseOut duration:0.5];
@@ -208,18 +355,6 @@
 }
 
 
--(void)handleNotification:(NSNotification *)notification {
-    if ([notification.name isEqualToString:[JMHelpers gameRestartNotification]]) {
-        [self restart];
-        self.mainScoreLabel.text = @"score: 0";
-        self.mainScoreLabel.hidden = NO;
-        [JMAnimationManager sharedInstance].shouldEndNow = NO;
-    } else if ([notification.name isEqualToString:[JMHelpers gameOverNotification]]) {
-        
-    }
-}
-
-
 -(void)restart {
     [JMAnimationManager sharedInstance].shouldEndNow = YES;
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
@@ -230,6 +365,7 @@
             [self addDropCounter];
             [[JMGameManager sharedInstance].dropCounter resetDrops];
             [self resetScoreBoard];
+            [JMAnimationManager sharedInstance].shouldEndNow = NO;
         }
     }];
     

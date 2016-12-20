@@ -8,6 +8,8 @@
 
 #import "JMGameManager.h"
 #import "JMPersistenceManager.h"
+#import "PowerUp.h"
+
 
 @interface JMGameManager ()
 
@@ -19,17 +21,38 @@
 
 @implementation JMGameManager
 
--(void)setDifficultyLevel:(NSNumber *)difficultyLevel {
-    if (difficultyLevel.intValue < 0 || difficultyLevel.intValue > self.difficulties.count) return;
-    _difficultyLevel = difficultyLevel;
-    _currentDifficulty = self.difficulties[difficultyLevel.integerValue];
-    _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:_currentDifficulty];
-    _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:_currentDifficulty];
+-(void)setCurrentDifficulty:(GameDifficulty)currentDifficulty {
+    _currentDifficulty = currentDifficulty;
+    _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:[JMHelpers displayNameForGameDifficulty:currentDifficulty]];
+    _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:[JMHelpers displayNameForGameDifficulty:currentDifficulty]];
 }
 
--(NSNumber *)getDifficultyLevel {
-    if (!_difficultyLevel) return [JMHelpers defaultDifficulty];
-    return _difficultyLevel;
+-(void)initializePowerUps {
+    if (!self.selectedPowerups) self.selectedPowerups = [@[] mutableCopy];
+    [self.selectedPowerups removeAllObjects];
+}
+
+-(void)addPowerUp:(PowerUp *)powerUp {
+    if (![self.selectedPowerups containsObject:powerUp] && self.selectedPowerups.count < 3) {
+        [self.selectedPowerups addObject:powerUp];
+        [self.activeGameController addedPowerUp];
+        [self.activeGameController dismissViewControllerAnimated:YES completion:nil];
+    }
+    if (self.selectedPowerups.count==3) [self.activeGameController startPowerMode];
+}
+
+-(void)setCurrentGameMode:(GameMode)currentGameMode {
+    _currentGameMode = currentGameMode;
+    //TODO retrieve persistence info and display
+    switch (currentGameMode) {
+        case kGameModePower:
+            [self initializePowerUps];
+            break;
+            
+        default:
+            break;
+    }
+    NSLog(@"Current game mode set to %@.", [JMHelpers displayNameForGameMode:currentGameMode]);
 }
 
 +(instancetype)sharedInstance {
@@ -48,8 +71,8 @@
 -(id)init {
     if (self = [super init]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:[JMHelpers gameOverNotification] object:nil];
-        self.difficulties = @[@"easy", @"less easy", @"harder", @"more harder", @"insane"];
-        self.currentDifficulty = @"easy";
+        self.currentDifficulty = kDifficultyEasy;
+        self.currentGameMode = kGameModeClassic;
         [self loadHighScores];
     }
     return self;
@@ -74,7 +97,7 @@
 
 -(NSNumber *)getBestChainCount {
     if (!_bestChainCount) {
-        _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:_currentDifficulty];
+        _bestChainCount = [[JMPersistenceManager sharedInstance] getMostChainsForDifficultyLevel:[JMHelpers displayNameForGameDifficulty:_currentDifficulty]];
     }
     return _bestChainCount;
 }
@@ -82,7 +105,7 @@
 -(NSNumber *)getHighScore {
     
     if (!_highscoreForCurrentDifficultyLevel) {
-        _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:_currentDifficulty];
+        _highscoreForCurrentDifficultyLevel = [[JMPersistenceManager sharedInstance] getHighScoreForDifficultyLevel:[JMHelpers displayNameForGameDifficulty:_currentDifficulty]];
     }
     return _highscoreForCurrentDifficultyLevel;
 }
@@ -92,16 +115,18 @@
     if (_chainCount >= _bestChainCount.integerValue) {
         _bestChainCount = @(_chainCount);
         NSMutableDictionary *dict = [self.highScores mutableCopy];
-        NSDictionary *statsDict = dict[_currentDifficulty];
+        NSDictionary *statsDict = dict[[JMHelpers displayNameForGameDifficulty:_currentDifficulty]];
         NSDictionary *targetDict = @{@"score": statsDict[@"score"], @"chains":_bestChainCount};
-        dict[_currentDifficulty] = targetDict;
+        dict[[JMHelpers displayNameForGameDifficulty:_currentDifficulty]] = targetDict;
         self.highScores = dict;
         [[JMPersistenceManager sharedInstance] saveState];
     }
 }
 
 -(void)updateLevel:(NSNumber *)level {
-    if (!self.demoModeEnabled) [self.activeGameController updateLevel:level];
+    if (self.demoModeEnabled) return;
+    [self.activeGameController updateLevel:level];
+    if ([level isEqualToNumber:@1]) return;
     [self setCurrentScore:@10000];
 }
 
@@ -115,9 +140,9 @@
     if (highscore <= score) {
         self.highscoreForCurrentDifficultyLevel = _currentScore;
         NSMutableDictionary *dict = [self.highScores mutableCopy];
-        NSDictionary *statsDict = dict[_currentDifficulty];
+        NSDictionary *statsDict = dict[[JMHelpers displayNameForGameDifficulty:_currentDifficulty]];
         NSDictionary *targetDict = @{@"score": _highscoreForCurrentDifficultyLevel, @"chains": statsDict[@"chains"]};
-        dict[_currentDifficulty] = targetDict;
+        dict[[JMHelpers displayNameForGameDifficulty:_currentDifficulty]] = targetDict;
         self.highScores = dict;
         [[JMPersistenceManager sharedInstance] saveState];
     }

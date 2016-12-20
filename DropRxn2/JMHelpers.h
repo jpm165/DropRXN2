@@ -5,8 +5,29 @@
 //  Created by James Mundie on 10/24/16.
 //  Copyright © 2016 James Mundie. All rights reserved.
 //
-
 #import <Foundation/Foundation.h>
+
+typedef enum {
+    kGameModeClassic,
+    kGameModePower,
+    kGameModeTimeAttack
+} GameMode;
+
+typedef enum {
+    kDifficultyEasy,
+    kDifficultyLessEasy,
+    kDifficultyHarder,
+    kDifficultyMoreHarder,
+    kDifficultyInsane
+} GameDifficulty;
+
+typedef enum {
+    kPowerUpTypeRemoveAllNext,
+    kPowerUpTypeDecrementAllGreys
+} PowerUpType;
+
+typedef void (^completion)(BOOL finished);
+
 #import <UIKit/UIKit.h>
 #import "Circle.h"
 #import "Column.h"
@@ -14,9 +35,9 @@
 #import "DropCounter.h"
 #import "JMGameManager.h"
 
-typedef void (^completion)(BOOL finished);
-
 @interface JMHelpers : NSObject
+
+
 
 +(UIColor *)jmDarkBlueColor;
 +(UIColor *)jmDarkRedColor;
@@ -32,7 +53,6 @@ typedef void (^completion)(BOOL finished);
 +(UIColor *)jmRedColor;
 +(UIColor *)jmTealColor;
 
-+(UIColor *)columnBGColor;
 +(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha;
 
 +(UIColor *)randomColor;
@@ -62,4 +82,13 @@ typedef void (^completion)(BOOL finished);
 +(NSString *)currentScoreUpdateNotification;
 
 +(NSNumber *)defaultDifficulty;
+
++(NSString *)displayNameForGameMode:(GameMode)gameMode;
++(GameMode)gameModeForDisplayName:(NSString *)displayName;
++(NSArray *)gameModes;
+
++(NSString *)displayNameForGameDifficulty:(GameDifficulty)gameDifficulty;
++(GameDifficulty)gameDifficultyForDisplayName:(NSString *)displayName;
++(NSArray *)gameDifficulties;
+
 @end

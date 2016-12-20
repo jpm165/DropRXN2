@@ -8,8 +8,9 @@
 
 #import "GameViewController.h"
 #import "SWRevealViewController.h"
+#import "PowerUp.h"
 
-@interface GameViewController ()
+@interface GameViewController ()  <PowerUpInfoAndSelectProtocol>
 
 {
     Circle *nextBall;
@@ -20,6 +21,11 @@
 @end
 
 @implementation GameViewController
+
+-(void)startPowerMode {}
+-(void)addedPowerUp {}
+
+-(void)isSelected:(id)sender {}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,7 +40,7 @@
     }
 }
 
-
+-(void)updateLevel:(NSNumber *)level {}
 
 -(void)addGameView {
     CGPoint gridBeginPoint = CGPointMake(CGRectGetMidX(self.view.bounds)-([JMHelpers columnsWidth]/2),
@@ -83,6 +89,8 @@
     }
     NSLog(@"Number of balls in GameViewController: %d", counter);
 }
+
+-(void)changeMode:(GameMode)gameMode {}
 
 -(void)addDropCounter {
     [self removeDropCounter];

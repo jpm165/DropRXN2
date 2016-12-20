@@ -9,11 +9,13 @@
 #import "JMHelpers.h"
 #import "GameViewController.h"
 
+@class PowerUp;
+
 typedef void (^completion)(BOOL finished);
 
 @class Circle;
-@class GameViewController;
 @class DropCounter;
+@class GameViewController;
 
 @interface JMGameManager : NSObject
 
@@ -21,18 +23,18 @@ typedef void (^completion)(BOOL finished);
 @property (nonatomic, strong) Circle *currentNextBall;
 @property (nonatomic, strong) GameViewController *activeGameController;
 @property (nonatomic, strong) DropCounter *dropCounter;
-//@property (nonatomic, assign) BOOL shouldEndNow;
 @property (nonatomic, assign) NSInteger chainCount;
 @property (nonatomic, strong) NSNumber *currentScore;
 @property (nonatomic, strong) NSNumber *bestChainCount;
 @property (nonatomic, strong) NSMutableDictionary *highScores;
 @property (nonatomic, strong) NSNumber *highscoreForCurrentDifficultyLevel;
-@property (nonatomic, strong) NSNumber *difficultyLevel;
-@property (nonatomic, strong) NSString *currentDifficulty;
-@property (nonatomic, strong) NSArray *difficulties;
+@property (nonatomic, assign) GameDifficulty currentDifficulty;
+@property (nonatomic, assign) GameMode currentGameMode;
+@property (nonatomic, strong) NSMutableArray *selectedPowerups;
+
+
 
 +(instancetype)sharedInstance;
--(NSNumber *)getDifficultyLevel;
 -(UIView *)getGameView;
 -(void)setGameView:(UIView *)gameView;
 -(NSArray *)getColumns;
@@ -44,5 +46,6 @@ typedef void (^completion)(BOOL finished);
 -(void)incrementChainCount;
 -(NSNumber *)getBestChainCount;
 -(void)updateLevel:(NSNumber *)level;
+-(void)addPowerUp:(PowerUp *)powerUp;
 
 @end

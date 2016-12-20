@@ -15,5 +15,6 @@
 -(NSDictionary *)getState;
 -(NSNumber *)getHighScoreForDifficultyLevel:(NSString *)level;
 -(NSNumber *)getMostChainsForDifficultyLevel:(NSString *)level;
+-(void)resetState;
 
 @end

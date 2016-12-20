@@ -13,15 +13,10 @@
 @interface Circle ()
 
 {
-    UIBezierPath *circlePath;
     CGFloat lineWidth;
     UIColor *defaultFillColor;
-    CGRect numberRect;
-    NSDictionary *textAttributes;
     BOOL shouldDrawNumber;
 }
-
-@property (nonatomic, strong) UIColor *fillColor;
 
 @end
 
