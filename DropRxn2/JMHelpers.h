@@ -23,7 +23,11 @@ typedef enum {
 
 typedef enum {
     kPowerUpTypeRemoveAllNext,
-    kPowerUpTypeDecrementAllGreys
+    kPowerUpTypeDecrementAllGreys,
+    kPowerUpTypeDecrementNumbered,
+    kPowerUpTypeIncrementNumbered,
+    kPowerUpTypePointsBonus,
+    kPowerUpTypeExpBonus
 } PowerUpType;
 
 typedef void (^completion)(BOOL finished);
@@ -38,7 +42,7 @@ typedef void (^completion)(BOOL finished);
 @interface JMHelpers : NSObject
 
 
-
++(UIColor *)jmOrangeColor;
 +(UIColor *)jmDarkBlueColor;
 +(UIColor *)jmDarkRedColor;
 +(UIColor *)jmDarkOrangeColor;
@@ -49,6 +53,8 @@ typedef void (^completion)(BOOL finished);
 +(UIColor *)jmLightBlueColor;
 +(UIColor *)jmLightGreenColor;
 +(UIColor *)jmLightGrayColor;
+
++(UIColor *)jmLightGreenColorWithAlpha:(NSNumber *)alpha;
 
 +(UIColor *)jmRedColor;
 +(UIColor *)jmTealColor;

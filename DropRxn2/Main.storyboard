@@ -6,7 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -112,36 +113,46 @@
                         <viewControllerLayoutGuide type="bottom" id="nBB-dP-pRs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tWr-gv-o9S">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="29" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CAd-oU-7IY">
-                                <rect key="frame" x="16" y="13" width="75" height="75"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="Tcd-OF-MS8"/>
-                                    <constraint firstAttribute="width" constant="75" id="lEm-Mz-LuL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="RepublikaII" family="Republika II" pointSize="57"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QiS-Ca-yzz">
-                                <rect key="frame" x="99" y="13" width="260" height="75"/>
+                                <rect key="frame" x="127" y="6" width="233" height="82"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="149-fw-vct"/>
+                                    <constraint firstAttribute="width" secondItem="QiS-Ca-yzz" secondAttribute="height" multiplier="239:82" constant="-6" id="oal-7M-NAc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="RepublikaII" family="Republika II" pointSize="20"/>
                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap to select)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1c-m9-pTV">
+                                <rect key="frame" x="121" y="89.5" width="239" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="k1c-m9-pTV" secondAttribute="height" multiplier="269:16" id="6aK-D5-vE9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PowerUp1" translatesAutoresizingMaskIntoConstraints="NO" id="RBv-Y3-5Zj">
+                                <rect key="frame" x="6" y="4" width="99" height="99"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RBv-Y3-5Zj" secondAttribute="height" multiplier="1:1" id="LKL-DV-LJZ"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.94911220200775848" green="0.69314531440896343" blue="0.11512623681376005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="leading" secondItem="CAd-oU-7IY" secondAttribute="trailing" constant="8" id="5Gd-ct-HW6"/>
-                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="centerY" secondItem="tWr-gv-o9S" secondAttribute="centerY" id="B0Z-yl-UqS"/>
-                            <constraint firstItem="CAd-oU-7IY" firstAttribute="centerY" secondItem="tWr-gv-o9S" secondAttribute="centerY" id="Nbo-vw-yDZ"/>
-                            <constraint firstAttribute="trailing" secondItem="QiS-Ca-yzz" secondAttribute="trailing" constant="16" id="Zq7-PR-PO0"/>
-                            <constraint firstItem="CAd-oU-7IY" firstAttribute="leading" secondItem="tWr-gv-o9S" secondAttribute="leadingMargin" id="bIx-SU-emx"/>
+                            <constraint firstAttribute="trailing" secondItem="QiS-Ca-yzz" secondAttribute="trailing" constant="15" id="92O-L8-X0R"/>
+                            <constraint firstItem="RBv-Y3-5Zj" firstAttribute="centerY" secondItem="tWr-gv-o9S" secondAttribute="centerY" constant="-1.5" id="Akr-xS-XI2"/>
+                            <constraint firstItem="RBv-Y3-5Zj" firstAttribute="height" secondItem="tWr-gv-o9S" secondAttribute="height" multiplier="0.9" id="BGw-N9-yT1"/>
+                            <constraint firstItem="k1c-m9-pTV" firstAttribute="leading" secondItem="QiS-Ca-yzz" secondAttribute="leading" constant="-6" id="CW1-oW-ZZK"/>
+                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="top" secondItem="RBv-Y3-5Zj" secondAttribute="top" constant="1.5" id="CsB-Ek-ebG"/>
+                            <constraint firstItem="k1c-m9-pTV" firstAttribute="top" secondItem="QiS-Ca-yzz" secondAttribute="bottom" constant="2" id="F5s-7l-IbN"/>
+                            <constraint firstItem="RBv-Y3-5Zj" firstAttribute="leading" secondItem="tWr-gv-o9S" secondAttribute="leading" constant="6" id="ZIl-bM-PMB"/>
+                            <constraint firstItem="k1c-m9-pTV" firstAttribute="width" secondItem="QiS-Ca-yzz" secondAttribute="width" constant="6" id="odx-02-5e8"/>
+                            <constraint firstItem="QiS-Ca-yzz" firstAttribute="height" secondItem="tWr-gv-o9S" secondAttribute="height" multiplier="0.74" id="rbR-2T-WhD"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -149,10 +160,11 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="100"/>
+                    <size key="freeformSize" width="375" height="110"/>
                     <connections>
                         <outlet property="powerUpInfoLabel" destination="QiS-Ca-yzz" id="ogt-au-tnA"/>
-                        <outlet property="powerUpSymbol" destination="CAd-oU-7IY" id="izH-9e-eex"/>
+                        <outlet property="powerUpSymbol" destination="RBv-Y3-5Zj" id="GPe-tv-Jbo"/>
+                        <outlet property="selectLabel" destination="k1c-m9-pTV" id="wzg-b3-02m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lNd-h3-Mjw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -201,4 +213,7 @@
             <point key="canvasLocation" x="1269.5999999999999" y="1091.6041979010495"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="PowerUp1" width="128" height="128"/>
+    </resources>
 </document>

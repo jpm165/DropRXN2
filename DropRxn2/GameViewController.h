@@ -7,11 +7,11 @@
 //
 
 #import "JMHelpers.h"
-#import "PowerUp.h"
-@class DropCounter;
-@protocol PowerUpInfoAndSelectProtocol;
 
-@interface GameViewController : UIViewController <PowerUpInfoAndSelectProtocol>
+@class DropCounter;
+@class PowerUp;
+
+@interface GameViewController : UIViewController
 
 {
     DropCounter *dc;
@@ -20,6 +20,9 @@
 @property (nonatomic, strong) UIView *gameView;
 @property (nonatomic, strong) UILabel *lvlLabel2;
 @property (nonatomic, assign) BOOL isGameOver;
+@property (nonatomic, assign) BOOL isPresentingPopover;
+@property (nonatomic, strong) PowerUp *currentlySelectedPowerUp;
+
 -(void)addNextBall;
 -(void)removeDropCounter;
 -(void)addDropCounter;
@@ -29,7 +32,9 @@
 -(void)gotBestChain:(NSNumber *)chainCount;
 -(void)updateLevel:(NSNumber *)level;
 -(void)changeMode:(GameMode)gameMode;
--(void)addedPowerUp;
+-(void)addedPowerUp:(BOOL)doneAddingPowerUps;
 -(void)startPowerMode;
+-(void)addPassthroughPowerUpView:(id)sender;
+
 
 @end

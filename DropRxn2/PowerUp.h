@@ -21,5 +21,10 @@
 @property (nonatomic, assign) PowerUpType type;
 @property (nonatomic, assign) id<PowerUpInfoAndSelectProtocol>delegate;
 @property (nonatomic, strong) NSString *symbol;
+@property (nonatomic, assign) BOOL isPresentingPopover;
+@property (nonatomic, assign) BOOL wasSelected;
+
+-(void)selectMe;
+-(void)deSelectMe;
 
 @end

@@ -15,7 +15,7 @@
 
 
 
-@interface ViewController () <SWRevealViewControllerDelegate, UIPopoverPresentationControllerDelegate>
+@interface ViewController () <SWRevealViewControllerDelegate, UIPopoverPresentationControllerDelegate,PowerUpInfoAndSelectProtocol>
 
 @property (nonatomic, strong) UIImageView *gameOverImageView;
 @property (nonatomic, strong) UIView *scoreboardView;
@@ -25,6 +25,10 @@
 @property (nonatomic, strong) UILabel *currentChainCountLabel;
 @property (nonatomic, strong) UILabel *levelUpLabel;
 @property (nonatomic, strong) UILabel *goLabel;
+
+@property (nonatomic, strong) NSMutableArray *powerUpPassThroughViews;
+
+@property (nonatomic, strong) UIVisualEffectView *blurEffectView;
 
 
 @property (nonatomic, strong) PowerUpSelector *powerUpSelector;
@@ -43,11 +47,41 @@
     pupiasvc.popoverPresentationController.sourceView = p;
     pupiasvc.popoverPresentationController.sourceRect = p.bounds;
     pupiasvc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    //pupiasvc.view.backgroundColor = [JMHelpers jmTealColor];
+    pupiasvc.popoverPresentationController.backgroundColor = [JMHelpers jmOrangeColor];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    self.blurEffectView.frame = self.gameView.bounds;
+    if (![self.gameView.subviews containsObject:self.blurEffectView]) [self.gameView addSubview:self.blurEffectView];
+    [self.view bringSubviewToFront:self.goLabel];
+    [self.view bringSubviewToFront:self.powerUpSelector];
+    pupiasvc.popoverPresentationController.passthroughViews = self.powerUpPassThroughViews;
+    self.isPresentingPopover = YES;
+    self.currentlySelectedPowerUp = p;
     [self presentViewController:pupiasvc animated:YES completion:nil];
 }
 
 -(void)isDelselected:(id)sender {
-    
+    self.isPresentingPopover = NO;
+    self.currentlySelectedPowerUp.isPresentingPopover = NO;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (sender) [self isSelected:sender];
+    }];
+}
+
+
+-(void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    if ([self.gameView.subviews containsObject:self.blurEffectView]) {
+        [self.blurEffectView removeFromSuperview];
+        self.blurEffectView = nil;
+    }
+    NSLog(@"did dismiss popover");
+}
+
+-(BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    NSLog(@"should dismiss popover");
+    return YES;
 }
 
 -(void)viewDidLoad {
@@ -67,8 +101,15 @@
     return UIModalPresentationNone;
 }
 
+-(void)addPassthroughPowerUpView:(id)sender {
+    PowerUp *p = (PowerUp *)sender;
+    if (!self.powerUpPassThroughViews) self.powerUpPassThroughViews = [@[] mutableCopy];
+    if (![self.powerUpPassThroughViews containsObject:p]) [self.powerUpPassThroughViews addObject:p];
+    //self.popoverPresentationController.passthroughViews = self.powerUpPassThroughViews;
+}
+
 -(void)addPowerUpChooser {
-    //self.powerUpSelector = [[PowerUpSelector alloc] initWithFrame:CGRectMake(, CGRectGetMaxY(self.lvlLabel2.frame)+3, CGRectGetWidth(), ];
+    if (self.powerUpSelector) [self.powerUpSelector removeFromSuperview];
     CGFloat remainingSpace = CGRectGetMaxY(self.view.frame) - CGRectGetMaxY(self.lvlLabel2.frame) - 40;
     CGFloat myHeight = ([JMHelpers circleRadius]+10>remainingSpace) ? [JMHelpers circleRadius]+10 : remainingSpace;
     CGRect powerUpChooserFrame = CGRectMake(CGRectGetMinX(self.scoreboardView.frame), CGRectGetMaxY(self.lvlLabel2.frame)+3, CGRectGetWidth(self.scoreboardView.frame), myHeight);
@@ -78,10 +119,12 @@
     self.powerUpSelector.layer.borderWidth = 1.0;
     self.powerUpSelector.layer.cornerRadius = 5.0;
     [self.view addSubview:self.powerUpSelector];
+    self.popoverPresentationController.passthroughViews = @[self.powerUpSelector];
 }
 
 -(void)removePowerUpChooser {
-    
+    if (self.powerUpSelector) [self.powerUpSelector removeFromSuperview];
+    self.powerUpSelector = nil;
 }
 
 -(void)startPowerMode {
@@ -161,14 +204,17 @@
     [self.view bringSubviewToFront:self.goLabel];
 }
 
--(void)addedPowerUp {
+-(void)addedPowerUp:(BOOL)doneAddingPowerUps {
     NSLog(@"Added powerup");
+    [self isDelselected:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
     RZViewAction *fadeAction = [RZViewAction action:^{
         self.goLabel.alpha = 0;
     } withOptions:UIViewAnimationOptionCurveEaseIn duration:0.5];
     [UIView rz_runAction:[RZViewAction sequence:@[fadeAction]] withCompletion:^(BOOL finished) {
-        if (finished) [self doSelectPowerUpLabel];
+        if (finished && !doneAddingPowerUps) [self doSelectPowerUpLabel];
     }];
+    if (doneAddingPowerUps) [self doGoLabel];
     
 }
 
@@ -357,6 +403,7 @@
 
 -(void)restart {
     [JMAnimationManager sharedInstance].shouldEndNow = YES;
+    [self removePowerUpChooser];
     [[JMGameManager sharedInstance] resetGameWithCompletion:^(BOOL finished) {
         if (finished) {
             [JMGameManager sharedInstance].demoModeEnabled = NO;

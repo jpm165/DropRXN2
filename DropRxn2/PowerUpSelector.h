@@ -10,4 +10,6 @@
 
 @interface PowerUpSelector : UIView
 
+@property (nonatomic, strong) NSMutableArray *powerUpViews;
+
 @end

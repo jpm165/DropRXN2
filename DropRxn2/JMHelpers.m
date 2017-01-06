@@ -24,6 +24,10 @@ static NSString *const currentScoreUpdated = @"currentScoreUpdatedNotif";
 
 @implementation JMHelpers
 
++(UIColor *)jmOrangeColor {
+    return RGBAUICOLOR(242, 177, 29, 1);
+}
+
 +(UIColor *)jmDarkBlueColor {
     return RGBAUICOLOR(0, 10, 100, 1);
 }
@@ -58,6 +62,10 @@ static NSString *const currentScoreUpdated = @"currentScoreUpdatedNotif";
 
 +(UIColor *)jmLightGrayColor {
     return RGBAUICOLOR(156, 156, 156, 1);
+}
+
++(UIColor *)jmLightGreenColorWithAlpha:(NSNumber *)alpha {
+    return RGBAUICOLOR(151, 168, 111, alpha.floatValue);
 }
 
 +(UIColor *)ghostWhiteColorWithAlpha:(NSNumber *)alpha {

@@ -10,7 +10,7 @@
 #import "SWRevealViewController.h"
 #import "PowerUp.h"
 
-@interface GameViewController ()  <PowerUpInfoAndSelectProtocol>
+@interface GameViewController ()
 
 {
     Circle *nextBall;
@@ -23,9 +23,8 @@
 @implementation GameViewController
 
 -(void)startPowerMode {}
--(void)addedPowerUp {}
-
--(void)isSelected:(id)sender {}
+-(void)addedPowerUp:(BOOL)doneAddingPowerUps {}
+-(void)addPassthroughPowerUpView:(id)sender {}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -9,6 +9,7 @@
 
 
 #import "GameViewController.h"
+#import "PowerUp.h"
 
 @interface ViewController : GameViewController
 

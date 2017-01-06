@@ -33,12 +33,19 @@
 }
 
 -(void)addPowerUp:(PowerUp *)powerUp {
+    BOOL addedPowerUp = NO;
+    
     if (![self.selectedPowerups containsObject:powerUp] && self.selectedPowerups.count < 3) {
         [self.selectedPowerups addObject:powerUp];
-        [self.activeGameController addedPowerUp];
-        [self.activeGameController dismissViewControllerAnimated:YES completion:nil];
+        [powerUp selectMe];
+    } else if ([self.selectedPowerups containsObject:powerUp]) {
+        [self.selectedPowerups removeObject:powerUp];
+        [powerUp deSelectMe];
     }
-    if (self.selectedPowerups.count==3) [self.activeGameController startPowerMode];
+    if (self.selectedPowerups.count==3) {
+        addedPowerUp = YES;
+    }
+    [self.activeGameController addedPowerUp:addedPowerUp];
 }
 
 -(void)setCurrentGameMode:(GameMode)currentGameMode {

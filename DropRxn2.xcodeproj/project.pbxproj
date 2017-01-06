@@ -19,6 +19,24 @@
 		D010BFC91DC430D800CA2BE1 /* UIView+RZViewActions.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC01DC430D800CA2BE1 /* UIView+RZViewActions.m */; };
 		D010BFCA1DC430D800CA2BE1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFC21DC430D800CA2BE1 /* ViewController.m */; };
 		D010BFCD1DC50BD700CA2BE1 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */; };
+		D0165D8B1E1EDFE5005842BB /* powerUpLightningBolt_soft.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D881E1EDFE5005842BB /* powerUpLightningBolt_soft.png */; };
+		D0165D8C1E1EDFE5005842BB /* powerUpLightningBolt_soft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D891E1EDFE5005842BB /* powerUpLightningBolt_soft@2x.png */; };
+		D0165D8D1E1EDFE5005842BB /* powerUpLightningBolt_soft@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D8A1E1EDFE5005842BB /* powerUpLightningBolt_soft@3x.png */; };
+		D0165D911E202115005842BB /* powerUpDecGray.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D8E1E202115005842BB /* powerUpDecGray.png */; };
+		D0165D921E202115005842BB /* powerUpDecGray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D8F1E202115005842BB /* powerUpDecGray@2x.png */; };
+		D0165D931E202115005842BB /* powerUpDecGray@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D901E202115005842BB /* powerUpDecGray@3x.png */; };
+		D0165D971E202578005842BB /* powerUpDecNumbered.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D941E202578005842BB /* powerUpDecNumbered.png */; };
+		D0165D981E202578005842BB /* powerUpDecNumbered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D951E202578005842BB /* powerUpDecNumbered@2x.png */; };
+		D0165D991E202578005842BB /* powerUpDecNumbered@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D961E202578005842BB /* powerUpDecNumbered@3x.png */; };
+		D0165D9E1E20380D005842BB /* powerUpIncNumbered.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D9B1E20380D005842BB /* powerUpIncNumbered.png */; };
+		D0165D9F1E20380D005842BB /* powerUpIncNumbered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D9C1E20380D005842BB /* powerUpIncNumbered@2x.png */; };
+		D0165DA01E20380D005842BB /* powerUpIncNumbered@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165D9D1E20380D005842BB /* powerUpIncNumbered@3x.png */; };
+		D0165DA41E203ACC005842BB /* powerUpPoints.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA11E203ACC005842BB /* powerUpPoints.png */; };
+		D0165DA51E203ACC005842BB /* powerUpPoints@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA21E203ACC005842BB /* powerUpPoints@2x.png */; };
+		D0165DA61E203ACC005842BB /* powerUpPoints@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA31E203ACC005842BB /* powerUpPoints@3x.png */; };
+		D0165DAA1E203DA1005842BB /* powerUpExp.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA71E203DA1005842BB /* powerUpExp.png */; };
+		D0165DAB1E203DA1005842BB /* powerUpExp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA81E203DA1005842BB /* powerUpExp@2x.png */; };
+		D0165DAC1E203DA1005842BB /* powerUpExp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0165DA91E203DA1005842BB /* powerUpExp@3x.png */; };
 		D017C3251DCCF5F70019E828 /* ScoreSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = D017C3241DCCF5F70019E828 /* ScoreSprite.m */; };
 		D02173071DCC281B00159C77 /* quit_game_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173061DCC281B00159C77 /* quit_game_highlighted.png */; };
 		D02173091DCC283000159C77 /* quit_game_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D02173081DCC283000159C77 /* quit_game_normal.png */; };
@@ -72,6 +90,24 @@
 		D010BFC21DC430D800CA2BE1 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D010BFCB1DC50BD700CA2BE1 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
 		D010BFCC1DC50BD700CA2BE1 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
+		D0165D881E1EDFE5005842BB /* powerUpLightningBolt_soft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpLightningBolt_soft.png; sourceTree = "<group>"; };
+		D0165D891E1EDFE5005842BB /* powerUpLightningBolt_soft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpLightningBolt_soft@2x.png"; sourceTree = "<group>"; };
+		D0165D8A1E1EDFE5005842BB /* powerUpLightningBolt_soft@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpLightningBolt_soft@3x.png"; sourceTree = "<group>"; };
+		D0165D8E1E202115005842BB /* powerUpDecGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpDecGray.png; sourceTree = "<group>"; };
+		D0165D8F1E202115005842BB /* powerUpDecGray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpDecGray@2x.png"; sourceTree = "<group>"; };
+		D0165D901E202115005842BB /* powerUpDecGray@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpDecGray@3x.png"; sourceTree = "<group>"; };
+		D0165D941E202578005842BB /* powerUpDecNumbered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpDecNumbered.png; sourceTree = "<group>"; };
+		D0165D951E202578005842BB /* powerUpDecNumbered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpDecNumbered@2x.png"; sourceTree = "<group>"; };
+		D0165D961E202578005842BB /* powerUpDecNumbered@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpDecNumbered@3x.png"; sourceTree = "<group>"; };
+		D0165D9B1E20380D005842BB /* powerUpIncNumbered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpIncNumbered.png; sourceTree = "<group>"; };
+		D0165D9C1E20380D005842BB /* powerUpIncNumbered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpIncNumbered@2x.png"; sourceTree = "<group>"; };
+		D0165D9D1E20380D005842BB /* powerUpIncNumbered@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpIncNumbered@3x.png"; sourceTree = "<group>"; };
+		D0165DA11E203ACC005842BB /* powerUpPoints.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpPoints.png; sourceTree = "<group>"; };
+		D0165DA21E203ACC005842BB /* powerUpPoints@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpPoints@2x.png"; sourceTree = "<group>"; };
+		D0165DA31E203ACC005842BB /* powerUpPoints@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpPoints@3x.png"; sourceTree = "<group>"; };
+		D0165DA71E203DA1005842BB /* powerUpExp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerUpExp.png; sourceTree = "<group>"; };
+		D0165DA81E203DA1005842BB /* powerUpExp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpExp@2x.png"; sourceTree = "<group>"; };
+		D0165DA91E203DA1005842BB /* powerUpExp@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powerUpExp@3x.png"; sourceTree = "<group>"; };
 		D017C3231DCCF5F70019E828 /* ScoreSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreSprite.h; sourceTree = "<group>"; };
 		D017C3241DCCF5F70019E828 /* ScoreSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreSprite.m; sourceTree = "<group>"; };
 		D02173061DCC281B00159C77 /* quit_game_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quit_game_highlighted.png; sourceTree = "<group>"; };
@@ -171,6 +207,31 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D0165D9A1E20259D005842BB /* PowerUps */ = {
+			isa = PBXGroup;
+			children = (
+				D0165DA71E203DA1005842BB /* powerUpExp.png */,
+				D0165DA81E203DA1005842BB /* powerUpExp@2x.png */,
+				D0165DA91E203DA1005842BB /* powerUpExp@3x.png */,
+				D0165DA11E203ACC005842BB /* powerUpPoints.png */,
+				D0165DA21E203ACC005842BB /* powerUpPoints@2x.png */,
+				D0165DA31E203ACC005842BB /* powerUpPoints@3x.png */,
+				D0165D9B1E20380D005842BB /* powerUpIncNumbered.png */,
+				D0165D9C1E20380D005842BB /* powerUpIncNumbered@2x.png */,
+				D0165D9D1E20380D005842BB /* powerUpIncNumbered@3x.png */,
+				D0165D881E1EDFE5005842BB /* powerUpLightningBolt_soft.png */,
+				D0165D891E1EDFE5005842BB /* powerUpLightningBolt_soft@2x.png */,
+				D0165D8A1E1EDFE5005842BB /* powerUpLightningBolt_soft@3x.png */,
+				D0165D8E1E202115005842BB /* powerUpDecGray.png */,
+				D0165D8F1E202115005842BB /* powerUpDecGray@2x.png */,
+				D0165D901E202115005842BB /* powerUpDecGray@3x.png */,
+				D0165D941E202578005842BB /* powerUpDecNumbered.png */,
+				D0165D951E202578005842BB /* powerUpDecNumbered@2x.png */,
+				D0165D961E202578005842BB /* powerUpDecNumbered@3x.png */,
+			);
+			name = PowerUps;
+			sourceTree = "<group>";
+		};
 		D07EA51E1E08350C0084405D /* Interface Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +299,7 @@
 		D07EA5221E0835880084405D /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D0165D9A1E20259D005842BB /* PowerUps */,
 				D0490DDA1DCCCB3900B57263 /* dgameover_blue.png */,
 				D0490DDB1DCCCB3900B57263 /* dgameover_green.png */,
 				D0490DDC1DCCCB3900B57263 /* dgameover_normal.png */,
@@ -322,20 +384,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				D07EA5241E0836020084405D /* Settings.bundle in Resources */,
+				D0165DA61E203ACC005842BB /* powerUpPoints@3x.png in Resources */,
 				D02173071DCC281B00159C77 /* quit_game_highlighted.png in Resources */,
 				D0490DDF1DCCCB3900B57263 /* dgameover_green.png in Resources */,
+				D0165DA41E203ACC005842BB /* powerUpPoints.png in Resources */,
 				D0490DE11DCCCB3900B57263 /* dgameover_orange.png in Resources */,
 				D02173091DCC283000159C77 /* quit_game_normal.png in Resources */,
+				D0165D8C1E1EDFE5005842BB /* powerUpLightningBolt_soft@2x.png in Resources */,
 				D0A12FC91DCA79000098B9DB /* newgameTransparent.png in Resources */,
+				D0165D911E202115005842BB /* powerUpDecGray.png in Resources */,
 				D010BFAC1DC430A900CA2BE1 /* LaunchScreen.storyboard in Resources */,
 				D0490DE31DCCE8DE00B57263 /* REPUB2__.ttf in Resources */,
+				D0165D981E202578005842BB /* powerUpDecNumbered@2x.png in Resources */,
 				D02173131DCC313E00159C77 /* restart_normal.png in Resources */,
+				D0165D931E202115005842BB /* powerUpDecGray@3x.png in Resources */,
 				D0947B361DC58B31005904F5 /* window.png in Resources */,
+				D0165DAC1E203DA1005842BB /* powerUpExp@3x.png in Resources */,
 				D010BFA91DC430A900CA2BE1 /* Assets.xcassets in Resources */,
+				D0165DAA1E203DA1005842BB /* powerUpExp.png in Resources */,
+				D0165D8D1E1EDFE5005842BB /* powerUpLightningBolt_soft@3x.png in Resources */,
+				D0165DAB1E203DA1005842BB /* powerUpExp@2x.png in Resources */,
 				D0A12FC71DCA77AA0098B9DB /* droprxnLogo_transparent.png in Resources */,
 				D0B690DC1E02F09C0063378B /* Main.storyboard in Resources */,
+				D0165D971E202578005842BB /* powerUpDecNumbered.png in Resources */,
+				D0165D991E202578005842BB /* powerUpDecNumbered@3x.png in Resources */,
+				D0165DA51E203ACC005842BB /* powerUpPoints@2x.png in Resources */,
+				D0165D9F1E20380D005842BB /* powerUpIncNumbered@2x.png in Resources */,
 				D02173121DCC313E00159C77 /* restart_highlighted.png in Resources */,
+				D0165D8B1E1EDFE5005842BB /* powerUpLightningBolt_soft.png in Resources */,
 				D0490DE01DCCCB3900B57263 /* dgameover_normal.png in Resources */,
+				D0165DA01E20380D005842BB /* powerUpIncNumbered@3x.png in Resources */,
+				D0165D9E1E20380D005842BB /* powerUpIncNumbered.png in Resources */,
+				D0165D921E202115005842BB /* powerUpDecGray@2x.png in Resources */,
 				D0490DDE1DCCCB3900B57263 /* dgameover_blue.png in Resources */,
 				D0A12FC51DCA71840098B9DB /* droprxnlogo.png in Resources */,
 			);

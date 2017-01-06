@@ -30,6 +30,7 @@
         self.collectionView.backgroundColor = [UIColor clearColor];
         [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"powerUpCellIdentifier"];
         [self addSubview:self.collectionView];
+        self.powerUpViews = [@[] mutableCopy];
     }
     return self;
 }
@@ -45,15 +46,34 @@
     //cell.opaque = NO;
     CGRect circleFrame = CGRectMake(CGRectGetMidX(cell.bounds)-[JMHelpers circleRadius]/2, CGRectGetMidY(cell.bounds)-[JMHelpers circleRadius]/2, [JMHelpers circleRadius], [JMHelpers circleRadius]);
     PowerUp *c = [[PowerUp alloc] initWithFrame:circleFrame borderWidth:[JMHelpers borderWidth]];
-    [c setNumber:@(8)];
+    //[c setNumber:@(8)];
     c.delegate = [JMGameManager sharedInstance].activeGameController;
-    if (indexPath.row==1) {
-        c.type = kPowerUpTypeDecrementAllGreys;
-    } else {
-        c.type = kPowerUpTypeRemoveAllNext;
+    switch (indexPath.row) {
+        case 0:
+            c.type = kPowerUpTypeRemoveAllNext;
+            break;
+        case 1:
+            c.type = kPowerUpTypeDecrementAllGreys;
+            break;
+        case 2:
+            c.type = kPowerUpTypeDecrementNumbered;
+            break;
+        case 3:
+            c.type = kPowerUpTypeIncrementNumbered;
+            break;
+        case 4:
+            c.type = kPowerUpTypePointsBonus;
+            break;
+        case 5:
+            c.type = kPowerUpTypeExpBonus;
+            break;
+        default:
+            break;
     }
+    
     c.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [cell.contentView addSubview:c];
+    [[JMGameManager sharedInstance].activeGameController addPassthroughPowerUpView:c];
     
     
     
